@@ -25,3 +25,4 @@ Current To-Dos
 1. Create project
 2. Implement User Auth
 3. Set milestones/timeline for development
+4. Design Docs
