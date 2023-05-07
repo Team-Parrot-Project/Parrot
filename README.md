@@ -19,3 +19,9 @@ Git Workflow Summary
 7. Assign someone to review your pull request.
 
 Review here for additional details: https://open.appacademy.io/learn/ch---jan-2023-sf-cohort/mern-stack-curriculum/git-workflow
+
+
+Current To-Dos
+1. Create project
+2. Implement User Auth
+3. Set milestones/timeline for development
