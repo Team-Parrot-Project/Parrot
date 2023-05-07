@@ -10,10 +10,10 @@ https://monday.com/blog/remote-work/gantt-chart-definition/?cq_src=google_ads&cq
 
 Git Workflow Summary 
 1. git pull origin main (updates local to latest version on main).
-2. git checkout -b <feature-branch-name> (creates a local feature branch).
+2. git checkout -b [feature-branch-name] (creates a local feature branch).
 3. git branch (confirms current working branch).
 4. git commit -m "message written in imperative (like a to-do, i.e. add file for landing page)".
-5. git push -u origin <feature-branch-name> (or just git push if not first push from this feature branch).
+5. git push -u origin [feature-branch-name] (or just git push if not first push from this feature branch).
 6. On Github, create a pull request from main, resolve any merge conflicts, commit and push after resolving merge conflicts.
 7. Assign someone to review your pull request.
 Review here for additional details: https://open.appacademy.io/learn/ch---jan-2023-sf-cohort/mern-stack-curriculum/git-workflow
