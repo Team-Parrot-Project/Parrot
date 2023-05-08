@@ -1,6 +1,7 @@
 # mern-productivity-app
 
 https://docs.google.com/document/d/1y7YsEo5ywrUcT6iupA0Nfy0FkMEpntL4xumSv0AWYNM/edit
+https://docs.google.com/spreadsheets/d/11ZwzgrAEW6-UBbEpLIPpx7V_A7FyBuGG3XOWnFhZifg/edit#gid=0
 
 [Just-Do-It---Wireframe-cc-Premium1683331831.pdf](https://github.com/rodmen07/mern-productivity-app/files/11415581/Just-Do-It---Wireframe-cc-Premium1683331831.pdf)
 
