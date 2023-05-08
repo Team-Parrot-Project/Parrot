@@ -21,8 +21,9 @@ This is a productivity web application built using the MERN stack (MongoDB, Expr
 To get started with this project, clone the repository and run the following commands:
 
 ```
-npm install
-npm start
+npm install (frontend/backend)
+npm run dev (backend)
+npm start (frontent)
 ```
 
 This will install the necessary dependencies and start the development server.
