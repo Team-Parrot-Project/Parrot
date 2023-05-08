@@ -9,7 +9,14 @@ import UserHome from './components/UserHome/UserHome';
 
 export default function App() {
 
-  return (
+
+  const [loaded, setLoaded] = useState(false);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(getCurrentUser()).then(() => setLoaded(true));
+  }, [dispatch]);
+
+  return loaded && (
     <>
       <Switch>
 
