@@ -47,14 +47,36 @@ app.use(
 app.use('/api/users', usersRouter);
 app.use('/api/csrf', csrfRouter);
 
+if (isProduction) {
+  const path = require('path');
+  // Serve the frontend's index.html file at the root route
+  app.get('/', (req, res) => {
+    res.cookie('CSRF-TOKEN', req.csrfToken());
+    res.sendFile(
+      path.resolve(__dirname, '../frontend', 'build', 'index.html')
+    );
+  });
+
+  // Serve the static assets in the frontend's build folder
+  app.use(express.static(path.resolve("../frontend/build")));
+
+  // Serve the frontend's index.html file at all other routes NOT starting with /api
+  app.get(/^(?!\/?api).*/, (req, res) => {
+    res.cookie('CSRF-TOKEN', req.csrfToken());
+    res.sendFile(
+      path.resolve(__dirname, '../frontend', 'build', 'index.html')
+    );
+  });
+}
+
 app.use((req, res, next) => {
     const err = new Error('Not Found');
     err.statusCode = 404;
     next(err);
   });
-  
+
   const serverErrorLogger = debug('backend:error');
-  
+
   // Express custom error handler that will be called whenever a route handler or
   // middleware throws an error or invokes the `next` function with a truthy value
   app.use((err, req, res, next) => {
