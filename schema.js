@@ -6,8 +6,8 @@ const Users = {
     password_digest: "mK9jd37n",
     name: "Josh Smith",
     projects: [
-        {ProjectObject1},
-        {ProjectObject1}
+        ProjectId1,
+        ProjectId2
     ],
     assignedTasks: [
         TaskId1,
