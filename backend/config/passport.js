@@ -47,7 +47,7 @@ passport.use(new JwtStrategy(options, async (jwtPayload, done) => {
   exports.loginUser = async function(user) {
     const userInfo = {
       _id: user._id,
-      name: user.name,
+      username: user.username,
       email: user.email
     };
     const token = await jwt.sign(
