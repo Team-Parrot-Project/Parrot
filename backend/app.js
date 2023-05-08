@@ -9,9 +9,12 @@ const { isProduction } = require('./config/keys');
 const csurf = require('csurf');
 const debug = require('debug');
 
+require('./models/User');
+
 // var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/api/users');
 const csrfRouter = require('./routes/api/csrf');
+
 
 var app = express();
 
