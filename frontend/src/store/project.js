@@ -1,4 +1,4 @@
-import csrfFetch from "./csrf";
+import jwtFetch from "./jwt";
 
 const ADD_PROJECT = 'project/addProject';
 const ADD_PROJECTS = 'project/addProjects'
@@ -59,7 +59,7 @@ export const getProjects = (state)=>{
     }
 }
 export const fetchProject = (projectId)=>async dispatch=>{
-    let res = await csrfFetch(`/api/project/${projectId}`)
+    let res = await jwtFetch(`/api/project/${projectId}`)
     if(res.ok){
         let data = await res.json();
         dispatch(addProject(data));
@@ -67,7 +67,7 @@ export const fetchProject = (projectId)=>async dispatch=>{
 }
 
 export const createProject = (project)=>async dispatch =>{
-    let res = await csrfFetch(`/api/projects/`,{
+    let res = await jwtFetch(`/api/projects/`,{
         method: "POST",
         body: JSON.stringify(project),
         headers: {
@@ -81,7 +81,7 @@ export const createProject = (project)=>async dispatch =>{
 }
 
 export const updateProject = (project)=> async dispatch =>{
-    let res = await csrfFetch(`/api/projects/${project.id}`,{
+    let res = await jwtFetch(`/api/projects/${project.id}`,{
         method: "PATCH",
         body: JSON.stringify(project),
         headers: {
@@ -95,7 +95,7 @@ export const updateProject = (project)=> async dispatch =>{
 }
 
 export const deleteProject = (projectId)=>async dispatch =>{
-    let res = await csrfFetch(`/api/projects/${projectId}`,{
+    let res = await jwtFetch(`/api/projects/${projectId}`,{
         method: "DELETE",
     })
     if(res.ok){

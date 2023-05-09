@@ -1,4 +1,4 @@
-import csrfFetch from "./csrf";
+import jwtFetch from "./jwt";
 
 const ADD_TASK = 'Task/addTask';
 const ADD_TASKS = 'Task/addTasks'
@@ -59,7 +59,7 @@ export const getTasks = (state)=>{
     }
 }
 export const fetchTasks = (projectId)=>async dispatch=>{
-    let res = await csrfFetch(`/api/projects/${projectId}`)
+    let res = await jwtFetch(`/api/projects/${projectId}`)
     if(res.ok){
         let data = await res.json();
         dispatch(addTasks(data.tasks));
@@ -67,7 +67,7 @@ export const fetchTasks = (projectId)=>async dispatch=>{
 }
 
 export const createTask = (projectId,task)=>async dispatch =>{
-    let res = await csrfFetch(`/api/projects/${projectId}/tasks`,{
+    let res = await jwtFetch(`/api/projects/${projectId}/tasks`,{
         method: "POST",
         body: JSON.stringify(task),
         headers: {
@@ -81,7 +81,7 @@ export const createTask = (projectId,task)=>async dispatch =>{
 }
 
 export const updateTask = (projectId,task)=> async dispatch =>{
-    let res = await csrfFetch(`/api/projects/${projectId}/tasks/${task.id}`,{
+    let res = await jwtFetch(`/api/projects/${projectId}/tasks/${task.id}`,{
         method: "PATCH",
         body: JSON.stringify(task),
         headers: {
@@ -95,7 +95,7 @@ export const updateTask = (projectId,task)=> async dispatch =>{
 }
 
 export const deleteTask = (projectId,taskId)=>async dispatch =>{
-    let res = await csrfFetch(`/api/projects/${projectId}/tasks/${taskId}`,{
+    let res = await jwtFetch(`/api/projects/${projectId}/tasks/${taskId}`,{
         method: "DELETE",
     })
     if(res.ok){

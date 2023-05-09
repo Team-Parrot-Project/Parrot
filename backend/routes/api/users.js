@@ -2,12 +2,9 @@ var express = require('express');
 var router = express.Router();
 
 const bcrypt = require('bcryptjs');
-
 const mongoose = require('mongoose');
 const passport = require('passport');
-
 const User = mongoose.model('User');
-
 const { loginUser, restoreUser } = require('../../config/passport');
 const { isProduction } = require('../../config/keys');
 const validateRegisterInput = require('../../validations/register');
