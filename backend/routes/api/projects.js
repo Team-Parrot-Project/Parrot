@@ -4,15 +4,51 @@ const mongoose = require('mongoose');
 const Project = mongoose.model('Project');
 const User = mongoose.model('User');
 const { isProduction } = require('../../config/keys');
+const { requireUser } = require('../../config/passport');
+const { userOnProject } = require('../../config/util');
+const jbuilder = require('jbuilder');
 
+// 645a748b33dbf64bdcb0e658
 
-router.get('/:projectid', async (req,res,next)=>{
+router.get('/:projectid', requireUser, async (req,res,next)=>{
     const projectId = req.params.projectid
-    console.log(projectId)
+    // console.log(req.user._id, "THIS IS THE LOGGED IN USER")
+
+    // get the project
     const project = await Project.findOne({"_id":`${projectId}`})
-    console.log(project);
+    // console.log("I AM HERE!!");
     //Probably needs task populate, not collaborator populate
-    return res.json(project)
+
+    // console.log(userOnProject(project, req.user._id), "USERONPROJECT?")
+    console.log(project, "PROJECT!!");
+    // const allP = await Project.find()
+
+    // console.log(returnedProject, "RPRP");
+    // return res.json(allP);
+
+    // need to make sure the currently logged in user is either a collaborator or an admin of the project
+    if (project && userOnProject(project, req.user._id)) {
+
+        let baseProject = Object.fromEntries(
+            [
+                ['_id', project._id],
+                ['title', project.title],
+                ['description', project.description],
+                ['adminId', project.adminId],
+                ['startDate', project.startDate],
+                ['endDate', project.endDate],
+                ['tasks', project.tasks],
+            ]
+        )
+
+        let nestedProject = Object.fromEntries([
+            [project._id, baseProject]
+        ])
+
+        return res.json(nestedProject);
+    } else {
+        return res.json("Nothing was found");
+    }
 });
 
 router.post('/', async (req,res,next) =>{
