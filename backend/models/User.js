@@ -13,7 +13,17 @@ const userSchema = new Schema({
     hashedPassword: {
       type: String,
       required: true
-    }
+    },
+    projects: [{
+      type: Schema.Types.ObjectId,
+      ref: 'Project',
+      required: false
+    }],
+    assignedTasks: [{
+      type: Schema.Types.ObjectId,
+      ref: 'Task',
+      required: false
+    }]
   }, {
     timestamps: true
   });
