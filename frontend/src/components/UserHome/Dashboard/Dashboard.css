@@ -5,12 +5,12 @@
   width: 100vw;
 }
 
-.main-content {
+.user-dashboard-main-content {
   flex-grow: 1;
   padding: 20px;
 }
 
-header {
+.user-dashboard-header {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -18,20 +18,21 @@ header {
   padding: 20px;
 }
 
-.header-content {
+.user-dashboard-header-content {
   text-align: center;
 }
 
-h1 {
+.user-dashboard-greeting {
   margin: 0;
   font-size: 2rem;
   color: #ffffff;
 }
 
-h2 {
+.user-dashboard-date {
   margin: 0;
   font-size: 1.25rem;
   color: #ffffff;
+  margin-bottom: 20px;
 }
 
 .dropdown-container {
@@ -45,26 +46,38 @@ h2 {
   border-radius: 30px; /* Rounded border */
 }
 
-.stats {
+.user-dashboard-project-quick-stats {
   display: flex;
 }
 
-.stats p {
+.user-dashboard-project-quick-stats-title {
   margin-right: 20px;
 }
 
-.content {
+
+.user-dashboard-project-task-container {
   display: flex;
   justify-content: space-between;
 }
 
-.tasks, .projects {
+.user-dashboard-tasks-container {
+  background-color: #4e5359;
+  border-radius: 10px;
+  width: 48%;
+  padding: 20px;
+  margin-right: 10%;
+}
+
+.user-dashboard-projects-container {
   background-color: #4e5359;
   border-radius: 10px;
   width: 48%;
   padding: 20px;
 }
 
-h2 {
+.user-dashboard-project-task-container-title {
+  margin: 0;
+  font-size: 1.1rem;
+  color: #ffffff;
   margin-bottom: 20px;
 }
