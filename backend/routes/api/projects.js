@@ -76,29 +76,41 @@ router.post('/', async (req,res,next) =>{
     }
 });
 
-router.patch('/:projectid', async (req,res,next) =>{
+router.patch('/:projectId', requireUser, async (req,res,next) =>{
     //This is where new collaborators will probably go
+
+    console.log(req.params, "PARAMS");
+
+    const projectId = req.params.projectId
 
     console.log(req.body, "REQUEST BOD")
     console.log(req.body.project, "REQUEST PROJ")
 
-    
+    const project = await Project.findOne({"_id":`${projectId}`})
 
-    return res.json({msg: "hi"});
-    // const projectId = req.params.projectid
-    // const newProject = await Project.updateOne({"_id":`${projectId}`},
-    // {$set:{
-    //     title: req.body.title,
-    //     description: req.body.description,
-    //     startDate: req.body.startDate,
-    //     endDate: req.body.endDate
-    // }})
-    // if(await newProject.save()){   
-    //     return res.json(newProject)
-    // }else {
-    //     return res
-    // }
+    if (project && userOnProject(project, req.user._id)) {
+        let updatedProject = await project.updateOne({$set: req.body.project});
+
+        return res.json(updatedProject);
+    } else {
+        return res.json({message:"Error"})
+    }
+
 });
+// return res.json({msg: "hi"});
+// const projectId = req.params.projectid
+// const newProject = await Project.updateOne({"_id":`${projectId}`},
+// {$set:{
+//     title: req.body.title,
+//     description: req.body.description,
+//     startDate: req.body.startDate,
+//     endDate: req.body.endDate
+// }})
+// if(await newProject.save()){   
+//     return res.json(newProject)
+// }else {
+//     return res
+// }
 
 router.delete('/:projectid', async (req,res,next) =>{
     //Probably has to somehow DeleteMany Collaborators or iterate somehow

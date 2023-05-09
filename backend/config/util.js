@@ -19,6 +19,11 @@ function userOnProject(project, userId) {
 
 }
 
+function projectParams (proj) {
+    
+}
+
 module.exports = {
-    userOnProject
+    userOnProject,
+    projectParams
 }

@@ -14,11 +14,6 @@ const store = configureStore();
 if (process.env.NODE_ENV !== "production") {
   window.store = store;
   window.jwtFetch = jwtFetch;
-<<<<<<< HEAD
-  window.fetchProject = fetchProject;
-=======
-  
->>>>>>> main
 }
 
 const rootElement = document.getElementById('root');
