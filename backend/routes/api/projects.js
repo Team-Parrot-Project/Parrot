@@ -5,7 +5,7 @@ const Project = mongoose.model('Project');
 const User = mongoose.model('User');
 const { isProduction } = require('../../config/keys');
 const { requireUser } = require('../../config/passport');
-const { userOnProject } = require('../../config/util');
+const { userOnProject, projectParams } = require('../../config/util');
 const jbuilder = require('jbuilder');
 
 // 645a748b33dbf64bdcb0e658
@@ -75,32 +75,57 @@ router.post('/', async (req,res,next) =>{
     }
 });
 
-router.patch('/:projectid', async (req,res,next) =>{
+router.patch('/:projectId', requireUser, async (req,res,next) =>{
     //This is where new collaborators will probably go
-    const projectId = req.params.projectid
-    const newProject = await Project.updateOne({"_id":`${projectId}`},
-    {$set:{
-        title: req.body.title,
-        description: req.body.description,
-        startDate: req.body.startDate,
-        endDate: req.body.endDate
-    }})
-    if(await newProject.save()){   
-        return res.json(newProject)
-    }else {
-        return res
+
+    console.log(req.params, "PARAMS");
+
+    const projectId = req.params.projectId
+
+    console.log(req.body, "REQUEST BOD")
+    console.log(req.body.project, "REQUEST PROJ")
+
+    const project = await Project.findOne({"_id":`${projectId}`})
+
+    if (project && userOnProject(project, req.user._id)) {
+        // const strongProj = projectParams(req.body.project);
+        // console.log(strongProj, "Strong Proj");
+
+        const updatedProject = await Project.findOneAndUpdate(
+            { _id: projectId },
+            { $set: req.body.project },
+            { new: true }
+        );
+
+        return res.json(updatedProject);
+    } else {
+        return res.json({message:"Error"})
     }
 });
 
-router.delete('/:projectid', async (req,res,next) =>{
+
+router.delete('/:projectId', requireUser, async (req,res,next) =>{
     //Probably has to somehow DeleteMany Collaborators or iterate somehow
-    const projectId = req.params.projectid
-    const newProject = await Project.findOne({"_id":`${projectId}`})
-    if(await Project.deleteOne({"_id":`${projectId}`})){ 
-        
-        return res.json({message:"Deleted Project"})
-    }else {
-        return res.json({message:"Issue with Delete"})
+    const projectId = req.params.projectId;
+
+    const project = await Project.findOne({"_id":`${projectId}`});
+    console.log(project, "PROJECT!!");
+    console.log("HERE I AM!!");
+    console.log(req.user._id, "loged in as")
+
+    if (project && userOnProject(project, req.user._id)) {
+        console.log("There I AM!!");
+        const deleteResult = await Project.deleteOne({"_id":`${projectId}`});
+        console.log(deleteResult.ok, "DELETE OK");
+        console.log(deleteResult, "DELETE Result");
+        if(deleteResult.deletedCount === 1) {
+            return res.json({message: "Successful Delete"});
+        } else {
+            return res.json({message:"Issue with Delete"});
+        }
+    }
+    {
+        return res.json({message:"Not found or permitted"});
     }
 });
 
