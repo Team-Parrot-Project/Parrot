@@ -13,6 +13,7 @@ const store = configureStore();
 if (process.env.NODE_ENV !== "production") {
   window.store = store;
   window.jwtFetch = jwtFetch;
+  
 }
 
 const rootElement = document.getElementById('root');

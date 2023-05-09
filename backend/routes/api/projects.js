@@ -6,6 +6,7 @@ const User = mongoose.model('User');
 const { isProduction } = require('../../config/keys');
 const { requireUser } = require('../../config/passport');
 const { userOnProject } = require('../../config/util');
+const jbuilder = require('jbuilder');
 
 // 645a748b33dbf64bdcb0e658
 
@@ -27,19 +28,24 @@ router.get('/:projectid', requireUser, async (req,res,next)=>{
 
     // need to make sure the currently logged in user is either a collaborator or an admin of the project
     if (project && userOnProject(project, req.user._id)) {
-        const returnedProject = Object.fromEntries(
+
+        let baseProject = Object.fromEntries(
             [
                 ['_id', project._id],
                 ['title', project.title],
                 ['description', project.description],
                 ['adminId', project.adminId],
-                ['tasks', project.tasks],
                 ['startDate', project.startDate],
                 ['endDate', project.endDate],
+                ['tasks', project.tasks],
             ]
         )
 
-        return res.json(returnedProject);
+        let nestedProject = Object.fromEntries([
+            [project._id, baseProject]
+        ])
+
+        return res.json(nestedProject);
     } else {
         return res.json("Nothing was found");
     }
