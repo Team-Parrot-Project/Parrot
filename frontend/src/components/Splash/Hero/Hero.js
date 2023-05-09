@@ -23,13 +23,12 @@ export default function Hero() {
         </header>
 
         <main className="marketing-content">
-          <div className="content-container">
+          <h1>THIS IS A SLOGAN</h1>
+          <div className="hero-page-content-container">
             <img className="hero-nav-bar-logo" src={animation} alt="animation" />
             <SignupForm />
           </div>
         </main>
-
-
 
         <footer className="hero-footer">
 

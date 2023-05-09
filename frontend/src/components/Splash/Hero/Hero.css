@@ -30,7 +30,8 @@
 
 /* without this they are stacked */
 
-.content-container {
+
+.hero-page-content-container {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -38,9 +39,6 @@
 
 .hero-nav-bar-logo {
   margin-right: 5%;
-}
-
-.hero-nav-bar-logo {
   height: 10%;
 }
 
