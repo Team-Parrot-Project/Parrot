@@ -1,0 +1,40 @@
+.side-nav {
+  width: 250px;
+  background-color: #393e46;
+  height: 100vh;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+  color: #FFFFFF;
+}
+
+.side-nav ul {
+  list-style-type: none;
+  font-family: Arial, sans-serif;
+  color: #FFFFFF;
+}
+
+.side-nav li {
+  margin: 15px 0;
+  font-family: Arial, sans-serif;
+  color: #FFFFFF;
+}
+
+.side-nav a {
+  color: #FFFFFF;
+  text-decoration: none;
+  font-size: 1.1em;
+  font-family: Arial, sans-serif;
+}
+
+.nav-icon {
+  overflow: hidden;
+  fill: #a2a0a2;
+  margin-right: 8px;
+  transition: transform 250ms ease-out;
+  height: 20px;
+  width: 20px;
+}
+
+.nav-bar-logout-button {
+  align-self: flex-end;
+}

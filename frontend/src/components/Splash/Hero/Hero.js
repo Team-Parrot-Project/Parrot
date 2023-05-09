@@ -1,4 +1,7 @@
-import React from 'react';
+import React, { useState } from "react";
+import * as sessionActions from "../../../store/session";
+import { useDispatch, useSelector } from "react-redux";
+import { Redirect, useHistory } from "react-router-dom";
 import SignupForm from "../SignupForm/SignupForm"
 import logo from "../../../assets/logo_text_version.png"
 import github from "../../../assets/github.png"
@@ -8,6 +11,20 @@ import './Hero.css';
 
 export default function Hero() {
 
+  const history = useHistory();
+  const dispatch = useDispatch();
+  const sessionUser = useSelector(state => state.session.user);
+  const [errors, setErrors] = useState([]);
+
+
+  const handleDemo = (e) => {
+    e.preventDefault();
+    setErrors([]);
+    dispatch(
+      sessionActions.login({ email: "admin@example.com", password: "password" })
+    )
+    .then(move => history.push("/home"));
+  };
 
   return (
     <>
@@ -18,7 +35,7 @@ export default function Hero() {
           </div>
           <div className="nav-buttons">
             <button className="login">Login</button>
-            <button className="demo-login">Demo User Login</button>
+            <button className="demo-login" onClick={handleDemo}>Demo User Login</button>
           </div>
         </header>
 

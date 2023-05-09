@@ -1,0 +1,70 @@
+.user-dashboard-wrapper {
+  font-family: Arial, sans-serif;
+  color: #FFFFFF;
+  background-color: #222831;
+  width: 100vw;
+}
+
+.main-content {
+  flex-grow: 1;
+  padding: 20px;
+}
+
+header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #222831;
+  padding: 20px;
+}
+
+.header-content {
+  text-align: center;
+}
+
+h1 {
+  margin: 0;
+  font-size: 2rem;
+  color: #ffffff;
+}
+
+h2 {
+  margin: 0;
+  font-size: 1.25rem;
+  color: #ffffff;
+}
+
+.dropdown-container {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 20px;
+  margin: 20px auto;
+  width: 60%; /* Adjust this value to change the width of the container */
+  background-color: #4e5359; /* Background color for the container */
+  border-radius: 30px; /* Rounded border */
+}
+
+.stats {
+  display: flex;
+}
+
+.stats p {
+  margin-right: 20px;
+}
+
+.content {
+  display: flex;
+  justify-content: space-between;
+}
+
+.tasks, .projects {
+  background-color: #4e5359;
+  border-radius: 10px;
+  width: 48%;
+  padding: 20px;
+}
+
+h2 {
+  margin-bottom: 20px;
+}
