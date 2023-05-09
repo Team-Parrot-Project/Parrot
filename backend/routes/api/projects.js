@@ -11,10 +11,12 @@ router.get('/:projectid', async (req,res,next)=>{
     console.log(projectId)
     const project = await Project.findOne({"_id":`${projectId}`})
     console.log(project);
+    //Probably needs task populate, not collaborator populate
     return res.json(project)
 });
 
 router.post('/', async (req,res,next) =>{
+    //This is probably done
     const adminId = req.body.adminId;
     const newProject = new Project({
         title: req.body.title,
@@ -39,6 +41,7 @@ router.post('/', async (req,res,next) =>{
 });
 
 router.patch('/:projectid', async (req,res,next) =>{
+    //This is where new collaborators will probably go
     const projectId = req.params.projectid
     const newProject = await Project.updateOne({"_id":`${projectId}`},
     {$set:{
@@ -55,6 +58,7 @@ router.patch('/:projectid', async (req,res,next) =>{
 });
 
 router.delete('/:projectid', async (req,res,next) =>{
+    //Probably has to somehow DeleteMany Collaborators or iterate somehow
     const projectId = req.params.projectid
     const newProject = await Project.findOne({"_id":`${projectId}`})
     if(await Project.deleteOne({"_id":`${projectId}`})){ 
