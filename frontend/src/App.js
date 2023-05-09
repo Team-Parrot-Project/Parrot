@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 import { Switch, Route } from 'react-router-dom';
 import { AuthRoute, ProtectedRoute } from './components/Routes/Routes';
 import { getCurrentUser } from './store/session';
-import SignupForm from './components/Splash/SignupForm';
+import Splash from './components/Splash/Splash';
 import LoginForm from './components/Login/LoginForm';
 import UserHome from './components/UserHome/UserHome';
 
@@ -28,7 +28,7 @@ export default function App() {
           <SignupForm />
         </Route> */}
 
-        <AuthRoute exact path="/" component={SignupForm} />
+        <AuthRoute exact path="/" component={Splash} />
         <AuthRoute exact path="/login" component={LoginForm} />
 
         <ProtectedRoute exact path="/home" component={UserHome} />

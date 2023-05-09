@@ -1,0 +1,83 @@
+.user-dashboard-wrapper {
+  font-family: Arial, sans-serif;
+  color: #FFFFFF;
+  background-color: #222831;
+  width: 100vw;
+}
+
+.user-dashboard-main-content {
+  flex-grow: 1;
+  padding: 20px;
+}
+
+.user-dashboard-header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #222831;
+  padding: 20px;
+}
+
+.user-dashboard-header-content {
+  text-align: center;
+}
+
+.user-dashboard-greeting {
+  margin: 0;
+  font-size: 2rem;
+  color: #ffffff;
+}
+
+.user-dashboard-date {
+  margin: 0;
+  font-size: 1.25rem;
+  color: #ffffff;
+  margin-bottom: 20px;
+}
+
+.dropdown-container {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 20px;
+  margin: 20px auto;
+  width: 60%; /* Adjust this value to change the width of the container */
+  background-color: #4e5359; /* Background color for the container */
+  border-radius: 30px; /* Rounded border */
+}
+
+.user-dashboard-project-quick-stats {
+  display: flex;
+}
+
+.user-dashboard-project-quick-stats-title {
+  margin-right: 20px;
+}
+
+
+.user-dashboard-project-task-container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.user-dashboard-tasks-container {
+  background-color: #4e5359;
+  border-radius: 10px;
+  width: 48%;
+  padding: 20px;
+  margin-right: 10%;
+}
+
+.user-dashboard-projects-container {
+  background-color: #4e5359;
+  border-radius: 10px;
+  width: 48%;
+  padding: 20px;
+}
+
+.user-dashboard-project-task-container-title {
+  margin: 0;
+  font-size: 1.1rem;
+  color: #ffffff;
+  margin-bottom: 20px;
+}
