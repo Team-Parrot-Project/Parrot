@@ -11,7 +11,8 @@ export default function TestPage () {
           {/* <ProjectCreateForm />
           <TaskCreateForm />
           <ProjectShow projectId="645a748b33dbf64bdcb0e658"/> */}
-          <ProjectUpdateForm projectId="645a748b33dbf64bdcb0e658"/>
+          <ProjectCreateForm/>
+          <ProjectUpdateForm projectId="645ad919bbe159ae2fcb7f7b"/>
         </div>
     );
 }
