@@ -3,12 +3,12 @@ const Users = {
     _id: ObjectId("5d8d5b50a5b9d4a3c402f571"),
     email: "josh@gmail.com",
     password_digest: "mK9jd37n",
-    name: "Josh Smith",
-    projects: [
-        {ProjectObject1},
-        {ProjectObject1}
+    username: "Josh Smith",
+    projects: [ //any project they are an owner or collaborator of
+        ProjectId1,
+        ProjectId2
     ],
-    assignedTasks: [
+    assignedTasks: [ //only tasks assigned to the user
         TaskId1,
         TaskId2,
         TaskId3
@@ -20,13 +20,13 @@ const Projects = {
     _id: ObjectId("5d8d5b50a5b9d4a3c402f571"),
     title: "Mern Baby Mern",
     description: "get it done",
-    adminId: UserId("4a1h3m42a5b9d4i9dc405l721"),
-    collaborators: [
+    adminId: UserId1,
+    collaborators: [ //everyone invited to the project
         UserId1,
         UserId2,
         UserId3
     ],
-    tasks: [
+    tasks: [ //all the tasks of the projects
         {TaskObject1},
         {TaskObject2},
         {TaskObject3}
@@ -40,11 +40,11 @@ const Tasks = {
     title: "Lay the foundation",
     description: "This is my task!",
     priority: "high",
-    assignee: userId1,
+    assignee: UserId1,
     status: "incomplete",
     startDate: 2015-01-01,
     endDate: 2017-01-01,
-    blockingTasts: [
+    blockingTasks: [ //leave empty for now, this is a nice to have
         TaskId1,
         TaskId2,
         TaskId3
