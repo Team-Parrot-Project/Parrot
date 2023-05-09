@@ -22,11 +22,24 @@ router.get('/:projectid', requireUser, async (req,res,next)=>{
     console.log(project, "PROJECT!!");
     // const allP = await Project.find()
 
+    // console.log(returnedProject, "RPRP");
     // return res.json(allP);
 
+    // need to make sure the currently logged in user is either a collaborator or an admin of the project
     if (project && userOnProject(project, req.user._id)) {
-        // need to make sure the currently logged in user is either a collaborator or an admin of the project
-        return res.json(project);
+        const returnedProject = Object.fromEntries(
+            [
+                ['_id', project._id],
+                ['title', project.title],
+                ['description', project.description],
+                ['adminId', project.adminId],
+                ['tasks', project.tasks],
+                ['startDate', project.startDate],
+                ['endDate', project.endDate],
+            ]
+        )
+
+        return res.json(returnedProject);
     } else {
         return res.json("Nothing was found");
     }
