@@ -6,6 +6,7 @@ import { getCurrentUser } from './store/session';
 import Splash from './components/Splash/Splash';
 import LoginForm from './components/Login/LoginForm';
 import UserHome from './components/UserHome/UserHome';
+import TestPage from './components/TestComponentsPage/TestIndex';
 
 export default function App() {
 
@@ -32,6 +33,7 @@ export default function App() {
         <AuthRoute exact path="/login" component={LoginForm} />
 
         <ProtectedRoute exact path="/home" component={UserHome} />
+        <ProtectedRoute exact path='/test' component={TestPage} />
 
       </Switch>
     </>

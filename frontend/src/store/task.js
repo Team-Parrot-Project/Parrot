@@ -1,4 +1,5 @@
 import jwtFetch from "./jwt";
+import { ADD_PROJECT } from "./project";
 
 const ADD_TASK = 'Task/addTask';
 const ADD_TASKS = 'Task/addTasks'
@@ -35,9 +36,10 @@ export const taskReducer = (state = {},action) =>{
         case REMOVE_TASK:
             delete newState[action.taskId]
             return newState
+        case ADD_PROJECT:
+            return {...action.project.tasks}
         default:
             return state;
-        
     }
 }
 
