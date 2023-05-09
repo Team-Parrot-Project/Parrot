@@ -51,7 +51,7 @@ export default function Hero() {
                 <a href="https://github.com/Team-Parrot-Project/Parrot" className="hero-footer-github-logo">
                   <img src={github} className="hero-footer-github-logo" alt="Github logo" />
                 </a>
-                <a href="https://www.linkedin.com/in/christopher-banas/" className="hero-footer-linkedin-logo">
+                <a href="https://www.linkedin.com/in/mibird/" className="hero-footer-linkedin-logo">
                   <img src={linkedin} className="hero-footer-linkedin-logo" alt="LinkedIn logo" />
                 </a>
               </div>
