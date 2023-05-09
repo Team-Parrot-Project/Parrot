@@ -90,10 +90,6 @@
   transition: opacity 0.3s;
 }
 
-.nav-buttons button:hover::before {
-  opacity: 1;
-}
-
 .hero-slogan {
   font-family: 'Montserrat', sans-serif;
   font-weight: 400;
