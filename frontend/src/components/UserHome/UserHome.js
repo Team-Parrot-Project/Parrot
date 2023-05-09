@@ -14,8 +14,8 @@ export default function UserHome () {
       <div className="user-home-wrapper">
         <NavBar />
         <Dashboard/>
-        {/* <ProjectCreateForm />
-        <TaskCreateForm /> */}
+        <ProjectCreateForm />
+        <TaskCreateForm />
       </div>
       </>
     );
