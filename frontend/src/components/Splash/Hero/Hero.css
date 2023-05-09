@@ -25,6 +25,10 @@
   padding: 2rem;
 }
 
+.hero-slogan {
+  
+}
+
 /* without this they are stacked */
 .hero-page-content-container {
   display: flex;

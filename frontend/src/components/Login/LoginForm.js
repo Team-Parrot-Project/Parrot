@@ -45,18 +45,18 @@ export default function LoginForm() {
       <div className="login-form-wrapper">
         <div className="login-logo-bar">
           <nav className="login-logo-bar-nav">
-          <div className="login-logo-container">
-            <a href="/">
-              <img class="login-logo" src={logo} alt="Parrot logo" />
-            </a>
-          </div>
+            <div className="login-logo-container">
+              <a href="/">
+                <img className="login-logo" src={logo} alt="Parrot logo" />
+              </a>
+            </div>
           </nav>
         </div>
 
         <div className="login-form-card-wrapper">
 
           <h2 className="login-form-card-title"> Welcome to Parrot </h2>
-          <span class="login-form-card-sub-title">To get started, please sign in</span>
+          <span className="login-form-card-sub-title">To get started, please sign in</span>
 
           <div className="login-form-holder">
             <form className="actual-login-form" onSubmit={handleSubmit}>
@@ -87,9 +87,9 @@ export default function LoginForm() {
                   />
                 </div>
               </div>
-              <input className="login-form-button" type="submit" value="Log In" disabled={!email || !password} tabindex="0" />
+              <input className="login-form-button" type="submit" value="Log In" disabled={!email || !password} tabIndex="0" />
 
-              <input className="login-form-demo-button" type="submit" value="Demo User Log In" tabindex="0" onClick={handleDemo} />
+              <input className="login-form-demo-button" type="submit" value="Demo User Log In" tabIndex="0" onClick={handleDemo} />
 
             </form>
           </div>
@@ -108,12 +108,6 @@ export default function LoginForm() {
         </div>
 
       </div>
-
-
-
-
-
-
 
     </>
   );
