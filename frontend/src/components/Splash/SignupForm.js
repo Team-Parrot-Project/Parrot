@@ -2,6 +2,8 @@ import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import './SignupForm.css';
 import { signup, clearSessionErrors } from '../../store/session';
+import ProjectCreateForm from '../UserHome/ProjectCreateForm/ProjectCreateForm';
+import TaskCreateForm from '../UserHome/TaskCreateForm/TaskCreateForm';
 
 export default function SignupForm () {
   const [email, setEmail] = useState('');
@@ -52,7 +54,7 @@ export default function SignupForm () {
   }
 
   return (
-    <form className="session-form" onSubmit={handleSubmit}>
+      <form className="session-form" onSubmit={handleSubmit}>
       <h2>Sign Up Form</h2>
       <div className="errors">{errors?.email}</div>
       <label>
