@@ -42,19 +42,26 @@ router.post('/', async (req,res,next) =>{
 
 router.patch('/:projectid', async (req,res,next) =>{
     //This is where new collaborators will probably go
-    const projectId = req.params.projectid
-    const newProject = await Project.updateOne({"_id":`${projectId}`},
-    {$set:{
-        title: req.body.title,
-        description: req.body.description,
-        startDate: req.body.startDate,
-        endDate: req.body.endDate
-    }})
-    if(await newProject.save()){   
-        return res.json(newProject)
-    }else {
-        return res
-    }
+
+    console.log(req.body, "REQUEST BOD")
+    console.log(req.body.project, "REQUEST PROJ")
+
+    
+
+    return res.json({msg: "hi"});
+    // const projectId = req.params.projectid
+    // const newProject = await Project.updateOne({"_id":`${projectId}`},
+    // {$set:{
+    //     title: req.body.title,
+    //     description: req.body.description,
+    //     startDate: req.body.startDate,
+    //     endDate: req.body.endDate
+    // }})
+    // if(await newProject.save()){   
+    //     return res.json(newProject)
+    // }else {
+    //     return res
+    // }
 });
 
 router.delete('/:projectid', async (req,res,next) =>{

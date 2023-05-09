@@ -59,7 +59,7 @@ export const getProjects = (state)=>{
 }
 
 export const fetchProject = (projectId)=>async dispatch=>{
-    let res = await jwtFetch(`/api/project/${projectId}`)
+    let res = await jwtFetch(`/api/projects/${projectId}`)
     if(res.ok){
         let data = await res.json();
         dispatch(addProject(data));
