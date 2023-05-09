@@ -11,8 +11,11 @@ const validateRegisterInput = require('../../validations/register');
 const validateLoginInput = require('../../validations/login');
 
 /* GET users listing. */
-router.get('/', function(req, res, next) {
-  res.send('respond with a resource');
+router.get('/:userid', async (req, res, next)=>{
+  const userId = req.params.userid 
+  console.log(userId,'userId')
+  const user = await User.findOne({"_id":`${userId}`})
+  return res.json(user)
 });
 
 //routes/api/users.js

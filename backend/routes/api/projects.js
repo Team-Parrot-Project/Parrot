@@ -40,17 +40,29 @@ router.post('/', async (req,res,next) =>{
 
 router.patch('/:projectid', async (req,res,next) =>{
     const projectId = req.params.projectid
-    const project = Project.findOne()
-    // const newProject = new Project({
-    //     title: req.body.title,
-    //     description: req.body.description,
-    //     adminId: req.body.adminId,
-    //     collaborators: [req.body.adminId],
-    //     tasks: [],
-    //     startDate: req.body.startDate,
-    //     endDate: req.body.endDate
-    // })
-    return res.json(newProject)
+    const newProject = await Project.updateOne({"_id":`${projectId}`},
+    {$set:{
+        title: req.body.title,
+        description: req.body.description,
+        startDate: req.body.startDate,
+        endDate: req.body.endDate
+    }})
+    if(await newProject.save()){   
+        return res.json(newProject)
+    }else {
+        return res
+    }
+});
+
+router.delete('/:projectid', async (req,res,next) =>{
+    const projectId = req.params.projectid
+    const newProject = await Project.findOne({"_id":`${projectId}`})
+    if(await Project.deleteOne({"_id":`${projectId}`})){ 
+        
+        return res.json({message:"Deleted Project"})
+    }else {
+        return res.json({message:"Issue with Delete"})
+    }
 });
 
 module.exports = router;
