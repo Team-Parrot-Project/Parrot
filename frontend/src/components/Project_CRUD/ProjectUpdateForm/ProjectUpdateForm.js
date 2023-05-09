@@ -1,17 +1,27 @@
 import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { getProject, updateProject } from '../../../store/project';
 
 export default function ProjectUpdateForm({ projectId }) {
   const dispatch = useDispatch();
-  const project = useSelector((state) => getProject(state, projectId));
 
+  const [project, setProject] = useState(null);
   const [projectName, setProjectName] = useState('');
   const [description, setDescription] = useState('');
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
 
   useEffect(() => {
+    async function fetchProject() {
+      const data = await dispatch(getProject(projectId));
+      setProject(data);
+    }
+
+    fetchProject();
+  }, [dispatch, projectId]);
+
+  useEffect(() => {
+    // This effect hook will run only when the project state variable is set
     if (project) {
       setProjectName(project.title);
       setDescription(project.description);

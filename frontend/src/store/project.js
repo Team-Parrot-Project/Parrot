@@ -1,6 +1,6 @@
 import jwtFetch from "./jwt";
 
-const ADD_PROJECT = 'project/addProject';
+export const ADD_PROJECT = 'project/addProject';
 const ADD_PROJECTS = 'project/addProjects'
 const REMOVE_PROJECT = 'project/removeProject';
 
@@ -59,7 +59,7 @@ export const getProjects = (state)=>{
 }
 
 export const fetchProject = (projectId)=>async dispatch=>{
-    let res = await jwtFetch(`/api/project/${projectId}`)
+    let res = await jwtFetch(`/api/projects/${projectId}`)
     if(res.ok){
         let data = await res.json();
         dispatch(addProject(data));
