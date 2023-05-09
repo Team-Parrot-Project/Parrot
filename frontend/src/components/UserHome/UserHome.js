@@ -12,6 +12,11 @@ export default function UserHome () {
       <div className="user-home-wrapper">
         <NavBar />
         <Dashboard/>
+<<<<<<< HEAD
+=======
+        <ProjectCreateForm />
+        <TaskCreateForm />
+>>>>>>> main
       </div>
       </>
     );

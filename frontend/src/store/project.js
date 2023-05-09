@@ -57,6 +57,7 @@ export const getProjects = (state)=>{
         return [];
     }
 }
+
 export const fetchProject = (projectId)=>async dispatch=>{
     let res = await jwtFetch(`/api/project/${projectId}`)
     if(res.ok){
