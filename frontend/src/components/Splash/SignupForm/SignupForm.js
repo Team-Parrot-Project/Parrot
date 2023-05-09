@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import './SignupForm.css';
 import { signup, clearSessionErrors } from '../../../store/session';
 
-export default function SignupForm () {
+export default function SignupForm() {
   const [email, setEmail] = useState('');
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -51,48 +51,103 @@ export default function SignupForm () {
     dispatch(signup(user));
   }
 
+
+
+
+
+  // Password visible
+
+  const [passwordVisible, setPasswordVisible] = useState(false);
+
+  const handlePasswordToggle = () => {
+    setPasswordVisible(!passwordVisible);
+  };
+
+  const [passwordVisible2, setPasswordVisible2] = useState(false);
+
+  const handlePasswordToggle2 = () => {
+    setPasswordVisible2(!passwordVisible2);
+  };
+
+
   return (
-    <form className="session-form" onSubmit={handleSubmit}>
-      <h2>Sign Up Form</h2>
-      <div className="errors">{errors?.email}</div>
+    <form className="hero-page-signup-form" onSubmit={handleSubmit}>
+      <h2 className="hero-page-signup-form-text">You’re one click away from less busywork</h2>
+      <p className="hero-page-signup-terms">By signing up, I agree to the Parrot Privacy Policy and Terms of Service.</p>
+      <div className="signup-form-errors">{errors?.email}</div>
       <label>
-        <span>Email</span>
-        <input type="text"
+        <span></span>
+        <input className="signup-form-input" type="email"
           value={email}
           onChange={update('email')}
           placeholder="Email"
+          required
         />
       </label>
-      <div className="errors">{errors?.username}</div>
+
+      <div className="signup-form-errors">{errors?.username}</div>
       <label>
-        <span>Name</span>
-        <input type="text"
+        <span></span>
+        <input className="signup-form-input" type="text"
           value={username}
           onChange={update('username')}
           placeholder="Name"
+          required
         />
       </label>
-      <div className="errors">{errors?.password}</div>
+
+      <div className="signup-form-errors">{errors?.password}</div>
       <label>
-        <span>Password</span>
-        <input type="password"
-          value={password}
-          onChange={update('password')}
-          placeholder="Password"
-        />
+        <span></span>
+        <div className="password-input-container">
+          <input
+            className="signup-form-input"
+            type={passwordVisible ? 'text' : 'password'}
+            value={password}
+            onChange={update('password')}
+            placeholder="Password"
+            minLength={6}
+            required
+          />
+          <button
+            type="button"
+            className="password-toggle-button"
+            onClick={handlePasswordToggle}
+            aria-label="Toggle password visibility"
+          >
+            {passwordVisible ? '👁️' : '👁️'}
+          </button>
+        </div>
       </label>
-      <div className="errors">
+
+      <div className="signup-form-errors">
         {password !== password2 && 'Confirm Password field must match'}
       </div>
       <label>
-        <span>Confirm Password</span>
-        <input type="password"
-          value={password2}
-          onChange={update('password2')}
-          placeholder="Confirm Password"
-        />
+        <span></span>
+        <div className="password-input-container">
+          <input
+            className="signup-form-input"
+            type={passwordVisible2 ? 'text' : 'password'}
+            value={password2}
+            onChange={update('password2')}
+            placeholder="Confirm Password"
+            minLength={6}
+            required
+          />
+          <button
+            type="button"
+            className="password-toggle-button"
+            onClick={handlePasswordToggle2}
+            aria-label="Toggle password visibility"
+          >
+            {passwordVisible2 ? '👁️' : '👁️'}
+          </button>
+        </div>
       </label>
+
       <input
+        className="signup-form-button"
         type="submit"
         value="Sign Up"
         disabled={!email || !username || !password || password !== password2}
