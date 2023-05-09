@@ -12,7 +12,6 @@ const debug = require('debug');
 require('./models/User');
 
 const {Project, Task} = require('./models/Project');
-require('./models/Task');
 require('./models/Project');
 
 require('./config/passport');
@@ -21,7 +20,7 @@ const passport = require('passport');
 // var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/api/users');
 const csrfRouter = require('./routes/api/csrf');
-
+const projectsRouter = require('./routes/api/projects');
 
 var app = express();
 
@@ -51,6 +50,7 @@ app.use(
 // app.use('/', indexRouter);
 app.use('/api/users', usersRouter);
 app.use('/api/csrf', csrfRouter);
+app.use('/api/projects', projectsRouter);
 
 if (isProduction) {
   const path = require('path');
