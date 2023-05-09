@@ -82,7 +82,28 @@ const seedDB = async () => {
                 startDate: faker.date.past(),
                 endDate: faker.date.future(),
                 blockingTasks: []
+              },
+              {
+                title: faker.lorem.words(),
+                description: faker.lorem.paragraph(),
+                priority: 'medium',
+                assignee: userOne,
+                status: "in progress",
+                startDate: faker.date.past(),
+                endDate: faker.date.future(),
+                blockingTasks: []
+              },
+              {
+                title: faker.lorem.words(),
+                description: faker.lorem.paragraph(),
+                priority: 'medium',
+                assignee: userOne,
+                status: "in progress",
+                startDate: faker.date.past(),
+                endDate: faker.date.future(),
+                blockingTasks: []
               }
+
         ],
         startDate: faker.date.past(),
         endDate: faker.date.future()
@@ -96,6 +117,11 @@ const seedDB = async () => {
     userTwo.assignedTasks.push(mainProject.tasks[0]);
     userThree.assignedTasks.push(mainProject.tasks[1]);
     userThree.assignedTasks.push(mainProject.tasks[2]);
+    userOne.assignedTasks.push(mainProject.tasks[3]);
+    userOne.assignedTasks.push(mainProject.tasks[4]);
+
+    mainProject.tasks[2].blockingTasks.push(mainProject.tasks[3]);
+    mainProject.tasks[2].blockingTasks.push(mainProject.tasks[4]);
 
     secondaryProject = new Project ({
         title: faker.lorem.words(),
