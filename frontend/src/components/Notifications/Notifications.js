@@ -7,23 +7,27 @@ function Notifications () {
     const userId = useSelector(getUser)
     let socket;
     useEffect(()=>{
+        //Eventually refactor to join appropriate room channels
         socket = io('http://localhost:5001');
         socket.on("connect", ()=>{
             console.log("connection")
-            
+            socket.emit("join-channel",userId)
         });
     return ()=>{socket.disconnect()}
-    },[socket])
+    },[])
 
     useEffect(()=>{
-        socket.on('greetings',(greeting)=>{
-            console.log(greeting,"greeting")
+        //Listener from server
+        //Refactor to handle receiving notifications from backend
+        socket.on('message',(message)=>{
+            console.log(message,"message")
         })
     },[socket])
     
     const handleClick = (e)=>{
         e.preventDefault();
         socket.emit('message', "Hey!")
+        socket.emit("join-channel",userId)
     }
 
     return(

@@ -28,9 +28,12 @@ io.on('connection', socket => {
   console.log(socket.id,'a user connected')
   socket.on('message',(message)=>{
     console.log(message,"message")
-    socket.emit("greetings","Hey from server")
+    socket.emit("message","Hey from server")
   })
-  
+  socket.on('join-channel',(room)=>{
+    socket.join(room);
+    socket.to(room).emit("message",`Joined Room`)
+  })
   socket.on('disconnect',()=>{
     console.log('disconnecting....')
   });
