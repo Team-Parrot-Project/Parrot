@@ -19,8 +19,27 @@ function userOnProject(project, userId) {
 
 }
 
-function projectParams (proj) {
-    
+function projectParams (project) {
+
+    const keys = Object.keys(project);
+    const strongProj = {};
+    const permitted = [
+        "title",
+        "description",
+        "adminId",
+        "collaborators",
+        "tasks",
+        "startDate",
+        "endDate"
+    ]
+
+    keys.forEach((k) => {
+        if(permitted.indexOf(k) >= 0) {
+            strongProj[k] = project.k
+        }
+    })
+
+    return strongProj;
 }
 
 module.exports = {
