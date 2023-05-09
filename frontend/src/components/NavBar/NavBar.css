@@ -1,10 +1,17 @@
 .side-nav {
-  width: 250px;
-  background-color: #393e46;
+  width: 180px;
+  background-color: #2e2e30;
   height: 100vh;
   padding: 20px;
   font-family: Arial, sans-serif;
   color: #FFFFFF;
+  transition: transform 0.3s ease;
+}
+
+.nav-company-logo-container > img {
+  height: 35px;
+  padding: 4px;
+  width: 88px;
 }
 
 .side-nav ul {
@@ -36,5 +43,31 @@
 }
 
 .nav-bar-logout-button {
-  align-self: flex-end;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  outline: none;
+  transition: transform 0.3s ease;
+  padding-top: 15px;
+  padding-bottom: 10px;
+}
+
+.nav-bar-logout-button:hover {
+  transform: scale(1.1);
+}
+
+.nav-bar-logout-button:hover::after {
+  content: 'Logout';
+  position: absolute;
+  left: 100%;
+  top: 50%;
+  transform: translateY(-50%);
+  white-space: nowrap;
+  padding-left: 8px;
+  font-size: 14px; /* Adjust the font size if needed */
+  color: #FFFFFF; /* Change this to the desired text color */
+}
+
+.notifications {
+  margin-top: 20px;
 }
