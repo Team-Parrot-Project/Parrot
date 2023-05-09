@@ -29,7 +29,7 @@ export const projectReducer = (state = {},action) =>{
     const newState = {...state};
     switch(action.type){
         case ADD_PROJECT:
-            return {...state, [action.project.id]: action.project}
+            return {...state, [action.project._id]: action.project}
         case ADD_PROJECTS:
             return {...action.projects}
         case REMOVE_PROJECT:
@@ -37,7 +37,6 @@ export const projectReducer = (state = {},action) =>{
             return newState
         default:
             return state;
-        
     }
 }
 

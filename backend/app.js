@@ -12,7 +12,6 @@ const debug = require('debug');
 require('./models/User');
 
 const {Project, Task} = require('./models/Project');
-require('./models/Task');
 require('./models/Project');
 
 require('./config/passport');
