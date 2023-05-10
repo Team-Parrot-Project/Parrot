@@ -83,7 +83,7 @@ router.post('/:projectId/tasks', requireUser, async (req,res,next)=>{
 })
 
 router.patch('/:projectId/tasks/:taskId', requireUser, async (req,res,next)=>{
-    
+
     console.log("in PATCH /:projectId/tasks/:taskId");
 
     const projectId = req.params.projectId;
@@ -114,6 +114,49 @@ router.patch('/:projectId/tasks/:taskId', requireUser, async (req,res,next)=>{
         return res.json("No project or save not permitted");
     }
 })
+
+router.delete('/:projectId/tasks/:taskId', requireUser, async (req,res,next)=>{
+    
+    const projectId = req.params.projectId;
+    const taskId = req.params.taskId;
+
+    const project = await Project.findOne({"_id":`${projectId}`})
+    const task = project.tasks.id(taskId);
+
+    let user;
+    
+    if (project && task && userOnProject(project, req.user._id)) {
+        
+        // first check whether this task is assigned to a user
+        user = await User.findOne({ assignedTasks: taskId });
+        
+        // if so we need to delete that task from the user's assigned tasks
+        if(user) {
+            const assignedTaskIndex = user.assignedTasks.findIndex((tId) => tId.toString() === taskId);
+            
+            // delete the element at the discovered index
+            user.assignedTasks.splice(assignedTaskIndex,1);
+
+            await user.save();
+            console.log(user, "user post save");
+        }
+
+        // now we remove that task from the project
+        const taskIndex = project.tasks.findIndex((t) => t._id.toString() === taskId);
+
+        project.tasks.splice(taskIndex, 1);
+
+        await project.save();
+
+        return res.json({msg: "Deletion complete"});
+    }
+
+
+
+    console.log(user, "user");
+
+    return res.json(user);
+});
 
 router.post('/', async (req,res,next) =>{
     //This is probably done
