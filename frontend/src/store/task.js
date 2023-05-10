@@ -1,9 +1,11 @@
 import jwtFetch from "./jwt";
-import { ADD_PROJECT } from "./project";
+import { ADD_PROJECT, ADD_PROJECTS } from "./project";
 
 const ADD_TASK = 'Task/addTask';
 const ADD_TASKS = 'Task/addTasks'
 const REMOVE_TASK = 'Task/removeTask';
+const PURGE_TASKS = 'Task/purgeTasks';
+
 
 export const addTask = (task)=>{
     return {
@@ -26,7 +28,14 @@ export const removeTask = (taskId)=>{
     }
 }
 
-export const taskReducer = (state = {},action) =>{
+export const purgeTasks = ()=>{
+    return {
+        type: PURGE_TASKS
+    }
+}
+const defaultState = {};
+
+export const taskReducer = (state = defaultState,action) =>{
     const newState = {...state};
     switch(action.type){
         case ADD_TASK:
@@ -42,6 +51,17 @@ export const taskReducer = (state = {},action) =>{
                 newState[task._id] = task;
             })
             return newState;
+        case ADD_PROJECTS:
+            const projectArray = action.projects;
+            projectArray?.forEach(project=>{
+                const taskArray = project.tasks;
+                taskArray?.forEach(task =>{
+                    newState[task._id] = task;
+                })
+            })
+            return newState;
+        case PURGE_TASKS:
+            return defaultState;
         default:
             return state;
     }

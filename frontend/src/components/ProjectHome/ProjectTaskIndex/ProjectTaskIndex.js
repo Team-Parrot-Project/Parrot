@@ -1,29 +1,19 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import './UserTaskIndex.css';
+import './ProjectTaskIndex.css';
 import * as taskActions from '../../../store/task';
 import { selectUser } from '../../../store/session';
-import * as userActions from '../../../store/user';
+import * as projectActions from '../../../store/project';
+import { useParams } from 'react-router-dom/cjs/react-router-dom';
 
-function UserTaskIndex() {
-  const dispatch = useDispatch();
+function ProjectTaskIndex() {
   const allTasks = useSelector(taskActions.getTasks);
-  const currentUser = useSelector(selectUser);
-
-  useEffect(() => {
-
-    if (currentUser) dispatch(userActions.fetchUser(currentUser._id));
-  }, [currentUser._id, dispatch]);
-
-  const userTasks = allTasks.filter(
-    (task) => task.assignee === currentUser._id
-  );
 
   return (
     <div className="user-project-index">
-      <h2>Your Tasks</h2>
+      <h2>Project Tasks</h2>
       <ul>
-        {userTasks.map((task) => (
+        {allTasks.map((task) => (
           <li key={task._id}>
             <h3>{task.title}</h3>
             <p>{task.description}</p>
@@ -37,4 +27,4 @@ function UserTaskIndex() {
   );
 }
 
-export default UserTaskIndex;
+export default ProjectTaskIndex;
