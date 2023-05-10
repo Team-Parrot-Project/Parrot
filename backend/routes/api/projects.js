@@ -5,7 +5,7 @@ const Project = mongoose.model('Project');
 const User = mongoose.model('User');
 const { isProduction } = require('../../config/keys');
 const { requireUser } = require('../../config/passport');
-const { userOnProject, projectParams } = require('../../config/util');
+const { userOnProject, projectParams, taskProtector } = require('../../config/util');
 const jbuilder = require('jbuilder');
 const { Task } = require('../../models/Project');
 
@@ -53,27 +53,36 @@ router.get('/:projectid', requireUser, async (req,res,next)=>{
 });
 
 router.post('/:projectId/tasks', requireUser, async (req,res,next)=>{
-    console.log("HERE I AM");
+
+    console.log("in POST /:projectId/tasks");
 
     const projectId = req.params.projectId;
 
-    console.log(projectId, "PID");
-    // find the project
 
+    // find the project
     const project = await Project.findOne({"_id":`${projectId}`})
-    // console.log(project, "This is the project")
 
     if (project && userOnProject(project, req.user._id)) {
 
-        const newTask = new Task (req.body.task);
-        console.log(newTask, "newTask")
+        const newTask = new Task (req.body);
+        // console.log(newTask, "newTask")
+
+        // TODO - check whether there is an assignee on the task and if so and the following are true, add this task to their list. a) user exists, b) user has this project on their list
 
         project.tasks.push(newTask);
 
         try {
             const savedProject = await project.save();
-            console.log(savedProject, "savedProject")
-            return res.json(savedProject);
+
+            const returnedTask = savedProject.tasks.id(newTask._id);
+
+            // embed the project id into the task, for Ryder ;)
+            const manipulatedTask = {
+                ...returnedTask.toObject(),
+                projectId: project._id
+              };
+
+            return res.json(manipulatedTask);
         } catch (error) {
             return res.json(error);
         }
@@ -81,6 +90,84 @@ router.post('/:projectId/tasks', requireUser, async (req,res,next)=>{
         return res.json("No project or save not permitted");
     }
 })
+
+router.patch('/:projectId/tasks/:taskId', requireUser, async (req,res,next)=>{
+
+    console.log("in PATCH /:projectId/tasks/:taskId");
+
+    const projectId = req.params.projectId;
+    const taskId = req.params.taskId;
+    // console.log(taskId, "taskId");
+    
+    const project = await Project.findOne({"_id":`${projectId}`})
+    const task = project.tasks.id(taskId);
+
+    console.log(task, "task");
+
+    if (project && userOnProject(project, req.user._id) && task) {
+        console.log("HERE!");
+        
+        // the special version to be sent to the back end
+        const updatedTask = {
+            ...task.toObject(),
+            projectId: project._id,
+            ...req.body,
+          };
+        
+        // updating the task with the body
+        Object.assign(task, req.body)
+
+        // saving the project, which will save the task
+        await project.save();
+        
+        return res.json(updatedTask);
+
+    } else {
+        return res.json("No project or save not permitted");
+    }
+})
+
+router.delete('/:projectId/tasks/:taskId', requireUser, async (req,res,next)=>{
+    
+    const projectId = req.params.projectId;
+    const taskId = req.params.taskId;
+
+    const project = await Project.findOne({"_id":`${projectId}`})
+    const task = project.tasks.id(taskId);
+
+    let user;
+    
+    if (project && task && userOnProject(project, req.user._id)) {
+        
+        // first check whether this task is assigned to a user
+        user = await User.findOne({ assignedTasks: taskId });
+        
+        // if so we need to delete that task from the user's assigned tasks
+        if(user) {
+            const assignedTaskIndex = user.assignedTasks.findIndex((tId) => tId.toString() === taskId);
+            
+            // delete the element at the discovered index
+            user.assignedTasks.splice(assignedTaskIndex,1);
+
+            await user.save();
+            console.log(user, "user post save");
+        }
+
+        // now we remove that task from the project
+        const taskIndex = project.tasks.findIndex((t) => t._id.toString() === taskId);
+
+        project.tasks.splice(taskIndex, 1);
+
+        await project.save();
+
+        return res.json({msg: "Deletion complete"});
+    } else {
+
+        return res.json({msg: "project or task not found or insufficient priveleges"});
+    }
+
+
+});
 
 router.post('/', async (req,res,next) =>{
     //This is probably done
