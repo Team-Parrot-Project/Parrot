@@ -82,6 +82,44 @@ router.post('/:projectId/tasks', requireUser, async (req,res,next)=>{
     }
 })
 
+router.patch('/:projectId/tasks/:taskId', requireUser, async (req,res,next)=>{
+    console.log("in PATCH /:projectId/tasks/:taskId");
+
+    const projectId = req.params.projectId;
+    const taskId = req.params.taskId;
+
+    console.log(projectId, "projectId");
+    console.log(taskId, "taskId");
+    
+    const project = await Project.findOne({"_id":`${projectId}`})
+
+    console.log(project,'project');
+
+    const task = project.tasks.find((t) => {
+        t._id === taskId;
+    })
+
+    console.log(task,'task');
+
+    if (project && task && userOnProject(project, req.user._id)) {
+
+        // const newTask = new Task (req.body.task);
+        // console.log(newTask, "newTask")
+
+        // project.tasks.push(newTask);
+
+        // try {
+        //     const savedProject = await project.save();
+        //     console.log(savedProject, "savedProject")
+        //     return res.json(savedProject);
+        // } catch (error) {
+        //     return res.json(error);
+        // }
+    } else {
+        return res.json("No project or save not permitted");
+    }
+})
+
 router.post('/', async (req,res,next) =>{
     //This is probably done
     const adminId = req.body.adminId;
