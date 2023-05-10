@@ -30,7 +30,7 @@ export const taskReducer = (state = {},action) =>{
     const newState = {...state};
     switch(action.type){
         case ADD_TASK:
-            return {...state, [action.task.id]: action.task}
+            return {...state, [action.task._id]: action.task}
         case ADD_TASKS:
             return {...action.tasks}
         case REMOVE_TASK:
@@ -82,12 +82,13 @@ export const createTask = (projectId,task)=>async dispatch =>{
     })
     if(res.ok){
         let data = await res.json();
+        console.log(data,"task data")
         dispatch(addTask(data));
     }
 }
 
 export const updateTask = (projectId,task)=> async dispatch =>{
-    let res = await jwtFetch(`/api/projects/${projectId}/tasks/${task.id}`,{
+    let res = await jwtFetch(`/api/projects/${projectId}/tasks/${task._id}`,{
         method: "PATCH",
         body: JSON.stringify(task),
         headers: {
@@ -96,6 +97,7 @@ export const updateTask = (projectId,task)=> async dispatch =>{
     });
     if(res.ok){
         let data = await res.json();
+        console.log(data,"update task data")
         dispatch(addTask(data));
     }
 }

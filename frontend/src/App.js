@@ -22,11 +22,14 @@ export default function App() {
     <>
       <Switch>
 
+
         <AuthRoute exact path="/" component={Splash} />
         <AuthRoute exact path="/login" component={LoginForm} />
 
         <ProtectedRoute exact path="/home" component={UserHome} />
+
         <ProtectedRoute exact path='/timeline' component={Timeline} />
+
         <ProtectedRoute exact path='/test' component={TestPage} />
 
       </Switch>
