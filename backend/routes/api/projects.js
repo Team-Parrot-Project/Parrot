@@ -53,27 +53,36 @@ router.get('/:projectid', requireUser, async (req,res,next)=>{
 });
 
 router.post('/:projectId/tasks', requireUser, async (req,res,next)=>{
-    console.log("HERE I AM");
+
+    console.log("in POST /:projectId/tasks");
 
     const projectId = req.params.projectId;
 
-    console.log(projectId, "PID");
-    // find the project
 
+    // find the project
     const project = await Project.findOne({"_id":`${projectId}`})
-    // console.log(project, "This is the project")
 
     if (project && userOnProject(project, req.user._id)) {
 
         const newTask = new Task (req.body);
-        console.log(newTask, "newTask")
+        // console.log(newTask, "newTask")
+
+        // TODO - check whether there is an assignee on the task and if so and the following are true, add this task to their list. a) user exists, b) user has this project on their list
 
         project.tasks.push(newTask);
 
         try {
             const savedProject = await project.save();
-            console.log(savedProject, "savedProject")
-            return res.json({task: newTask, projectId});
+
+            const returnedTask = savedProject.tasks.id(newTask._id);
+
+            // embed the project id into the task, for Ryder ;)
+            const manipulatedTask = {
+                ...returnedTask.toObject(),
+                projectId: project._id
+              };
+
+            return res.json(manipulatedTask);
         } catch (error) {
             return res.json(error);
         }
@@ -93,7 +102,10 @@ router.patch('/:projectId/tasks/:taskId', requireUser, async (req,res,next)=>{
     const project = await Project.findOne({"_id":`${projectId}`})
     const task = project.tasks.id(taskId);
 
+    console.log(task, "task");
+
     if (project && userOnProject(project, req.user._id) && task) {
+        console.log("HERE!");
         
         // the special version to be sent to the back end
         const updatedTask = {
@@ -149,13 +161,12 @@ router.delete('/:projectId/tasks/:taskId', requireUser, async (req,res,next)=>{
         await project.save();
 
         return res.json({msg: "Deletion complete"});
+    } else {
+
+        return res.json({msg: "project or task not found or insufficient priveleges"});
     }
 
 
-
-    console.log(user, "user");
-
-    return res.json(user);
 });
 
 router.post('/', async (req,res,next) =>{
