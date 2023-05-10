@@ -31,18 +31,18 @@ export default function Hero() {
       <div className="hero-page-holder">
         <header className="hero-navbar">
           <div className="logo-container">
-            <img className="hero-nav-bar-logo" src={logo} alt="Logo" />
+            <img className="hero-header-nav-bar-logo" src={logo} alt="Logo" />
           </div>
           <div className="nav-buttons">
-            <button className="login">Login</button>
+            <a href="/login"><button className="login">Login</button></a>
             <button className="demo-login" onClick={handleDemo}>Demo User Login</button>
           </div>
         </header>
 
+          <div className="hero-slogan">Unlock Your Product's Potential with AI-Driven Management</div>
         <main className="marketing-content">
-          <h1>THIS IS A SLOGAN</h1>
           <div className="hero-page-content-container">
-            <img className="hero-nav-bar-logo" src={animation} alt="animation" />
+            <img className="hero-main-gif" src={animation} alt="animation" />
             <SignupForm />
           </div>
         </main>

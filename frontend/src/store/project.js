@@ -5,6 +5,7 @@ const ADD_PROJECTS = 'project/addProjects'
 const REMOVE_PROJECT = 'project/removeProject';
 
 export const addProject = (project)=>{
+    console.log(project)
     return {
         type: ADD_PROJECT,
         project: project
@@ -29,7 +30,7 @@ export const projectReducer = (state = {},action) =>{
     const newState = {...state};
     switch(action.type){
         case ADD_PROJECT:
-            console.log(action.project)
+            console.log(action)
             return {...state, [action.project._id]: action.project}
         case ADD_PROJECTS:
             return {...action.projects}

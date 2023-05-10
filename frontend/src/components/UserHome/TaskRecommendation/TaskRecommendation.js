@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import './TaskRecommendation.css'
 
 const TaskRecommendation = ({ title, description, startDate, endDate }) => {
   const apiKey = process.env.REACT_APP_OPENAI_API_KEY;
@@ -34,7 +35,8 @@ const TaskRecommendation = ({ title, description, startDate, endDate }) => {
   return (
     <div>
       <button onClick={generateRecommendedTasks}>Generate Recommended Tasks</button>
-      {recommendedTasks && <div>{recommendedTasks}</div>}
+      {recommendedTasks && <div className="recommended-tasks">{recommendedTasks}</div>}
+
     </div>
   );
 };
