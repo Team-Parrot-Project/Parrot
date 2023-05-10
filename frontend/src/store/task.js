@@ -30,7 +30,7 @@ export const taskReducer = (state = {},action) =>{
     const newState = {...state};
     switch(action.type){
         case ADD_TASK:
-            return {...state, [action.task.id]: action.task}
+            return {...state, [action.task._id]: action.task}
         case ADD_TASKS:
             return {...action.tasks}
         case REMOVE_TASK:

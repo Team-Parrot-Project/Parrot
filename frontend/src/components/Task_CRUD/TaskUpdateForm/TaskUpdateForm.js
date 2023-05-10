@@ -6,9 +6,9 @@ export default function TaskUpdateForm({taskId}) {
     const dispatch = useDispatch();
     const task = useSelector(getTask(taskId));
     console.log(task);
-    const [title, setTitle] = useState(task.title);
-    const [description, setDescription] = useState(task.description);
-    const [dueDate, setDueDate] = useState(task.dueDate);
+    const [title, setTitle] = useState(task?.title);
+    const [description, setDescription] = useState(task?.description);
+    const [dueDate, setDueDate] = useState(task?.dueDate);
 
     const handleSubmit = (event) => {
         event.preventDefault();
