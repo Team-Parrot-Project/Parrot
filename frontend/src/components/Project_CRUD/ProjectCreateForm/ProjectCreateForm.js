@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { createProject } from '../../../store/project';
 import { useDispatch, useSelector } from 'react-redux';
 import * as sessionActions from '../../../store/session';
-import './ProjectCreateForm.css';
+
 
 const ProjectCreateForm = () => {
   const dispatch = useDispatch();
