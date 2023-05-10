@@ -295,12 +295,24 @@ router.delete('/:projectId', requireUser, async (req,res,next) =>{
         return res.json({message:"User not allowed to modify this project"});
     }
 
+    // remove this project ID from all our user's project lists
     const removeProjectIdsFromUsers = await User.updateMany({}, { $pull: { projects: projectId } });
-
     console.log(removeProjectIdsFromUsers, "result of removing the project from users");
 
-    const deleteResult = await Project.deleteOne({"_id":`${projectId}`});
+    // get the tasks from the project, so we can delete them from the user's assigned tasks list
+    const tasks = project.tasks;
+    console.log("tasks queued up for removal", tasks);
 
+    // convert the tasks list to a taskId list
+    const taskIds = tasks.map(t => t._id);
+    console.log("task Ids queued up for removal", taskIds);
+
+    // remove these tasks from users
+    const removeTaskIdsFromUsers = await User.updateMany({}, {$pull: {assignedTasks: { $in: taskIds} }})
+    console.log(removeTaskIdsFromUsers, "result of removing taskIds from users assigned tasks");
+
+    // remove the project
+    const deleteResult = await Project.deleteOne({"_id":`${projectId}`});
     console.log(deleteResult, "result of removing the project");
 
     if(deleteResult.deletedCount === 1) {
