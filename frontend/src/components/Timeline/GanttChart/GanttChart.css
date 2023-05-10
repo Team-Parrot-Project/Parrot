@@ -39,7 +39,7 @@
   user-select: none;
 }
 .gantt .bar-progress {
-  fill: #a3a3ff;
+  fill: #8686d1;
 }
 .gantt .bar-invalid {
   fill: transparent;
