@@ -7,13 +7,14 @@ import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
 import configureStore from './store/store';
 import jwtFetch from './store/jwt';
+import { fetchProject } from './store/project';
 
 const store = configureStore();
 
 if (process.env.NODE_ENV !== "production") {
   window.store = store;
   window.jwtFetch = jwtFetch;
-  
+  window.fetchProject = fetchProject;
 }
 
 const rootElement = document.getElementById('root');

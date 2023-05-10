@@ -29,6 +29,7 @@ export const projectReducer = (state = {},action) =>{
     const newState = {...state};
     switch(action.type){
         case ADD_PROJECT:
+            console.log(action.project)
             return {...state, [action.project._id]: action.project}
         case ADD_PROJECTS:
             return {...action.projects}
@@ -58,11 +59,11 @@ export const getProjects = (state)=>{
     }
 }
 
-export const fetchProject = (projectId)=>async dispatch=>{
+export const fetchProject = (projectId) => async dispatch=>{
     let res = await jwtFetch(`/api/projects/${projectId}`)
     if(res.ok){
         let data = await res.json();
-        dispatch(addProject(data));
+        dispatch(addProject(data[projectId]));
     }
 }
 
