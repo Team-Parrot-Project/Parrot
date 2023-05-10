@@ -11,11 +11,12 @@ function UserProjectIndex() {
   const currentUser = useSelector(selectUser);
 
   useEffect(() => {
-    dispatch(userActions.fetchUser(currentUser._id));
-  }, [dispatch]);
+
+    if (currentUser) dispatch(userActions.fetchUser(currentUser._id));
+  }, [currentUser._id, dispatch]);
 
   const userProjects = allProjects.filter(
-    (project) => project.adminId === currentUser.id
+    (project) => project.adminId === currentUser._id
   );
 
   return (
