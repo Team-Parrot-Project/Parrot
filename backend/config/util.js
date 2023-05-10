@@ -1,5 +1,5 @@
 
-// 
+// TODO need to make the admin check work here and likely break out a separate admin only check. Currently any collaborator has full CRUD access to their projects
 function userOnProject(project, userId) {
     console.log(userId, "this is userid in uop");
     console.log(project.adminId, "this is adminid in uop");
