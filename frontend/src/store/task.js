@@ -1,9 +1,11 @@
 import jwtFetch from "./jwt";
-import { ADD_PROJECT } from "./project";
+import { ADD_PROJECT, ADD_PROJECTS } from "./project";
 
 const ADD_TASK = 'Task/addTask';
 const ADD_TASKS = 'Task/addTasks'
 const REMOVE_TASK = 'Task/removeTask';
+const PURGE_TASKS = 'Task/purgeTasks';
+
 
 export const addTask = (task)=>{
     return {
@@ -26,11 +28,18 @@ export const removeTask = (taskId)=>{
     }
 }
 
-export const taskReducer = (state = {},action) =>{
+export const purgeTasks = ()=>{
+    return {
+        type: PURGE_TASKS
+    }
+}
+const defaultState = {};
+
+export const taskReducer = (state = defaultState,action) =>{
     const newState = {...state};
     switch(action.type){
         case ADD_TASK:
-            return {...state, [action.task.id]: action.task}
+            return {...state, [action.task._id]: action.task}
         case ADD_TASKS:
             return {...action.tasks}
         case REMOVE_TASK:
@@ -42,6 +51,17 @@ export const taskReducer = (state = {},action) =>{
                 newState[task._id] = task;
             })
             return newState;
+        case ADD_PROJECTS:
+            const projectArray = action.projects;
+            projectArray?.forEach(project=>{
+                const taskArray = project.tasks;
+                taskArray?.forEach(task =>{
+                    newState[task._id] = task;
+                })
+            })
+            return newState;
+        case PURGE_TASKS:
+            return defaultState;
         default:
             return state;
     }
@@ -82,12 +102,13 @@ export const createTask = (projectId,task)=>async dispatch =>{
     })
     if(res.ok){
         let data = await res.json();
+        console.log(data,"task data")
         dispatch(addTask(data));
     }
 }
 
 export const updateTask = (projectId,task)=> async dispatch =>{
-    let res = await jwtFetch(`/api/projects/${projectId}/tasks/${task.id}`,{
+    let res = await jwtFetch(`/api/projects/${projectId}/tasks/${task._id}`,{
         method: "PATCH",
         body: JSON.stringify(task),
         headers: {
@@ -96,6 +117,7 @@ export const updateTask = (projectId,task)=> async dispatch =>{
     });
     if(res.ok){
         let data = await res.json();
+        console.log(data,"update task data")
         dispatch(addTask(data));
     }
 }

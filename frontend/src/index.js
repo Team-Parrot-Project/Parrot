@@ -8,6 +8,7 @@ import { BrowserRouter } from 'react-router-dom';
 import configureStore from './store/store';
 import jwtFetch from './store/jwt';
 import { fetchProject } from './store/project';
+import { Modal, ModalProvider } from './context/Modal';
 
 const store = configureStore();
 
@@ -21,13 +22,13 @@ const root = ReactDOM.createRoot(rootElement);
 
 function Root() {
   return (
-
+    <ModalProvider>
       <Provider store={store}>
         <BrowserRouter>
           <App />
         </BrowserRouter>
       </Provider>
-
+    </ModalProvider>
   );
 }
 

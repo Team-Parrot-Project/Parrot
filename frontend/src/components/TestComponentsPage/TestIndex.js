@@ -1,25 +1,29 @@
-import React from 'react';
+
+import React, { useEffect } from 'react';
 import ProjectCreateForm from '../Project_CRUD/ProjectCreateForm/ProjectCreateForm';
-import TaskCreateForm from '../Task_CRUD/TaskCreateForm/TaskCreateForm';
+import ProjectCreateModal from '../Project_CRUD/ProjectCreateForm';
+import TaskCreateModal from '../Task_CRUD/TaskCreateForm/index';
 import ProjectShow from '../Project_CRUD/ProjectShow/ProjectShow';
-import ProjectUpdateForm from '../Project_CRUD/ProjectUpdateForm/ProjectUpdateForm';
+import ProjectUpdateModal from '../Project_CRUD/ProjectUpdateForm/index';
 import TaskRecomendation from '../UserHome/TaskRecommendation/TaskRecommendation';
-import ProjectDelete from '../Project_CRUD/ProjectDelete/ProjectDelete';
+import ProjectDeleteModal from '../Project_CRUD/ProjectDelete/ProjectDeleteModal';
 import TaskShow from '../Task_CRUD/TaskShow/TaskShow';
-import TaskUpdateForm from '../Task_CRUD/TaskUpdateForm/TaskUpdateForm';
+import TaskUpdateModal from '../Task_CRUD/TaskUpdateForm/index';
+import DeleteTask from '../Task_CRUD/TaskDelete/TaskDelete';
 import './TestIndex.css';
 
 export default function TestPage () {
+
   return (
       <div className="testingComponents">
-        <ProjectCreateForm />
-        <ProjectShow projectId="645b1d32fb7e41fd035603a9"/>
-        <ProjectUpdateForm projectId="645b1d32fb7e41fd035603a9"/>
-        <ProjectDelete/>
-        <TaskCreateForm />
-        <TaskRecomendation title="Productivity App" description="The goal of this project is to develop a producitivty web app utilizing a MERN stack" startDate="2023-05-09T00:00:00.000Z" endDate="2023-05-10T00:00:00.000Z" />
-        <TaskShow taskId="645bd51881ad6e27a7da1e9c"/>
-        <TaskUpdateForm taskId="645bd51881ad6e27a7da1e9c"/>
+        <ProjectCreateModal/>
+        <TaskCreateModal />
+        <ProjectShow projectId="645c0ae85a55a470b69c5ba3"/>
+        <TaskShow taskId="645c0cc55a55a470b69c5bcb"/>
+        <ProjectDeleteModal/>
+        <DeleteTask/>
+        <ProjectUpdateModal projectId="645c0ae85a55a470b69c5ba3"/>
+        <TaskUpdateModal taskId="645c0cc55a55a470b69c5bcb" projectId="645c0ae85a55a470b69c5ba3"/>
       </div>
   );
 }
