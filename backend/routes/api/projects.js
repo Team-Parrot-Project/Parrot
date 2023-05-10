@@ -93,10 +93,10 @@ router.patch('/:projectId', requireUser, async (req,res,next) =>{
 
         const updatedProject = await Project.findOneAndUpdate(
             { _id: projectId },
-            { $set: req.body.project },
+            { $set: req.body },
             { new: true }
         );
-
+        
         return res.json(updatedProject);
     } else {
         return res.json({message:"Error"})
