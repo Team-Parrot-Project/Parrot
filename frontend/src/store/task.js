@@ -37,7 +37,11 @@ export const taskReducer = (state = {},action) =>{
             delete newState[action.taskId]
             return newState
         case ADD_PROJECT:
-            return {...action.project.tasks}
+            const taskArray = action.project.tasks;
+            taskArray?.forEach(task=>{
+                newState[task._id] = task;
+            })
+            return newState;
         default:
             return state;
     }
