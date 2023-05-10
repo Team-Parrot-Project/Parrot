@@ -45,9 +45,9 @@ export default function ProjectUpdateForm({ projectId }) {
       startDate: startDate,
       endDate: endDate,
     };
-
+    console.log(updatedProject,"updatedProject")
     try {
-      await dispatch(updateProject(updatedProject));
+      dispatch(updateProject(updatedProject));
       alert('Project updated successfully!');
     } catch (err) {
       alert('Failed to update project. Please try again later.');

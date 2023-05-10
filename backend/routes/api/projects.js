@@ -97,10 +97,9 @@ router.post('/', async (req,res,next) =>{
     console.log(adminId,"adminId")
     const owner = await User.findOne({"_id":`${adminId}`})
     if(await newProject.save()){
-        console.log(owner.projects,"owner projects")
         owner.projects.push(newProject)
         await owner.save();
-        console.log(owner.projects,"owner projects")
+        console.log(newProject._id,"Project _id")
         return res.json(newProject);
     }else{
         return res.json({message:"Error"})
@@ -125,10 +124,10 @@ router.patch('/:projectId', requireUser, async (req,res,next) =>{
 
         const updatedProject = await Project.findOneAndUpdate(
             { _id: projectId },
-            { $set: req.body.project },
+            { $set: req.body },
             { new: true }
         );
-
+        
         return res.json(updatedProject);
     } else {
         return res.json({message:"Error"})
