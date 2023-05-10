@@ -10,11 +10,11 @@ function UserProjectIndex() {
   const currentUser = useSelector(selectUser);
 
   useEffect(() => {
-    dispatch(getProjects());
-  }, [dispatch]);
+    if (currentUser) dispatch(fetchUser(currentUser._id));
+  }, [currentUser._id, dispatch]);
 
   const userProjects = allProjects.filter(
-    (project) => project.adminId === currentUser.id
+    (project) => project.adminId === currentUser._id
   );
 
   return (
@@ -22,7 +22,7 @@ function UserProjectIndex() {
       <h2>Your Projects</h2>
       <ul>
         {userProjects.map((project) => (
-          <li key={project.id}>
+          <li key={project._id}>
             <h3>{project.title}</h3>
             <p>{project.description}</p>
             <p>

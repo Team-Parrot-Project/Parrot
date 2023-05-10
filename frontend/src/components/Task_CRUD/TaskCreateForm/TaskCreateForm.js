@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import './TaskCreateForm.css';
-import  {useDispatch} from 'react-redux';
+import  { useDispatch, useSelector } from 'react-redux';
 import { createTask } from '../../../store/task';
 
 const TaskCreateForm = ({ users }) => {
@@ -9,6 +9,9 @@ const TaskCreateForm = ({ users }) => {
   const [description, setDescription] = useState('');
   const [dueDate, setDueDate] = useState('');
   const [assignee, setAssignee] = useState('');
+
+  const currentUser = useSelector(state => state.session.user);
+  const projectId = "645b1d32fb7e41fd035603a9";
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -29,7 +32,7 @@ const TaskCreateForm = ({ users }) => {
 
     try {
       // Send a POST request to the server to save the new task
-      const response = dispatch(createTask(newTask));
+      const response = dispatch(createTask(projectId, newTask));
 
       // Update the UI to indicate that the task has been created
       alert('Task created successfully!');
@@ -75,6 +78,7 @@ const TaskCreateForm = ({ users }) => {
         {users?.map(user => (
           <option key={user._id} value={user._id}>{user.name}</option>
         ))}
+        <option value={currentUser.username}>{currentUser.username}</option>
       </select>
       <button type="submit">Create Task</button>
     </form>
