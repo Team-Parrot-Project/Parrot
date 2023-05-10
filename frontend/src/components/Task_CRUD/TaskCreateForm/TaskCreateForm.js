@@ -9,7 +9,7 @@ const TaskCreateForm = ({ users }) => {
   const [description, setDescription] = useState('');
   const [dueDate, setDueDate] = useState('');
   const [assignee, setAssignee] = useState('');
-
+  const [status, setStatus] = useState('');
   const currentUser = useSelector(state => state.session.user);
   const projectId = "645c0ae85a55a470b69c5ba3";
 
@@ -26,13 +26,15 @@ const TaskCreateForm = ({ users }) => {
     const newTask = {
       title: title,
       description: description,
-      dueDate: dueDate,
+      startDate: dueDate,
+      endDate: dueDate,
+      status: status,
       assignee: assignee,
     };
 
     try {
       // Send a POST request to the server to save the new task
-      const response = dispatch(createTask(projectId, newTask));
+      dispatch(createTask(projectId, newTask));
 
       // Update the UI to indicate that the task has been created
       alert('Task created successfully!');
@@ -60,6 +62,12 @@ const TaskCreateForm = ({ users }) => {
         id="description"
         value={description}
         onChange={(e) => setDescription(e.target.value)}
+      />
+      <label htmlFor="status">Status:</label>
+      <input
+        id="status"
+        value={status}
+        onChange={(e) => setStatus(e.target.value)}
       />
       <label htmlFor="dueDate">Due Date:</label>
       <input
