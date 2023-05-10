@@ -160,10 +160,10 @@ router.delete('/:projectId/tasks/:taskId', requireUser, async (req,res,next)=>{
 
         await project.save();
 
-        return res.json({msg: "Deletion complete"});
+        return res.json({message: "Deletion complete"});
     } else {
 
-        return res.json({msg: "project or task not found or insufficient priveleges"});
+        return res.json({message: "project or task not found or insufficient priveleges"});
     }
 
 
@@ -281,27 +281,32 @@ router.patch('/:projectId', requireUser, async (req,res,next) =>{
 
 
 router.delete('/:projectId', requireUser, async (req,res,next) =>{
-    //Probably has to somehow DeleteMany Collaborators or iterate somehow
+
+    console.log("in DELETE /:projectId");
+
     const projectId = req.params.projectId;
 
     const project = await Project.findOne({"_id":`${projectId}`});
-    console.log(project, "PROJECT!!");
-    console.log("HERE I AM!!");
-    console.log(req.user._id, "loged in as")
 
-    if (project && userOnProject(project, req.user._id)) {
-        console.log("There I AM!!");
-        const deleteResult = await Project.deleteOne({"_id":`${projectId}`});
-        console.log(deleteResult.ok, "DELETE OK");
-        console.log(deleteResult, "DELETE Result");
-        if(deleteResult.deletedCount === 1) {
-            return res.json({message: "Successful Delete"});
-        } else {
-            return res.json({message:"Issue with Delete"});
-        }
+    if(!project) {
+        return res.json({message:"No project found"});
     }
-    {
-        return res.json({message:"Not found or permitted"});
+    if(!userOnProject(project, req.user._id)) {
+        return res.json({message:"User not allowed to modify this project"});
+    }
+
+    const removeProjectIdsFromUsers = await User.updateMany({}, { $pull: { projects: projectId } });
+
+    console.log(removeProjectIdsFromUsers, "result of removing the project from users");
+
+    const deleteResult = await Project.deleteOne({"_id":`${projectId}`});
+
+    console.log(deleteResult, "result of removing the project");
+
+    if(deleteResult.deletedCount === 1) {
+        return res.json({message: "Successful Delete"});
+    } else {
+        return res.json({message:"Issue with Delete"});
     }
 });
 
