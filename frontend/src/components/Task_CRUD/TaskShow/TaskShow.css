@@ -1,0 +1,18 @@
+/* Task Show */
+.task-show-container {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.task-show-title {
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+.task-show-description {
+    margin-bottom: 10px;
+}
+
+.task-show-due-date {
+    font-style: italic;
+}
