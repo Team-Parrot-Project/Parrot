@@ -68,7 +68,6 @@
   font-size: 12px;
   height: 28px;
   line-height: 28px;
-  padding: 0 8px;
   cursor: pointer;
   transition: color 200ms ease-in-out,fill 200ms ease-in-out;
   min-width: 1px;
@@ -79,6 +78,7 @@
   justify-content: center;
   overflow: hidden;
   user-select: none;
+
 }
 
 .child-user-dashboard-widget-select-date-container:hover {
@@ -93,18 +93,11 @@
   white-space: nowrap;
 }
 
-.user-dashboard-widget-select-date-icon {
-  overflow: hidden;
-  margin-left: 4px;
-  flex: 0 0 auto;
-  height: 12px;
-  width: 12px;
-}
-
 .user-dashboard-widget-divider {
   border-right: 1px solid #424244;
   height: 24px;
   transition: border-right 200ms ease-in-out;
+  margin-right: 20px;
 }
 
 .parent-user-dashboard-project-task-stats {
@@ -184,8 +177,8 @@
   transition-duration: 200ms;
   transition-property: border-color, box-shadow;
   display: block;
-  margin-right: 5%;
-  margin-left: 3%;
+  margin-right: 1%;
+  margin-left: 2%;
 }
 
 .user-dashboard-tasks-container:hover {
@@ -196,7 +189,7 @@
 .user-dashboard-projects-container {
   width: 48%;
   padding: 20px;
-  margin-right: 40px;
+  margin-right: 30px;
   border: 1px solid #424244;
   border-radius: 8px;
   box-shadow: #424244;
