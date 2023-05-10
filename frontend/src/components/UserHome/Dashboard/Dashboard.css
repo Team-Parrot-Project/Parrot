@@ -22,16 +22,24 @@
 }
 
 .user-dashboard-greeting {
-  margin: 0;
-  font-size: 2rem;
+  font-size: 32px;
+  line-height: 40px;
   color: #ffffff;
+  transition: color 200ms ease-in-out;
+  text-align: center;
+  font-weight: 400;
+  font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Helvetica,Arial,sans-serif;
 }
 
 .user-dashboard-date {
-  margin: 0;
-  font-size: 1.25rem;
+  font-size: 16px;
+  line-height: 20px;
+  margin-bottom: 4px;
   color: #ffffff;
-  margin-bottom: 20px;
+  transition: color 200ms ease-in-out;
+  text-align: center;
+  font-weight: 500;
+  font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Helvetica,Arial,sans-serif;
 }
 
 .dropdown-container {
@@ -100,7 +108,7 @@
 }
 
 .parent-user-dashboard-project-task-stats {
-  margin-right: 16px;
+  margin-right: 50px;
   color: #a2a0a2;
   fill: #a2a0a2;
   transition: color 200ms ease-in-out,fill 200ms ease-in-out;
@@ -120,13 +128,12 @@
 
 .user-dashboard-project-task-number-check-icon {
   overflow: hidden;
-
   height: 16px;
   width: 16px;
 }
 
 .parent-user-dashboard-project-task-number-ticker-container {
-  margin: 0 4px;
+  margin: 0 6px;
 }
 
 .user-dashboard-project-task-number-ticker {
@@ -143,60 +150,21 @@
   color: #ffffff;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 .user-dashboard-project-task-container-title-x {
   font-size: 1.1rem;
   color: #ffffff;
   margin-bottom: 20px;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 .user-dashboard-project-quick-stats {
   display: flex;
 }
 
 .user-dashboard-project-quick-stats-title {
-  margin-right: 20px;
+  font-size: 12px;
+  line-height: 18px;
+  font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Helvetica,Arial,sans-serif;
 }
-
 
 .user-dashboard-project-task-container {
   display: flex;

@@ -1,7 +1,10 @@
 import { useState, useEffect } from 'react';
+import { useSelector } from 'react-redux';
 
-export default function UserGreeting( userName ) {
+export default function UserGreeting(  ) {
   const [greeting, setGreeting] = useState('');
+  const userName = useSelector(state => state.session.user.username);
+
 
   useEffect(() => {
     const getGreeting = () => {
@@ -23,5 +26,5 @@ export default function UserGreeting( userName ) {
     getGreeting();
   }, []);
 
-  return ({greeting}, {userName});
+  return (<>{greeting}, {userName}</>);
 };
