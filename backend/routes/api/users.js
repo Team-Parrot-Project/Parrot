@@ -30,7 +30,7 @@ router.get('/current', restoreUser, (req, res) => {
 router.get('/:userid', async (req, res, next)=>{
   const userId = req.params.userid 
   console.log(userId,'userId')
-  const user = await User.findOne({"_id":`${userId}`})
+  const user = await User.findOne({"_id":`${userId}`}).populate("projects").populate("assignedTasks")
   //Users show needs full populate on tasks, projects, and needs to hide password 
   //Might need to delete the password hash in memory or select subset 
   return res.json(user)
