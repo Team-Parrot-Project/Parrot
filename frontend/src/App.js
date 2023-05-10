@@ -26,13 +26,19 @@ export default function App() {
         </Route>
 
       <Route path={"/"}>
-          <SignupForm />
+          <TaskItem>
+          /projects/:projectid component={ProjectHome}
+          /projects/:projectid/list <ProjectTaskList> (Table of Tasks)
+          /projects/:projectid/timeline <ProjectTimeline> (Gant)
+              
+              
         </Route> */}
 
         <AuthRoute exact path="/" component={Splash} />
         <AuthRoute exact path="/login" component={LoginForm} />
 
         <ProtectedRoute exact path="/home" component={UserHome} />
+        #
         <ProtectedRoute exact path='/test' component={TestPage} />
 
       </Switch>

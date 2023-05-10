@@ -1,21 +1,16 @@
 import { useState } from "react";
+import * as projectActions from "../../../store/project";
+import { useDispatch } from "react-redux";
 
 export default function DeleteProject(props) {
+    const dispatch = useDispatch();
     const [isDeleting, setIsDeleting] = useState(false);
 
     const handleDelete = async () => {
         setIsDeleting(true);
         const projectId = props.projectId; // assuming projectId is passed as a prop
-        try {
-            const response = await fetch(`/api/projects/${projectId}`, {
-                method: "DELETE"
-            });
-            setIsDeleting(false);
-            // handle successful deletion here
-        } catch (error) {
-            setIsDeleting(false);
-            // handle error here
-        }
+        dispatch(projectActions.deleteProject(projectId))
+        setIsDeleting(false);
     };
 
     return (

@@ -99,6 +99,9 @@ export const updateProject = (project)=> async dispatch =>{
 export const deleteProject = (projectId)=>async dispatch =>{
     let res = await jwtFetch(`/api/projects/${projectId}`,{
         method: "DELETE",
+        headers: {
+            'Content-Type':'application/json'
+        }
     })
     if(res.ok){
         dispatch(removeProject(projectId));
