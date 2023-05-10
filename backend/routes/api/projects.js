@@ -5,7 +5,7 @@ const Project = mongoose.model('Project');
 const User = mongoose.model('User');
 const { isProduction } = require('../../config/keys');
 const { requireUser } = require('../../config/passport');
-const { userOnProject, projectParams } = require('../../config/util');
+const { userOnProject, projectParams, taskProtector } = require('../../config/util');
 const jbuilder = require('jbuilder');
 const { Task } = require('../../models/Project');
 
@@ -65,7 +65,7 @@ router.post('/:projectId/tasks', requireUser, async (req,res,next)=>{
 
     if (project && userOnProject(project, req.user._id)) {
 
-        const newTask = new Task (req.body.task);
+        const newTask = new Task (req.body);
         console.log(newTask, "newTask")
 
         project.tasks.push(newTask);
@@ -73,7 +73,7 @@ router.post('/:projectId/tasks', requireUser, async (req,res,next)=>{
         try {
             const savedProject = await project.save();
             console.log(savedProject, "savedProject")
-            return res.json(savedProject);
+            return res.json({task: newTask, projectId});
         } catch (error) {
             return res.json(error);
         }
@@ -83,38 +83,33 @@ router.post('/:projectId/tasks', requireUser, async (req,res,next)=>{
 })
 
 router.patch('/:projectId/tasks/:taskId', requireUser, async (req,res,next)=>{
+    
     console.log("in PATCH /:projectId/tasks/:taskId");
 
     const projectId = req.params.projectId;
     const taskId = req.params.taskId;
-
-    console.log(projectId, "projectId");
-    console.log(taskId, "taskId");
+    // console.log(taskId, "taskId");
     
     const project = await Project.findOne({"_id":`${projectId}`})
+    const task = project.tasks.id(taskId);
 
-    console.log(project,'project');
+    if (project && userOnProject(project, req.user._id) && task) {
+        
+        // the special version to be sent to the back end
+        const updatedTask = {
+            ...task.toObject(),
+            projectId: project._id,
+            ...req.body,
+          };
+        
+        // updating the task with the body
+        Object.assign(task, req.body)
 
-    const task = project.tasks.find((t) => {
-        t._id === taskId;
-    })
+        // saving the project, which will save the task
+        await project.save();
+        
+        return res.json(updatedTask);
 
-    console.log(task,'task');
-
-    if (project && task && userOnProject(project, req.user._id)) {
-
-        // const newTask = new Task (req.body.task);
-        // console.log(newTask, "newTask")
-
-        // project.tasks.push(newTask);
-
-        // try {
-        //     const savedProject = await project.save();
-        //     console.log(savedProject, "savedProject")
-        //     return res.json(savedProject);
-        // } catch (error) {
-        //     return res.json(error);
-        // }
     } else {
         return res.json("No project or save not permitted");
     }
