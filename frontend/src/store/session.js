@@ -59,6 +59,11 @@ export const getUser = (state) => {
   return userId ? userId : null;
 };
 
+export const selectUser = (state) => {
+  const user = state.session.user;
+  return user ? user : null;
+};
+
 const nullErrors = null;
 
 export const sessionErrorsReducer = (state = nullErrors, action) => {
