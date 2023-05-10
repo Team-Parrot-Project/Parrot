@@ -5,7 +5,6 @@ export const ADD_PROJECTS = 'project/addProjects'
 const REMOVE_PROJECT = 'project/removeProject';
 
 export const addProject = (project)=>{
-    console.log(project)
     return {
         type: ADD_PROJECT,
         project: project
