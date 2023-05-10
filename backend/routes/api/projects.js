@@ -7,6 +7,7 @@ const { isProduction } = require('../../config/keys');
 const { requireUser } = require('../../config/passport');
 const { userOnProject, projectParams } = require('../../config/util');
 const jbuilder = require('jbuilder');
+const { Task } = require('../../models/Project');
 
 // 645a748b33dbf64bdcb0e658
 
@@ -51,6 +52,36 @@ router.get('/:projectid', requireUser, async (req,res,next)=>{
     }
 });
 
+router.post('/:projectId/tasks', requireUser, async (req,res,next)=>{
+    console.log("HERE I AM");
+
+    const projectId = req.params.projectId;
+
+    console.log(projectId, "PID");
+    // find the project
+
+    const project = await Project.findOne({"_id":`${projectId}`})
+    // console.log(project, "This is the project")
+
+    if (project && userOnProject(project, req.user._id)) {
+
+        const newTask = new Task (req.body.task);
+        console.log(newTask, "newTask")
+
+        project.tasks.push(newTask);
+
+        try {
+            const savedProject = await project.save();
+            console.log(savedProject, "savedProject")
+            return res.json(savedProject);
+        } catch (error) {
+            return res.json(error);
+        }
+    } else {
+        return res.json("No project or save not permitted");
+    }
+})
+
 router.post('/', async (req,res,next) =>{
     //This is probably done
     const adminId = req.body.adminId;
@@ -79,12 +110,12 @@ router.post('/', async (req,res,next) =>{
 router.patch('/:projectId', requireUser, async (req,res,next) =>{
     //This is where new collaborators will probably go
 
-    console.log(req.params, "PARAMS");
+    // console.log(req.params, "PARAMS");
 
     const projectId = req.params.projectId
 
-    console.log(req.body, "REQUEST BOD")
-    console.log(req.body.project, "REQUEST PROJ")
+    // console.log(req.body, "REQUEST BOD")
+    // console.log(req.body.project, "REQUEST PROJ")
 
     const project = await Project.findOne({"_id":`${projectId}`})
 
