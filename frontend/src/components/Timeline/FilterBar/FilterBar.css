@@ -1,0 +1,8 @@
+.gantt-filter-bar {
+  display: flex;
+  width: 100vw;
+}
+
+.gantt-filter-group {
+  margin-right: 30px;
+}
