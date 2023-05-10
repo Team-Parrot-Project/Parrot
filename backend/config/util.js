@@ -67,8 +67,13 @@ function taskProtector(taskUpdates, existingTask) {
     return existingTask;
 }
 
+function stringifyCompare(firstEle, secondEle) {
+    return JSON.stringify(firstEle) === JSON.stringify(secondEle);
+}
+
 module.exports = {
     userOnProject,
     projectParams,
-    taskProtector
+    taskProtector,
+    stringifyCompare
 }
