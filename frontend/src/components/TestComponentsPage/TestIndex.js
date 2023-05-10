@@ -5,6 +5,8 @@ import ProjectShow from '../Project_CRUD/ProjectShow/ProjectShow';
 import ProjectUpdateForm from '../Project_CRUD/ProjectUpdateForm/ProjectUpdateForm';
 import TaskRecomendation from '../UserHome/TaskRecommendation/TaskRecommendation';
 import ProjectDelete from '../Project_CRUD/ProjectDelete/ProjectDelete';
+import TaskShow from '../Task_CRUD/TaskShow/TaskShow';
+import TaskUpdateForm from '../Task_CRUD/TaskUpdateForm/TaskUpdateForm';
 import './TestIndex.css';
 
 export default function TestPage () {
@@ -16,6 +18,8 @@ export default function TestPage () {
         <ProjectDelete/>
         <TaskCreateForm />
         <TaskRecomendation title="Productivity App" description="The goal of this project is to develop a producitivty web app utilizing a MERN stack" startDate="2023-05-09T00:00:00.000Z" endDate="2023-05-10T00:00:00.000Z" />
+        <TaskShow taskId="645bd51881ad6e27a7da1e9c"/>
+        <TaskUpdateForm taskId="645bd51881ad6e27a7da1e9c"/>
       </div>
   );
 }

@@ -5,7 +5,7 @@ const Project = mongoose.model('Project');
 const User = mongoose.model('User');
 const { isProduction } = require('../../config/keys');
 const { requireUser } = require('../../config/passport');
-const { userOnProject, projectParams, taskProtector } = require('../../config/util');
+const { userOnProject, projectParams, taskProtector, stringifyCompare } = require('../../config/util');
 const jbuilder = require('jbuilder');
 const { Task } = require('../../models/Project');
 
@@ -181,8 +181,10 @@ router.post('/', async (req,res,next) =>{
         startDate: req.body.startDate,
         endDate: req.body.endDate
     });
+
     console.log(adminId,"adminId")
     const owner = await User.findOne({"_id":`${adminId}`})
+
     if(await newProject.save()){
         owner.projects.push(newProject)
         await owner.save();
@@ -196,7 +198,7 @@ router.post('/', async (req,res,next) =>{
 router.patch('/:projectId', requireUser, async (req,res,next) =>{
     //This is where new collaborators will probably go
 
-    // console.log(req.params, "PARAMS");
+    console.log("in PATCH /:projectId");
 
     const projectId = req.params.projectId
 
@@ -205,19 +207,75 @@ router.patch('/:projectId', requireUser, async (req,res,next) =>{
 
     const project = await Project.findOne({"_id":`${projectId}`})
 
-    if (project && userOnProject(project, req.user._id)) {
-        // const strongProj = projectParams(req.body.project);
-        // console.log(strongProj, "Strong Proj");
+    // error handling
+    if(!project) {
+        return res.json({message:"Project Not Found"})
+        // const err = new Error('Project Not Found');
+        // err.statusCode = 404;
+        // next(err);
+    }
 
-        const updatedProject = await Project.findOneAndUpdate(
-            { _id: projectId },
-            { $set: req.body },
-            { new: true }
-        );
-        
+    if(!userOnProject(project, req.user._id)) {
+        return res.json({message:"User not authorized to modify this project"})
+        // const err = new Error('User not authorized to modify this project');
+        // err.statusCode = 401;
+        // next(err);
+    }
+
+    // if we make it through error handling, it's update time. First need to check whether we need to make collaborator updates
+
+    // if there are collaborators, we need to compare incoming list to the outgoing list to see what removals need to be made from these users
+    if (project.collaborators) {
+        // get the prior collaborators as a sorted string of IDs
+        const priorCollaborators = project.collaborators.map(c => (c.toString())).sort();
+
+        const incomingCollaborators = req.body.collaborators.sort()
+
+        console.log(priorCollaborators, "Prior");
+        console.log(incomingCollaborators, "Incoming");
+
+        // console.log(JSON.stringify(priorCollaborators) === JSON.stringify(incomingCollaborators), "Comparison");
+
+        const sameCollaborators = stringifyCompare(priorCollaborators, incomingCollaborators);
+
+        // console.log(differentCollaborators);
+
+        if(!sameCollaborators) {
+            const removedCollaborators = priorCollaborators.filter(c => !incomingCollaborators.includes(c));
+            const addedCollaborators = incomingCollaborators.filter(c => !priorCollaborators.includes(c));
+
+            console.log(removedCollaborators, "removedCollaborators");
+            console.log(addedCollaborators, "addedCollaborators");
+
+            const removeProjectIdsFromUsers = await User.updateMany({_id: {$in: removedCollaborators} }, { $pull: {projects: projectId}})
+
+            const addProjectIdsToUsers = await User.updateMany({_id: {$in: addedCollaborators} }, { $push: {projects: projectId}})
+
+            console.log(removeProjectIdsFromUsers, "results of removing the IDs");
+            console.log(addProjectIdsToUsers, "results of removing the IDs");
+        }
+    }
+
+    // const new
+
+    // console.log(priorCollaborators);
+
+    // const strongProj = projectParams(req.body.project);
+    // console.log(strongProj, "Strong Proj");
+
+    const updatedProject = await Project.findOneAndUpdate(
+        { _id: projectId },
+        { $set: req.body },
+        { new: true }
+    );
+    
+    if(updatedProject) {
         return res.json(updatedProject);
     } else {
-        return res.json({message:"Error"})
+        return res.json({message:"Problem with project update"})
+        // const err = new Error('Problem with project update');
+        // err.statusCode = 422;
+        // next(err);
     }
 });
 
