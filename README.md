@@ -10,7 +10,7 @@ This is a productivity web application built using the MERN stack (MongoDB, Expr
 - Track progress
 
 ## Documentation
-- [Live Link](https://parrot.herokuapp.com/login)
+- [Live Link](https://parrot.herokuapp.com/)
 - [Project Tracker](https://docs.google.com/document/d/1y7YsEo5ywrUcT6iupA0Nfy0FkMEpntL4xumSv0AWYNM/edit)
 - [Project Info Sheet](https://docs.google.com/spreadsheets/d/11ZwzgrAEW6-UBbEpLIPpx7V_A7FyBuGG3XOWnFhZifg/edit#gid=0)
 - [Wireframes](https://github.com/rodmen07/mern-productivity-app/files/11415581/Just-Do-It---Wireframe-cc-Premium1683331831.pdf)
