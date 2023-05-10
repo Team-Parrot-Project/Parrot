@@ -1,19 +1,35 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { getTask, updateTask } from "../../../store/task";
+import { fetchProject, getProject } from "../../../store/project";
 
-export default function TaskUpdateForm({taskId}) {
+export default function TaskUpdateForm({taskId,projectId}) {
     const dispatch = useDispatch();
+    const [title, setTitle] = useState('');
+    const [description, setDescription] = useState('');
+    const [dueDate, setDueDate] = useState('');
     const task = useSelector(getTask(taskId));
-    console.log(task);
-    const [title, setTitle] = useState(task.title);
-    const [description, setDescription] = useState(task.description);
-    const [dueDate, setDueDate] = useState(task.dueDate);
+
+    useEffect(()=>{
+        if(task){
+        setTitle(task.title);
+        setDescription(task.description);
+        setDueDate(task.endDate); }
+    },[task,setTitle,setDescription,setDueDate])
+
+    // console.log(task);
+    if(task){
+    }
+
+    useEffect(()=>{
+        dispatch(fetchProject("645b10f130847c853dd2cbc6"))
+    },[dispatch])
 
     const handleSubmit = (event) => {
         event.preventDefault();
         const updatedTask = {...task, title, description, dueDate};
-        dispatch(updateTask(task.projectId, updatedTask));
+        console.log(updatedTask,"updatedTask")
+        dispatch(updateTask(projectId, updatedTask));
     };
 
     return (

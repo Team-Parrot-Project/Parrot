@@ -100,6 +100,7 @@ router.patch('/:projectId/tasks/:taskId', requireUser, async (req,res,next)=>{
     // console.log(taskId, "taskId");
     
     const project = await Project.findOne({"_id":`${projectId}`})
+    console.log(project.tasks,"project tasks")
     const task = project.tasks.id(taskId);
 
     console.log(task, "task");
