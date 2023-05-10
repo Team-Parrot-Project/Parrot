@@ -2,27 +2,42 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
-
 const cors = require('cors');
 const { isProduction } = require('./config/keys');
-
 const csurf = require('csurf');
 const debug = require('debug');
-
 require('./models/User');
-
 const {Project, Task} = require('./models/Project');
 require('./models/Project');
-
 require('./config/passport');
 const passport = require('passport');
-
 // var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/api/users');
 const csrfRouter = require('./routes/api/csrf');
 const projectsRouter = require('./routes/api/projects');
-
 var app = express();
+const server = require('http').createServer(app);
+const io = require('socket.io')(server, {
+  cors: {
+    origin: "http://localhost:3000"
+  }
+});
+server.listen(5001);
+
+io.on('connection', socket => {
+  console.log(socket.id,'a user connected')
+  socket.on('message',(message)=>{
+    console.log(message,"message")
+    socket.emit("message","Hey from server")
+  })
+  socket.on('join-channel',(room)=>{
+    socket.join(room);
+    socket.to(room).emit("message",`Joined Room`)
+  })
+  socket.on('disconnect',()=>{
+    console.log('disconnecting....')
+  });
+  });
 
 app.use(logger('dev'));
 app.use(express.json());
