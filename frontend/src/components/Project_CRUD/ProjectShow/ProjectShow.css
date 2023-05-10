@@ -25,13 +25,13 @@
   .project-show {
     border-color: #eee;
     background-color: #333;
-  }
+}
 
-  .project-show h2 {
-    color: #eee;
-  }
+.project-show h2 {
+  color: #eee;
+}
 
-  .project-show p {
-    color: #ddd;
-  }
+.project-show p {
+  color: #ddd;
+}
 }
