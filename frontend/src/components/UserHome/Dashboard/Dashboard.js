@@ -2,6 +2,7 @@ import React from 'react';
 import CurrentDate from './Date/Date';
 import UserGreeting from './UserGreeting/UserGreeting';
 import './Dashboard.css';
+import UserProjectIndex from '../../Project_CRUD/UserProjectIndex/UserProjectIndex';
 
 export default function Dashboard() {
 
@@ -111,7 +112,9 @@ export default function Dashboard() {
           </div>
           <div className="user-dashboard-projects-container">
             <h2 className="user-dashboard-project-task-container-title-x">Projects</h2>
-
+                <div className='project-list'>
+                    <UserProjectIndex/>
+                </div>
           </div>
         </div>
       </div >
