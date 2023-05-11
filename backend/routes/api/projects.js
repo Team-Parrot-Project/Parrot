@@ -21,7 +21,7 @@ router.get('/:projectid', requireUser, async (req,res,next)=>{
     //Probably needs task populate, not collaborator populate
 
     // console.log(userOnProject(project, req.user._id), "USERONPROJECT?")
-    console.log(project, "PROJECT!!");
+    // console.log(project, "PROJECT!!");
     // const allP = await Project.find()
 
     // console.log(returnedProject, "RPRP");
@@ -48,65 +48,178 @@ router.get('/:projectid', requireUser, async (req,res,next)=>{
 
         return res.json(nestedProject);
     } else {
-        return res.json("Nothing was found");
+        return res.json({message: "Nothing was found"});
     }
 });
 
 router.post('/:projectId/tasks', requireUser, async (req,res,next)=>{
 
-    console.log("in POST /:projectId/tasks");
+    console.log("in POST /:projectId/tasks\n****\n");
 
     const projectId = req.params.projectId;
+    const assigneeId = req.body.assignee;
 
+    console.log(projectId, "projectId\n****\n");
+    console.log(assigneeId, "assigneeId\n****\n");
 
+    let fetchedAssignee;
+    let project;
+    
     // find the project
-    const project = await Project.findOne({"_id":`${projectId}`})
 
-    if (project && userOnProject(project, req.user._id)) {
+    try {
+        project = await Project.findOne({"_id":`${projectId}`})
+        console.log(project, "project\n****\n");
+    } catch(error) {
+        return res.json(error);
+    }
 
+    // if there is an assigneeId make sure it is valid by looking for the User and making sure they are an admin or collaborator
+    if (project && assigneeId) {
+
+        try {
+            fetchedAssignee = await User.findById(assigneeId);
+            console.log(fetchedAssignee, "fetchedAssignee\n****\n");
+
+            const fetchedAssigneeProjectIds = fetchedAssignee.projects.map(p => p.toString());
+            console.log(fetchedAssigneeProjectIds, "fetchedAssigneeProjectIds\n****\n");
+        
+            const foundProject = fetchedAssigneeProjectIds.includes(projectId);
+            console.log(foundProject, "foundProject\n****\n");
+
+
+            if(!fetchedAssignee) {
+                return res.json({message: "Can't find assignee"});
+            } else if (!userOnProject(project, assigneeId)) {
+                return res.json({message: "assignee is not listed as a collaborator on the project"});
+            } else if (!foundProject) {
+                return res.json({message: "assignee does not have this project on their list of projects"});
+            }
+
+        } catch (error) {
+            return res.json(error);
+        }
+    }
+
+    // perform other validation, ultimately attempting a save
+    if (!project) {
+        return res.json({message: "no project found"});
+    }
+    else if (!userOnProject(project, req.user._id)) {
+        return res.json({message: "logged in user is not a collaborator or admin of the project"});
+    }
+    else {
         const newTask = new Task (req.body);
         // console.log(newTask, "newTask")
-
-        // TODO - check whether there is an assignee on the task and if so and the following are true, add this task to their list. a) user exists, b) user has this project on their list
 
         project.tasks.push(newTask);
 
         try {
             const savedProject = await project.save();
+            console.log(savedProject, "savedProject\n****\n");
 
             const returnedTask = savedProject.tasks.id(newTask._id);
+            console.log(returnedTask, "returnedTask\n****\n");
+
+            
+
+            if(assigneeId) {
+                fetchedAssignee.assignedTasks.push(returnedTask._id)
+                
+                const savedAssigneeResult = await fetchedAssignee.save();
+                console.log(savedAssigneeResult, "savedAssigneeResult\n****\n");
+            }
 
             // embed the project id into the task, for Ryder ;)
             const manipulatedTask = {
                 ...returnedTask.toObject(),
                 projectId: project._id
               };
+            console.log(manipulatedTask, "manipulatedTask\n****\n");
 
             return res.json(manipulatedTask);
         } catch (error) {
             return res.json(error);
         }
-    } else {
-        return res.json("No project or save not permitted");
     }
 })
 
 router.patch('/:projectId/tasks/:taskId', requireUser, async (req,res,next)=>{
 
-    console.log("in PATCH /:projectId/tasks/:taskId");
+    console.log("in PATCH /:projectId/tasks/:taskId\n****\n");
 
     const projectId = req.params.projectId;
+    console.log(projectId, "projectId\n****\n");
+
+    const incomingAssigneeId = req.body.assignee;
+    console.log(incomingAssigneeId, "incomingAssigneeId\n****\n");
+
     const taskId = req.params.taskId;
-    // console.log(taskId, "taskId");
+    console.log(taskId, "taskId\n****\n");
     
-    const project = await Project.findOne({"_id":`${projectId}`})
-    console.log(project.tasks,"project tasks")
+    let project;
+
+    try {
+        project = await Project.findOne({"_id":`${projectId}`})
+        console.log(project, "project\n****\n");
+    } catch (error) {
+        return res.json(error);
+    }
+
     const task = project.tasks.id(taskId);
+    console.log(task, "task\n****\n");
 
-    console.log(task, "task");
+    if (project && task && userOnProject(project, req.user._id)) {
 
-    if (project && userOnProject(project, req.user._id) && task) {
-        console.log("HERE!");
+        console.log(req.body.assignee, "**PAY ATTENTION**")
+
+        // need to check whether the assignee changed and if so - remove this task from the user's list and add it to the incoming user's list
+        const taskPendingSave = Object.assign(task, req.body);
+        console.log(taskPendingSave, "taskPendingSave\n****\n")
+
+        // before moving on, need to check that this is a valid task to save in the first place
+        try {
+            const validateProject = project.validateSync();
+            console.log(validateProject, "validateProject\n****\n");
+        } catch(error) {
+            return res.json(error);
+        }
+
+        // if we received an incoming assignee ID we have to check whether it is different and if so make the relevant changes
+        if((incomingAssigneeId !== undefined) && (incomingAssigneeId !== task.assigneeId.toString())) {
+            // first get the newAssignee
+            // then remove the task from the old assignee, if there is an old assignee
+            try {
+                // attempt to remove the task from the existing assignee, if there is an assignee
+                if(task.assigneeId) {
+                    const oldAssignee = await User.findOneAndUpdate (
+                        {_id: task.assigneeId},
+                        {$pull: {assignedTasks: taskId}},
+                        {new: true}
+                    )
+                    console.log(oldAssignee, "oldAssignee\n****\n")
+
+                    // remove assignee from the task (need to do this in here case incomingAssigneeId is null)
+                    task.assigneeId = undefined;
+                }
+
+                // then add the task to the new assignee, IF it is a non falsey value. Note if it is undefined, then the prior instance will be removed with the if statement above but this one will not run
+                if(incomingAssigneeId) {
+                    const newAssignee = await User.findOneAndUpdate (
+                        {_id: incomingAssigneeId},
+                        {$addToSet: {assignedTasks: taskId}},
+                        {new: true}
+                    )
+                    console.log(newAssignee, "newAssignee\n****\n")
+
+                    task.assigneeId = newAssignee._id;
+                }
+
+            } catch (error) {
+                return res.json(error);
+            }
+
+        }
         
         // the special version to be sent to the back end
         const updatedTask = {
@@ -116,15 +229,19 @@ router.patch('/:projectId/tasks/:taskId', requireUser, async (req,res,next)=>{
           };
         
         // updating the task with the body
-        Object.assign(task, req.body)
 
         // saving the project, which will save the task
-        await project.save();
+        try {
+            await project.save();
+        } catch (error) {
+            return res.json(error);
+        }
+        
         
         return res.json(updatedTask);
 
     } else {
-        return res.json("No project or save not permitted");
+        return res.json({message: "No project or save not permitted"});
     }
 })
 
@@ -151,7 +268,7 @@ router.delete('/:projectId/tasks/:taskId', requireUser, async (req,res,next)=>{
             user.assignedTasks.splice(assignedTaskIndex,1);
 
             await user.save();
-            console.log(user, "user post save");
+            console.log(user, "user post save\n****\n");
         }
 
         // now we remove that task from the project
@@ -161,10 +278,10 @@ router.delete('/:projectId/tasks/:taskId', requireUser, async (req,res,next)=>{
 
         await project.save();
 
-        return res.json({msg: "Deletion complete"});
+        return res.json({message: "Deletion complete"});
     } else {
 
-        return res.json({msg: "project or task not found or insufficient priveleges"});
+        return res.json({message: "project or task not found or insufficient priveleges"});
     }
 
 
@@ -183,13 +300,13 @@ router.post('/', async (req,res,next) =>{
         endDate: req.body.endDate
     });
 
-    console.log(adminId,"adminId")
+    console.log(adminId,"adminId\n****\n")
     const owner = await User.findOne({"_id":`${adminId}`})
 
     if(await newProject.save()){
         owner.projects.push(newProject)
         await owner.save();
-        console.log(newProject._id,"Project _id")
+        console.log(newProject._id,"Project _id\n****\n")
         return res.json(newProject);
     }else{
         return res.json({message:"Error"})
@@ -199,7 +316,7 @@ router.post('/', async (req,res,next) =>{
 router.patch('/:projectId', requireUser, async (req,res,next) =>{
     //This is where new collaborators will probably go
 
-    console.log("in PATCH /:projectId");
+    console.log("in PATCH /:projectId\n****\n");
 
     const projectId = req.params.projectId
 
@@ -232,8 +349,8 @@ router.patch('/:projectId', requireUser, async (req,res,next) =>{
 
         const incomingCollaborators = req.body.collaborators.sort()
 
-        console.log(priorCollaborators, "Prior");
-        console.log(incomingCollaborators, "Incoming");
+        console.log(priorCollaborators, "Prior\n****\n");
+        console.log(incomingCollaborators, "Incoming\n****\n");
 
         // console.log(JSON.stringify(priorCollaborators) === JSON.stringify(incomingCollaborators), "Comparison");
 
@@ -245,15 +362,15 @@ router.patch('/:projectId', requireUser, async (req,res,next) =>{
             const removedCollaborators = priorCollaborators.filter(c => !incomingCollaborators.includes(c));
             const addedCollaborators = incomingCollaborators.filter(c => !priorCollaborators.includes(c));
 
-            console.log(removedCollaborators, "removedCollaborators");
-            console.log(addedCollaborators, "addedCollaborators");
+            console.log(removedCollaborators, "removedCollaborators\n****\n");
+            console.log(addedCollaborators, "addedCollaborators\n****\n");
 
             const removeProjectIdsFromUsers = await User.updateMany({_id: {$in: removedCollaborators} }, { $pull: {projects: projectId}})
 
             const addProjectIdsToUsers = await User.updateMany({_id: {$in: addedCollaborators} }, { $push: {projects: projectId}})
 
-            console.log(removeProjectIdsFromUsers, "results of removing the IDs");
-            console.log(addProjectIdsToUsers, "results of removing the IDs");
+            console.log(removeProjectIdsFromUsers, "results of removing the IDs\n****\n");
+            console.log(addProjectIdsToUsers, "results of removing the IDs\n****\n");
         }
     }
 
@@ -286,15 +403,15 @@ router.delete('/:projectId', requireUser, async (req,res,next) =>{
     const projectId = req.params.projectId;
 
     const project = await Project.findOne({"_id":`${projectId}`});
-    console.log(project, "PROJECT!!");
-    console.log("HERE I AM!!");
-    console.log(req.user._id, "loged in as")
+    // console.log(project, "PROJECT!!");
+    // console.log("HERE I AM!!");
+    // console.log(req.user._id, "loged in as")
 
     if (project && userOnProject(project, req.user._id)) {
-        console.log("There I AM!!");
+        // console.log("There I AM!!");
         const deleteResult = await Project.deleteOne({"_id":`${projectId}`});
-        console.log(deleteResult.ok, "DELETE OK");
-        console.log(deleteResult, "DELETE Result");
+        // console.log(deleteResult.ok, "DELETE OK");
+        console.log(deleteResult, "DELETE Result\n****\n");
         if(deleteResult.deletedCount === 1) {
             return res.json({message: "Successful Delete"});
         } else {
@@ -307,3 +424,50 @@ router.delete('/:projectId', requireUser, async (req,res,next) =>{
 });
 
 module.exports = router;
+
+
+// // initialize a string version of the stored assignee id
+// let priorAssigneeIdString;
+
+// // pull the assignee ID from the task
+// const priorAssigneeID = task.assignee;
+
+// // if pull was successful convert ot to a string and assign it to new variavl
+// if (priorAssigneeID) priorAssigneeIdString = priorAssigneeID.toString();
+
+// // capture the incoming AssigneeIdString
+// const incomingAssigneeIdString = req.body.assignee;
+
+// // if prior and incoming assignees are both null, or they are the same, or the incoming assignee ID string is undefined, do nothing
+// if ((!priorAssigneeIdString && !incomingAssigneeIdString) || (priorAssigneeIdString === incomingAssigneeIdString) || (incomingAssigneeIdString === undefined)) {
+//     // do nothing
+// } 
+// else {
+//     try {
+
+//         // if there is a prior assignee, remove the task from their list
+//         if (priorAssigneeIdString) {
+//             // remove from old user
+//             const fetchedUserForTaskRemoval = await User.findOneAndUpdate(
+//                 {_id: priorAssigneeIdString},
+//                 {$pull: {assignedTasks: taskId}},
+//                 {new: true}
+//             )
+//             console.log(fetchedUserForTaskRemoval, "fetchedUserForTaskRemoval\n****\n");
+//         }
+
+//         // if there is an incoming assignee, add it to their list
+//         if (incomingAssigneeIdString) {
+
+//             const fetchedUserForTaskAddition = await User.findOneAndUpdate(
+//                 {_id: incomingAssigneeIdString},
+//                 { $addToSet: {assignedTasks: taskId}},
+//                 {new: true}
+//             )
+//             console.log(fetchedUserForTaskAddition, "fetchedUserForTaskAddition\n****\n");
+//         }
+
+//     } catch (error) {
+//         return res.json(error);
+//     }
+// }

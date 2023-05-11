@@ -7,9 +7,6 @@ const {Project, Task} = require('../models/Project.js');
 const bcrypt = require('bcryptjs');
 const { faker } = require('@faker-js/faker');
 
-
-  // sdkfjas
-
   const deleteData = async () => {
     console.log("DB Dropping initiated")
     await User.deleteMany({});
