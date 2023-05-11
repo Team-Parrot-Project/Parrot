@@ -71,9 +71,16 @@ function stringifyCompare(firstEle, secondEle) {
     return JSON.stringify(firstEle) === JSON.stringify(secondEle);
 }
 
+function getFutureDate(daysInFuture = 0) {
+    let base = new Date();
+    base.setDate(base.getDate() + daysInFuture);
+    return base; 
+}
+
 module.exports = {
     userOnProject,
     projectParams,
     taskProtector,
-    stringifyCompare
+    stringifyCompare,
+    getFutureDate
 }
