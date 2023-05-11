@@ -7,7 +7,7 @@ export const setTimeframe = (timeframe) => ({
 
 
 const initialState = {
-  selectedTimeframe: 'month'
+  selectedTimeframe: 'week'
 };
 
 const timeframeReducer = (state = initialState, action) => {

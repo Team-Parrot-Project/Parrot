@@ -27,10 +27,10 @@ function UserTaskIndex() {
       {/* <h2>Your Tasks</h2> */}
       <div className='task-table'>
       <TableRow row={["Title", "Status","End Date"]} rowClass={"task-table-header"}/>
-      {userTasks.map((t) => {
+      {userTasks.map((t, ix) => {
         const formattedDate = formatDate(t.endDate);
         return (
-          <TableRow row={[t.title, t.status, formattedDate]}/>
+          <TableRow key={ix} row={[t.title, t.status, formattedDate]}/>
         )
       })}
       </div>
