@@ -1,0 +1,10 @@
+.timeline-wrapper {
+  display: flex;
+  height: 100vh;
+}
+
+.gantt-chart-wrapper {
+  overflow: scroll;
+  background-color: #1e1f21;
+  width: 100vw;
+}

@@ -1,7 +1,7 @@
 import jwtFetch from "./jwt";
 
-const ADD_PROJECT = 'project/addProject';
-const ADD_PROJECTS = 'project/addProjects'
+export const ADD_PROJECT = 'project/addProject';
+export const ADD_PROJECTS = 'project/addProjects'
 const REMOVE_PROJECT = 'project/removeProject';
 
 export const addProject = (project)=>{
@@ -29,6 +29,7 @@ export const projectReducer = (state = {},action) =>{
     const newState = {...state};
     switch(action.type){
         case ADD_PROJECT:
+            console.log(action)
             return {...state, [action.project._id]: action.project}
         case ADD_PROJECTS:
             return {...action.projects}
@@ -57,11 +58,12 @@ export const getProjects = (state)=>{
         return [];
     }
 }
-export const fetchProject = (projectId)=>async dispatch=>{
-    let res = await jwtFetch(`/api/project/${projectId}`)
+
+export const fetchProject = (projectId) => async dispatch=>{
+    let res = await jwtFetch(`/api/projects/${projectId}`)
     if(res.ok){
         let data = await res.json();
-        dispatch(addProject(data));
+        dispatch(addProject(data[projectId]));
     }
 }
 
@@ -96,6 +98,9 @@ export const updateProject = (project)=> async dispatch =>{
 export const deleteProject = (projectId)=>async dispatch =>{
     let res = await jwtFetch(`/api/projects/${projectId}`,{
         method: "DELETE",
+        headers: {
+            'Content-Type':'application/json'
+        }
     })
     if(res.ok){
         dispatch(removeProject(projectId));

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import './TaskCreateForm.css';
-import  {useDispatch} from 'react-redux';
+import  { useDispatch, useSelector } from 'react-redux';
 import { createTask } from '../../../store/task';
 
 const TaskCreateForm = ({ users }) => {
@@ -9,6 +9,9 @@ const TaskCreateForm = ({ users }) => {
   const [description, setDescription] = useState('');
   const [dueDate, setDueDate] = useState('');
   const [assignee, setAssignee] = useState('');
+  const [status, setStatus] = useState('');
+  const currentUser = useSelector(state => state.session.user);
+  const projectId = "645c0ae85a55a470b69c5ba3";
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -23,13 +26,15 @@ const TaskCreateForm = ({ users }) => {
     const newTask = {
       title: title,
       description: description,
-      dueDate: dueDate,
+      startDate: dueDate,
+      endDate: dueDate,
+      status: status,
       assignee: assignee,
     };
 
     try {
       // Send a POST request to the server to save the new task
-      const response = dispatch(createTask(newTask));
+      dispatch(createTask(projectId, newTask));
 
       // Update the UI to indicate that the task has been created
       alert('Task created successfully!');
@@ -58,6 +63,12 @@ const TaskCreateForm = ({ users }) => {
         value={description}
         onChange={(e) => setDescription(e.target.value)}
       />
+      <label htmlFor="status">Status:</label>
+      <input
+        id="status"
+        value={status}
+        onChange={(e) => setStatus(e.target.value)}
+      />
       <label htmlFor="dueDate">Due Date:</label>
       <input
         type="date"
@@ -75,6 +86,7 @@ const TaskCreateForm = ({ users }) => {
         {users?.map(user => (
           <option key={user._id} value={user._id}>{user.name}</option>
         ))}
+        <option value={currentUser.username}>{currentUser.username}</option>
       </select>
       <button type="submit">Create Task</button>
     </form>

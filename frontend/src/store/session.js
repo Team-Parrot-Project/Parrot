@@ -55,8 +55,13 @@ export const getCurrentUser = () => async dispatch => {
 };
 
 export const getUser = (state) => {
-  const userId = state.session.user.id;
-  return userId ? state.session.users[userId] : undefined;
+  const userId = state.session.user._id;
+  return userId ? userId : null;
+};
+
+export const selectUser = (state) => {
+  const user = state.session.user;
+  return user ? user : null;
 };
 
 const nullErrors = null;

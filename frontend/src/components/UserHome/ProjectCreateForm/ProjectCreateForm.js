@@ -12,7 +12,6 @@ const ProjectCreateForm = () => {
   const [endDate, setEndDate] = useState('');
 
   const adminId = useSelector(sessionActions.getUser);
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     // Validate input values
