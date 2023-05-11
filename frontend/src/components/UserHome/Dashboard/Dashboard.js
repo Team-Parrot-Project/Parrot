@@ -3,6 +3,7 @@ import CurrentDate from './Date/Date';
 import UserGreeting from './UserGreeting/UserGreeting';
 import './Dashboard.css';
 import UserProjectIndex from '../../Project_CRUD/UserProjectIndex/UserProjectIndex';
+import UserTaskIndex from '../../Task_CRUD/UserTaskIndex/UserTaskIndex';
 
 export default function Dashboard() {
 
@@ -101,6 +102,7 @@ export default function Dashboard() {
             <h2 className="user-dashboard-project-task-container-title-x">Tasks</h2>
 
             <div className="task-selection">
+              <UserTaskIndex/>
               <h3 className="task-status" >Upcoming</h3>
               <h3 className="task-status" >Overdue</h3>
               <h3 className="task-status" >Completed</h3>

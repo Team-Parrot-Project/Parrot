@@ -5,11 +5,13 @@ import session from './session';
 import errors from './errors';
 import projects from './project';
 import tasks from './task';
+import timeframe from './timeframeActions'
 
 const rootReducer = combineReducers({
   session,
   projects,
   tasks,
+  timeframe,
   errors
 });
 

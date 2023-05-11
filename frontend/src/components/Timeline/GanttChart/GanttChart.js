@@ -1,8 +1,12 @@
 import React, { useEffect } from 'react';
+import { useSelector } from 'react-redux';
 import Gantt from 'frappe-gantt';
 import './GanttChart.css';
 
 export default function GanttChart() {
+
+  const time = useSelector(state => state.timeframe.selectedTimeframe);
+  const formattedTime = time.charAt(0).toUpperCase() + time.slice(1);
 
   useEffect(() => {
     const tasks = [
@@ -89,18 +93,17 @@ export default function GanttChart() {
       // Add more tasks as needed
     ];
 
-    let startViewMode = 'Month'
 
     const gantt = new Gantt("#gantt", tasks, {
       header_height: 50,
       column_width: 30,
       step: 24,
-      view_modes: ['Quarter Day', 'Half Day', 'Day', 'Week', 'Month'],
+      view_modes: ['Day', 'Week', 'Month'], // this is also a 'Quarter Day', 'Half Day' but they can't render properly
       bar_height: 20,
       bar_corner_radius: 3,
       arrow_curve: 5,
       padding: 18,
-      view_mode: startViewMode,
+      view_mode: formattedTime,
       date_format: 'YYYY-MM-DD',
       language: 'en', // or 'es', 'it', 'ru', 'ptBr', 'fr', 'tr', 'zh', 'de', 'hu'
       custom_popup_html: null
@@ -110,7 +113,7 @@ export default function GanttChart() {
 
 
     // gantt.change_view_mode('Week') // this can be a dropdown - Quarter Day, Half Day, Day, Week, Month
-  }, []);
+  }, [formattedTime]);
 
   return (
 
