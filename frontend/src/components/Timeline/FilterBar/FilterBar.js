@@ -22,20 +22,16 @@ export default function FilterBar() {
       <div className="gantt-filter-bar">
         <h1 className="timeline-project-title">{project?.title}</h1>
         <div className="gantt-filter-group">
-          <label className="gantt-filter-group-title">Task:</label>
-          <input type="text" id="gantt-task-filter" />
-        </div>
-        <div className="gantt-filter-group">
           <label className="gantt-filter-group-title">Project:</label>
-          <input type="text" id="gantt-project-filter" />
-        </div>
-        <div className="gantt-filter-group">
-          <label className="gantt-filter-group-title">User:</label>
-          <input type="text" id="gantt-user-filter" />
+          {/* <select id="gantt-project-filter" onChange={handleProjectChange}>
+            {projects.map(project => (
+              <option key={project.id} value={project.id}>{project.title}</option>
+            ))}
+          </select> */}
         </div>
         <div className="gantt-filter-group">
           <label className="gantt-filter-group-title">Timeframe:</label>
-          <select defaultValue="month" id="gantt-timeframe-filter" onChange={handleTimeframeChange}>
+          <select defaultValue="week" id="gantt-timeframe-filter" onChange={handleTimeframeChange}>
             <option value="day">Day</option>
             <option value="week">Week</option>
             <option value="month">Month</option>
