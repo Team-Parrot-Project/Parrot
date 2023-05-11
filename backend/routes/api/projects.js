@@ -434,17 +434,6 @@ router.delete('/:projectId', requireUser, async (req,res,next) =>{
     // console.log("HERE I AM!!");
     // console.log(req.user._id, "loged in as")
 
-    if (project && userOnProject(project, req.user._id)) {
-        // console.log("There I AM!!");
-        const deleteResult = await Project.deleteOne({"_id":`${projectId}`});
-        // console.log(deleteResult.ok, "DELETE OK");
-        console.log(deleteResult, "DELETE Result\n****\n");
-        if(deleteResult.deletedCount === 1) {
-            return res.json({message: "Successful Delete"});
-        } else {
-            return res.json({message:"Issue with Delete"});
-        }
-
     if(!project) {
         return res.json({message:"No project found"});
     }
