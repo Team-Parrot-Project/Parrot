@@ -1,10 +1,12 @@
 .gantt {
-  height: 100vh;
+  height: 100%;
+  min-height: 100%;
   font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Helvetica,Arial,sans-serif;
 }
 
 .gantt .grid-background {
   fill:#1e1f21;
+  height: 100vh;
 }
 
 .gantt .grid-header {
@@ -33,6 +35,8 @@
 .gantt .tick {
   stroke: white;
   stroke-width: 0.2;
+  height: 100vh;
+  min-height: 100%;
 }
 
 .gantt .tick.thick {
@@ -141,10 +145,26 @@
   display: none;
 }
 
+/* this is the container the controls the view and scroll bar*/
 .gantt-container {
   position: relative;
   overflow: auto;
   font-size: 12px;
+  margin-left: 2px;
+}
+
+/* scroll stlying */
+.gantt-container::-webkit-scrollbar {
+  width: 10px;
+}
+
+.gantt-container::-webkit-scrollbar-track {
+  background-color: transparent;
+}
+
+.gantt-container::-webkit-scrollbar-thumb {
+  background-color: #3e3f42;
+  border-radius: 20px;
 }
 
 .gantt-container .popup-wrapper {

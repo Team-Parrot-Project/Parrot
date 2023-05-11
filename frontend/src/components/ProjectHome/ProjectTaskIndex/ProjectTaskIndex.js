@@ -18,9 +18,10 @@ function ProjectTaskIndex() {
             <h3>{task.title}</h3>
             <p>{task.description}</p>
             <p>
-              Start Date: {task.startDate} | End Date: {task.endDate}
+              Start Date: {task.startDate} <br></br>| End Date: {task.endDate} <br></br>
             </p>
-          </li>
+            <br></br>
+          </li> 
         ))}
       </ul>
     </div>

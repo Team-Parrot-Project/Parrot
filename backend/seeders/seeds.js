@@ -6,6 +6,7 @@ const {Project, Task} = require('../models/Project.js');
 // const Project = require('../models/Project');
 const bcrypt = require('bcryptjs');
 const { faker } = require('@faker-js/faker');
+const { getFutureDate } = require("../config/util.js");
 
   const deleteData = async () => {
     console.log("DB Dropping initiated")
@@ -18,6 +19,9 @@ const { faker } = require('@faker-js/faker');
 const seedDB = async () => {
   try {
     console.log("DB seeding initiated")
+
+    const todaysDate = new Date()
+  
     // Create users
     userOne = new User({
         email: 'admin@example.com',
@@ -56,8 +60,9 @@ const seedDB = async () => {
                 priority: 'medium',
                 assignee: userTwo,
                 status: "in progress",
-                startDate: faker.date.past(),
-                endDate: faker.date.future(),
+                startDate: getFutureDate(0),
+                endDate: getFutureDate(7),
+                progress: 50,
                 blockingTasks: []
             },
             {
@@ -66,8 +71,9 @@ const seedDB = async () => {
                 priority: 'medium',
                 assignee: userThree,
                 status: "in progress",
-                startDate: faker.date.past(),
-                endDate: faker.date.future(),
+                startDate: getFutureDate(7),
+                endDate: getFutureDate(14),
+                progress: 50,
                 blockingTasks: []
               },
               {
@@ -76,8 +82,9 @@ const seedDB = async () => {
                 priority: 'medium',
                 assignee: userThree,
                 status: "in progress",
-                startDate: faker.date.past(),
-                endDate: faker.date.future(),
+                startDate: getFutureDate(14),
+                endDate: getFutureDate(21),
+                progress: 50,
                 blockingTasks: []
               },
               {
@@ -86,8 +93,9 @@ const seedDB = async () => {
                 priority: 'medium',
                 assignee: userOne,
                 status: "in progress",
-                startDate: faker.date.past(),
-                endDate: faker.date.future(),
+                startDate: getFutureDate(21),
+                endDate: getFutureDate(28),
+                progress: 50,
                 blockingTasks: []
               },
               {
@@ -96,8 +104,9 @@ const seedDB = async () => {
                 priority: 'medium',
                 assignee: userOne,
                 status: "in progress",
-                startDate: faker.date.past(),
-                endDate: faker.date.future(),
+                startDate: getFutureDate(28),
+                endDate: getFutureDate(35),
+                progress: 50,
                 blockingTasks: []
               }
 
@@ -117,8 +126,10 @@ const seedDB = async () => {
     userOne.assignedTasks.push(mainProject.tasks[3]);
     userOne.assignedTasks.push(mainProject.tasks[4]);
 
-    mainProject.tasks[2].blockingTasks.push(mainProject.tasks[3]);
-    mainProject.tasks[2].blockingTasks.push(mainProject.tasks[4]);
+    mainProject.tasks[1].blockingTasks.push(mainProject.tasks[0])
+    mainProject.tasks[2].blockingTasks.push(mainProject.tasks[1])
+    mainProject.tasks[3].blockingTasks.push(mainProject.tasks[2])
+    mainProject.tasks[4].blockingTasks.push(mainProject.tasks[3])
 
     secondaryProject = new Project ({
         title: faker.lorem.words(),
@@ -133,7 +144,11 @@ const seedDB = async () => {
     userOne.projects.push(secondaryProject);
 
     await User.insertMany([userOne, userTwo, userThree]);
-    await Project.insertMany([mainProject, secondaryProject]);
+    const projectResult = await Project.insertMany([mainProject, secondaryProject]);
+    console.log(projectResult, "projectResult");
+    console.log(projectResult[0].tasks[1], "second task");
+
+    // projectOne = projectResult[]
 
     console.log('Database seeded!');
 

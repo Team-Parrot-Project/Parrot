@@ -29,7 +29,6 @@ export const projectReducer = (state = {},action) =>{
     const newState = {...state};
     switch(action.type){
         case ADD_PROJECT:
-            console.log(action)
             return {...state, [action.project._id]: action.project}
         case ADD_PROJECTS:
             return {...action.projects}
