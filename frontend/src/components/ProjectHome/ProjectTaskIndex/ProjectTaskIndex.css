@@ -1,0 +1,20 @@
+.task-table {
+    width: 90%;
+    border-collapse: collapse;
+    margin-bottom: 10px;
+}
+  
+.task-table th,
+.task-table td {
+    padding: 8px;
+    border-bottom: 1px solid #ddd;
+}
+  
+.task-table th {
+    font-weight: bold;
+    }
+  
+.task-table tr:hover {
+    background-color: #040404;
+}
+  

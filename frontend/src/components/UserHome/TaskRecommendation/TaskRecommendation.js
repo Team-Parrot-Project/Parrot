@@ -33,8 +33,8 @@ const TaskRecommendation = ({ project, recommendedTasks, setRecommendedTasks }) 
     const data = await response.json();
     if (data.choices && data.choices.length > 0) {
       setRecommendedTasks(data.choices[0].text.trim().split(','));
+      setDisplayTasks(data.choices[0].text)
     }
-    const displayTasks = data.choices[0];
 
     setButtonClicked(true); 
   };
@@ -42,7 +42,10 @@ const TaskRecommendation = ({ project, recommendedTasks, setRecommendedTasks }) 
   return (
     <div>
       {!buttonClicked && (
-        <button onClick={generateRecommendedTasks}>Generate Recommended Tasks</button>
+        <div>
+          <p>Click below to generate recommended tasks based on the project title and description utilizing the Open AI API: </p>
+          <button onClick={generateRecommendedTasks}>Generate Recommended Tasks</button>
+        </div>
       )}
       {recommendedTasks.length > 0 && <div className="recommended-tasks">The recommended tasks are rendered in the Task Create forms below: {displayTasks}</div>}
     </div>
