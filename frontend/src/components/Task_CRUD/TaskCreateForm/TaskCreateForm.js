@@ -3,9 +3,9 @@ import './TaskCreateForm.css';
 import  { useDispatch, useSelector } from 'react-redux';
 import { createTask } from '../../../store/task';
 
-const TaskCreateForm = ({ users }) => {
+const TaskCreateForm = ({ users, taskTitle = '' }) => {
   const dispatch = useDispatch();
-  const [title, setTitle] = useState('');
+  const [title, setTitle] = useState(taskTitle);
   const [description, setDescription] = useState('');
   const [dueDate, setDueDate] = useState('');
   const [assignee, setAssignee] = useState('');

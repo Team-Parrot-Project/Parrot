@@ -11,6 +11,9 @@ import TaskShow from '../Task_CRUD/TaskShow/TaskShow';
 import TaskUpdateModal from '../Task_CRUD/TaskUpdateForm/index';
 import DeleteTask from '../Task_CRUD/TaskDelete/TaskDelete';
 import './TestIndex.css';
+import UserProjectIndex from '../Project_CRUD/UserProjectIndex/UserProjectIndex';
+import TaskRecommendation from '../UserHome/TaskRecommendation/TaskRecommendation';
+import TaskCreateForm from '../Task_CRUD/TaskCreateForm/TaskCreateForm';
 
 export default function TestPage () {
 
@@ -18,12 +21,14 @@ export default function TestPage () {
       <div className="testingComponents">
         <ProjectCreateModal/>
         <TaskCreateModal />
-        <ProjectShow projectId="645c0ae85a55a470b69c5ba3"/>
-        <TaskShow taskId="645c0cc55a55a470b69c5bcb"/>
+        <UserProjectIndex />
+        <ProjectShow projectId="645c6a5c595bdfe7a1304e8c"/>
+        <TaskShow taskId="645c6a5c595bdfe7a1304e8d"/>
         <ProjectDeleteModal/>
         <DeleteTask/>
-        <ProjectUpdateModal projectId="645c0ae85a55a470b69c5ba3"/>
-        <TaskUpdateModal taskId="645c0cc55a55a470b69c5bcb" projectId="645c0ae85a55a470b69c5ba3"/>
+        <ProjectUpdateModal projectId="645c6a5c595bdfe7a1304e8c"/>
+        <TaskUpdateModal taskId="645c6a5c595bdfe7a1304e8d" projectId="645c6a5c595bdfe7a1304e8c"/>
+        <TaskRecommendation title="Create a cookbook" description="The goal of this project is to create an international ccokbook." startDate="2023-08-15" endDate="2023-09-30" />
       </div>
   );
 }

@@ -5,6 +5,7 @@ import * as projectActions from '../../../store/project';
 import { selectUser } from '../../../store/session';
 import * as userActions from '../../../store/user';
 import { useHistory } from 'react-router-dom/cjs/react-router-dom';
+import ProjectCreateModal from '../ProjectCreateForm/index'
 
 function UserProjectIndex() {
   const dispatch = useDispatch();
@@ -31,14 +32,15 @@ function UserProjectIndex() {
       <ul>
         {allProjects.map((project) => (
           <li key={project._id} onClick={(e)=>{handleClick(e,project)}}>
-            <h3>{project.title}</h3>
-            <p>{project.description}</p>
+            <h3>Project Title: {project.title}</h3>
+            <p>Project Description: {project.description}</p>
             <p>
-              Start Date: {project.startDate} | End Date: {project.endDate}
+              Start Date: {project.startDate} <br/> End Date: {project.endDate}
             </p>
           </li>
         ))}
       </ul>
+      <ProjectCreateModal />
     </div>
   );
 }

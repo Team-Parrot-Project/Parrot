@@ -4,6 +4,7 @@ import './UserTaskIndex.css';
 import * as taskActions from '../../../store/task';
 import { selectUser } from '../../../store/session';
 import * as userActions from '../../../store/user';
+import TaskCreateModal from '../TaskCreateForm/index'
 
 function UserTaskIndex() {
   const dispatch = useDispatch();
@@ -25,14 +26,15 @@ function UserTaskIndex() {
       <ul>
         {userTasks.map((task) => (
           <li key={task._id}>
-            <h3>{task.title}</h3>
-            <p>{task.description}</p>
+            <h3>Task Title: {task.title}</h3>
+            <p>Task Description: {task.description}</p>
             <p>
               Start Date: {task.startDate} | End Date: {task.endDate}
             </p>
           </li>
         ))}
       </ul>
+      <TaskCreateModal/>
     </div>
   );
 }
