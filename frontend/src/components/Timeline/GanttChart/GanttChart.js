@@ -26,9 +26,8 @@ export default function GanttChart() {
   };
 
   // Reformate the tasks data for the Gantt chart
-  const formattedTasks = useMemo(() => projectTasks['645c6a5c595bdfe7a1304e8c']?.tasks
-  ? projectTasks['645c6a5c595bdfe7a1304e8c'].tasks.map((task, index) => {
-    console.log(task.startDate, "GGGGGGGGGG")
+  const formattedTasks = useMemo(() => projectTasks['645d52168772abefa171f257']?.tasks
+  ? projectTasks['645d52168772abefa171f257'].tasks.map((task, index) => {
     const sDate = task.startDate ? formatDate(task.startDate) : '';
     const eDate = task.endDate ? formatDate(task.endDate) : '';
     return {
@@ -36,7 +35,7 @@ export default function GanttChart() {
       name: task.title,
       start: sDate,
       end: eDate,
-      progress: Math.floor(Math.random() * 101),
+      progress: task.progress,
       dependencies: task.blockingTasks //task.blockingTasks
     };
   })
@@ -45,7 +44,7 @@ export default function GanttChart() {
   useEffect(() => {
 
     // Add the project to state
-    dispatch(fetchProject('645c6a5c595bdfe7a1304e8c'))
+    dispatch(fetchProject('645d52168772abefa171f257'))
 
   }, [dispatch]);
 
