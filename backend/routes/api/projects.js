@@ -167,11 +167,13 @@ router.patch('/:projectId/tasks/:taskId', requireUser, async (req,res,next)=>{
     }
 
     const task = project.tasks.id(taskId);
+    console.log(task, "task from project\n****\n")
+
+    const priorAssignee = task.assignee;
+
     console.log(task, "task\n****\n");
 
     if (project && task && userOnProject(project, req.user._id)) {
-
-        console.log(req.body.assignee, "**PAY ATTENTION**")
 
         // need to check whether the assignee changed and if so - remove this task from the user's list and add it to the incoming user's list
         const taskPendingSave = Object.assign(task, req.body);
@@ -186,25 +188,47 @@ router.patch('/:projectId/tasks/:taskId', requireUser, async (req,res,next)=>{
         }
 
         // if we received an incoming assignee ID we have to check whether it is different and if so make the relevant changes
-        if((incomingAssigneeId !== undefined) && (incomingAssigneeId !== task.assigneeId.toString())) {
+
+        console.log(incomingAssigneeId, "**PAY ATTENTION incomingAssigneeId**\n\n")
+        console.log(task, "task\n****\n");
+        console.log(priorAssignee, "**PAY ATTENTION priorAssignee\n\n")
+        console.log(priorAssignee?.toString(), "**PAY ATTENTION priorAssignee.toString()\n\n")
+
+        console.log(incomingAssigneeId !== undefined, "incomingAssigneeId !== undefined");
+        console.log(incomingAssigneeId !== priorAssignee?.toString(), "incomingAssigneeId !== priorAssignee?.toString()");
+        console.log(incomingAssigneeId !== priorAssignee?.toString(), incomingAssigneeId !== priorAssignee?.toString(), "incomingAssigneeId !== priorAssignee?.toString(), incomingAssigneeId !== priorAssignee?.toString()");
+
+        if(incomingAssigneeId !== undefined && (incomingAssigneeId !== priorAssignee?.toString())) {
+            console.log("12345Making an assignee change! \n****\n")
             // first get the newAssignee
             // then remove the task from the old assignee, if there is an old assignee
             try {
                 // attempt to remove the task from the existing assignee, if there is an assignee
-                if(task.assigneeId) {
+
+                if(incomingAssigneeId !== null && !userOnProject(project, incomingAssigneeId)) {
+                    return res.json({message: "the incoming assignee is not a collaborator on this project"})
+                }
+
+                if(priorAssignee) {
+                    console.log(priorAssignee, "**** priorAssignee\n\n")
                     const oldAssignee = await User.findOneAndUpdate (
-                        {_id: task.assigneeId},
+                        {_id: priorAssignee},
                         {$pull: {assignedTasks: taskId}},
                         {new: true}
                     )
                     console.log(oldAssignee, "oldAssignee\n****\n")
 
                     // remove assignee from the task (need to do this in here case incomingAssigneeId is null)
-                    task.assigneeId = undefined;
+                    task.assignee = null;
+                    console.log(task, "task post removal\n****\n");
                 }
 
                 // then add the task to the new assignee, IF it is a non falsey value. Note if it is undefined, then the prior instance will be removed with the if statement above but this one will not run
+                console.log(incomingAssigneeId, "12345 incomingAssigneeId");
                 if(incomingAssigneeId) {
+            
+
+                    console.log("12345");
                     const newAssignee = await User.findOneAndUpdate (
                         {_id: incomingAssigneeId},
                         {$addToSet: {assignedTasks: taskId}},
@@ -212,7 +236,7 @@ router.patch('/:projectId/tasks/:taskId', requireUser, async (req,res,next)=>{
                     )
                     console.log(newAssignee, "newAssignee\n****\n")
 
-                    task.assigneeId = newAssignee._id;
+                    task.assignee = newAssignee._id;
                 }
 
             } catch (error) {
@@ -232,7 +256,8 @@ router.patch('/:projectId/tasks/:taskId', requireUser, async (req,res,next)=>{
 
         // saving the project, which will save the task
         try {
-            await project.save();
+            const savedProject = await project.save();
+            console.log(savedProject, "savedProject\n****\n")
         } catch (error) {
             return res.json(error);
         }
