@@ -107,7 +107,7 @@ export default function GanttChart() {
       date_format: 'YYYY-MM-DD',
       language: 'en', // or 'es', 'it', 'ru', 'ptBr', 'fr', 'tr', 'zh', 'de', 'hu'
       custom_popup_html: null
-  });
+    });
 
 
 
@@ -118,7 +118,7 @@ export default function GanttChart() {
   return (
 
     <>
-      <svg id="gantt" className="gantt"></svg>
+        <svg id="gantt" className="gantt"></svg>
     </>
 
 
