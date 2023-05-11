@@ -1,19 +1,31 @@
-import React from 'react';
+import React, { useState } from 'react';
 import CurrentDate from './Date/Date';
 import UserGreeting from './UserGreeting/UserGreeting';
 import './Dashboard.css';
 import UserProjectIndex from '../../Project_CRUD/UserProjectIndex/UserProjectIndex';
 import UserTaskIndex from '../../Task_CRUD/UserTaskIndex/UserTaskIndex';
+import TableRow from '../../TableRow/TableRow';
+import { AiOutlinePlusCircle } from 'react-icons/ai';
+import { Modal } from '../../../context/Modal';
+import ProjectCreateModal from '../../Project_CRUD/ProjectCreateForm';
 
 export default function Dashboard() {
 
+  const [showModal, setShowModal] = useState(false);
+  const closeModal = () => setShowModal(false);
 
+
+  function createProject() {
+    console.log("This is happening");
+    setShowModal(true);
+  }
 
   return (
 
 
     <>
-
+    <div className='create-project-button'>
+    </div>
       <div className="user-dashboard-wrapper">
         <div className="user-dashboard-main-content">
 
@@ -99,13 +111,13 @@ export default function Dashboard() {
 
         <div className="user-dashboard-project-task-container">
           <div className="user-dashboard-tasks-container">
-            <h2 className="user-dashboard-project-task-container-title-x">Tasks</h2>
+            <h2 className="user-dashboard-project-task-container-title-x">Your Tasks</h2>
 
             <div className="task-selection">
               <UserTaskIndex/>
-              <h3 className="task-status" >Upcoming</h3>
+              {/* <h3 className="task-status" >Upcoming</h3>
               <h3 className="task-status" >Overdue</h3>
-              <h3 className="task-status" >Completed</h3>
+              <h3 className="task-status" >Completed</h3> */}
             </div>
 
             <div className="task-list">
@@ -113,6 +125,10 @@ export default function Dashboard() {
             </div>
           </div>
           <div className="user-dashboard-projects-container">
+            <div className='project-plus-button'>
+              <ProjectCreateModal />
+              
+            </div>
             <h2 className="user-dashboard-project-task-container-title-x">Projects</h2>
                 <div className='project-list'>
                     <UserProjectIndex/>

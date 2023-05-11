@@ -6,6 +6,7 @@ import { selectUser } from '../../../store/session';
 import * as userActions from '../../../store/user';
 import { useHistory } from 'react-router-dom/cjs/react-router-dom';
 import ProjectCreateModal from '../ProjectCreateForm/index'
+import TableRow from '../../TableRow/TableRow';
 
 function UserProjectIndex() {
   const dispatch = useDispatch();
@@ -26,10 +27,25 @@ function UserProjectIndex() {
     history.push(`/projects/${project._id}`)
   }
 
+  function logIt(l) {
+    console.log(l);
+  }
+
+
   return (
     <div className="user-project-index" >
-      <h2>Your Projects</h2>
-      <ul>
+      <TableRow row={["Title", "Collaborators","Tasks"]} rowClass={"task-table-header"}/>
+      {allProjects.map((p) => {
+        const collabCount = p.collaborators.length;
+        const taskCount = p.tasks.length;
+        return (
+          <TableRow row={[p.title, collabCount, taskCount]}/>
+        )
+      })}
+
+  
+      {/* <h2>Your Projects</h2> */}
+      {/* <ul>
         {allProjects.map((project) => (
           <li key={project._id} onClick={(e)=>{handleClick(e,project)}}>
             <h3>Project Title: {project.title}</h3>
@@ -40,7 +56,7 @@ function UserProjectIndex() {
           </li>
         ))}
       </ul>
-      <ProjectCreateModal />
+      <ProjectCreateModal /> */}
     </div>
   );
 }
