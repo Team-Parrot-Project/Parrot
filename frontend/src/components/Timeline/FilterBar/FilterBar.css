@@ -40,3 +40,8 @@
 .gantt-timeframe-filter {
   height: 10px;
 }
+
+.gantt-filter-select:hover {
+  border-color: #4573d2;
+  box-shadow: 0 0 5px 1px #4573d2;
+}

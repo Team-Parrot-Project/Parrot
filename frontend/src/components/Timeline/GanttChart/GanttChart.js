@@ -11,7 +11,7 @@ export default function GanttChart() {
   const time = useSelector(state => state.timeframe.selectedTimeframe);
   const formattedTime = useMemo(() => time ? time.charAt(0).toUpperCase() + time.slice(1) : null, [time]);
 
-
+  // The useRef and useMemo are needed otherwise the chart would not render properly on first load and or would cause inifinte rerenders.
 
   // Grab the project from state
   const projectTasks = useSelector(state => state.projects);
@@ -52,6 +52,7 @@ export default function GanttChart() {
   const ganttRef = useRef();
 
   useEffect(() => {
+    // Generate the Gantt chart
     if (ganttRef.current && formattedTasks.length && formattedTime) {
       new Gantt("#gantt", formattedTasks, {
         header_height: 50,
