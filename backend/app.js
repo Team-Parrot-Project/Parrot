@@ -26,18 +26,22 @@ server.listen(5001);
 
 io.on('connection', socket => {
   console.log(socket.id,'a user connected')
-  socket.on('message',(message)=>{
-    console.log(message,"message")
-    socket.emit("message","Hey from server")
-  })
+  socket.emit("message","Connection Made")
   socket.on('join-channel',(room)=>{
     socket.join(room);
-    socket.to(room).emit("message",`Joined Room`)
   })
   socket.on('disconnect',()=>{
     console.log('disconnecting....')
   });
-  });
+});
+
+const sendMessage = (message) => {
+    io.emit('message',message)
+    // io.to(:userId).emit("message",payload)
+}
+
+
+
 
 app.use(logger('dev'));
 app.use(express.json());
@@ -62,7 +66,10 @@ app.use(
     })
   );
 
-// app.use('/', indexRouter);
+app.use((req,res,next)=>{
+  req.io = io;
+  next();
+});
 app.use('/api/users', usersRouter);
 app.use('/api/csrf', csrfRouter);
 app.use('/api/projects', projectsRouter);
@@ -111,3 +118,4 @@ app.use((req, res, next) => {
   });
 
 module.exports = app;
+// exports.io = io;
