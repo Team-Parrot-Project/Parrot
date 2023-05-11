@@ -52,7 +52,7 @@ const seedDB = async () => {
         tasks: [
             {
                 title: "Design",
-                description: "write the s",
+                description: "write the design",
                 priority: 'medium',
                 assignee: userTwo,
                 status: "in progress",
@@ -61,8 +61,8 @@ const seedDB = async () => {
                 blockingTasks: []
             },
             {
-                title: faker.lorem.words(),
-                description: faker.lorem.paragraph(),
+                title: "Whiteboard",
+                description: "commit design to drawings",
                 priority: 'medium',
                 assignee: userThree,
                 status: "in progress",
@@ -71,8 +71,8 @@ const seedDB = async () => {
                 blockingTasks: []
               },
               {
-                title: faker.lorem.words(),
-                description: faker.lorem.paragraph(),
+                title: "Code the back end",
+                description: "Bird and Ryder, you're up",
                 priority: 'medium',
                 assignee: userThree,
                 status: "in progress",
@@ -81,7 +81,7 @@ const seedDB = async () => {
                 blockingTasks: []
               },
               {
-                title: faker.lorem.words(),
+                title: "Prettify the ",
                 description: faker.lorem.paragraph(),
                 priority: 'medium',
                 assignee: userOne,
