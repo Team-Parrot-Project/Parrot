@@ -49,7 +49,7 @@ const TaskCreateForm = ({ users, taskTitle = '' }) => {
   };
 
   return (
-    <form className="task-create-form" onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit}className="task-create-form">
       <label htmlFor="title">Task Name:</label>
       <input
         type="text"

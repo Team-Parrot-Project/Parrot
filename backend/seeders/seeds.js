@@ -32,16 +32,16 @@ const seedDB = async () => {
     });
 
     userTwo = new User({
-        email: faker.internet.email(),
-        username: faker.internet.userName(),
+        email: "ryde@or-die.com",
+        username: "Ryder",
         hashedPassword: await bcrypt.hash('password', 10),
         projects: [],
         assignedTasks: []
     })
 
     userThree = new User({
-        email: faker.internet.email(),
-        username: faker.internet.userName(),
+        email: "birds@theword.com",
+        username: "Bird",
         hashedPassword: await bcrypt.hash('password', 10),
         projects: [],
         assignedTasks: []
@@ -49,14 +49,14 @@ const seedDB = async () => {
     console.log("Users created in memory")
 
     mainProject = new Project ({
-        title: faker.lorem.words(),
-        description: faker.lorem.paragraph(),
+        title: "Feel the MERN",
+        description: "a quest to learn a stack and build a project on it",
         adminId: userOne,
         collaborators: [userOne, userTwo, userThree],
         tasks: [
             {
-                title: faker.lorem.words(),
-                description: faker.lorem.paragraph(),
+                title: "Design",
+                description: "write the design",
                 priority: 'medium',
                 assignee: userTwo,
                 status: "in progress",
@@ -66,8 +66,8 @@ const seedDB = async () => {
                 blockingTasks: []
             },
             {
-                title: faker.lorem.words(),
-                description: faker.lorem.paragraph(),
+                title: "Whiteboard",
+                description: "commit design to drawings",
                 priority: 'medium',
                 assignee: userThree,
                 status: "in progress",
@@ -77,8 +77,8 @@ const seedDB = async () => {
                 blockingTasks: []
               },
               {
-                title: faker.lorem.words(),
-                description: faker.lorem.paragraph(),
+                title: "Code the back end",
+                description: "Bird and Ryder, you're up",
                 priority: 'medium',
                 assignee: userThree,
                 status: "in progress",
@@ -88,7 +88,7 @@ const seedDB = async () => {
                 blockingTasks: []
               },
               {
-                title: faker.lorem.words(),
+                title: "Prettify the ",
                 description: faker.lorem.paragraph(),
                 priority: 'medium',
                 assignee: userOne,

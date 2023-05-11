@@ -1,0 +1,29 @@
+.default-row-class {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    margin-top: 2px;
+    margin-bottom: 2px;
+    padding-top: 2px;
+    padding-bottom: 2px;
+    background-color: #2A2B2D;
+    /* border-radius: .375rem; */
+    border-bottom: 1px solid white;
+}
+
+.defaulf-cell-class {
+    width: 30%;
+    /* padding: 2px; */
+    text-align: left;
+    overflow: hidden;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-top: 2px;
+    margin-bottom: 2px;
+}
+
+.default-row-class:hover {
+    background-color: rgba(255, 255, 255, 0.5);
+    cursor: pointer;
+}
