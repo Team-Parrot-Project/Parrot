@@ -1,11 +1,12 @@
 import React, { useEffect, useMemo, useRef} from 'react';
+import { useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import Gantt from 'frappe-gantt';
 import './GanttChart.css';
 import { fetchProject } from '../../../store/project';
 
 export default function GanttChart() {
-
+  const { projectId } = useParams()
   const dispatch = useDispatch()
   const time = useSelector(state => state.timeframe.selectedTimeframe);
   const formattedTime = useMemo(() => time ? time.charAt(0).toUpperCase() + time.slice(1) : null, [time]);
@@ -26,8 +27,8 @@ export default function GanttChart() {
   };
 
   // Reformate the tasks data for the Gantt chart
-  const formattedTasks = useMemo(() => projectTasks['645d52168772abefa171f257']?.tasks
-  ? projectTasks['645d52168772abefa171f257'].tasks.map((task, index) => {
+  const formattedTasks = useMemo(() => projectTasks[projectId]?.tasks
+  ? projectTasks[projectId].tasks.map((task, index) => {
     const sDate = task.startDate ? formatDate(task.startDate) : '';
     const eDate = task.endDate ? formatDate(task.endDate) : '';
     return {
@@ -39,31 +40,15 @@ export default function GanttChart() {
       dependencies: task.blockingTasks //task.blockingTasks
     };
   })
-  : [], [projectTasks]);
+  : [], [projectTasks, projectId]);
 
   useEffect(() => {
 
     // Add the project to state
-    dispatch(fetchProject('645d52168772abefa171f257'))
+    dispatch(fetchProject(projectId))
 
-  }, [dispatch]);
+  }, [dispatch, projectId]);
 
-
-      // This creates the Gantt chart
-      // const gantt = new Gantt("#gantt", formattedTasks, {
-      //   header_height: 50,
-      //   column_width: 30,
-      //   step: 24,
-      //   view_modes: ['Day', 'Week', 'Month'], // this is also a 'Quarter Day', 'Half Day' but they can't render properly
-      //   bar_height: 20,
-      //   bar_corner_radius: 3,
-      //   arrow_curve: 5,
-      //   padding: 18,
-      //   view_mode: formattedTime,
-      //   date_format: 'YYYY-MM-DD',
-      //   language: 'en', // or 'es', 'it', 'ru', 'ptBr', 'fr', 'tr', 'zh', 'de', 'hu'
-      //   custom_popup_html: null
-      // });
   const ganttRef = useRef();
 
   useEffect(() => {
@@ -93,6 +78,5 @@ export default function GanttChart() {
 
 
   )
-
 
 }

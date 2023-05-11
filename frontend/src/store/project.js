@@ -31,7 +31,11 @@ export const projectReducer = (state = {},action) =>{
         case ADD_PROJECT:
             return {...state, [action.project._id]: action.project}
         case ADD_PROJECTS:
-            return {...action.projects}
+            const projects = action.projects;
+            projects.forEach(project =>{
+                newState[project._id] = project
+            })
+            return newState
         case REMOVE_PROJECT:
             delete newState[action.projectId]
             return newState
