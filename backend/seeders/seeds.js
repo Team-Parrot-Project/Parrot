@@ -3,6 +3,7 @@ const { mongoURI: db } = require('../config/keys.js');
 const User = require('../models/User');
 // const Task = require('../models/Task');
 const {Project, Task} = require('../models/Project.js');
+const Notification = require('../models/Notification.js');
 // const Project = require('../models/Project');
 const bcrypt = require('bcryptjs');
 const { faker } = require('@faker-js/faker');
