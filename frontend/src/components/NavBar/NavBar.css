@@ -49,6 +49,9 @@
   transition: transform 0.3s ease;
   padding-top: 15px;
   padding-bottom: 10px;
+  position: absolute;
+  bottom: 10px;
+  left: 65px;
 }
 
 .nav-bar-logout-button:hover {
@@ -79,6 +82,8 @@
   font-weight: bold;
   font-size: 16px;
   margin-left: 8px;
+  position: absolute;
+  bottom: 20px;
 }
 
 

@@ -6,12 +6,14 @@ import errors from './errors';
 import projects from './project';
 import tasks from './task';
 import notifications from './notification'
+import timeframe from './timeframeActions'
 
 const rootReducer = combineReducers({
   session,
   projects,
   tasks,
   notifications,
+  timeframe,
   errors
 });
 

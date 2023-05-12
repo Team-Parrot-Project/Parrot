@@ -33,6 +33,10 @@ const taskSchema = new Schema({
         type: Date,
         required: false
     },
+    progress : {
+        type: Number,
+        required: false
+    },
     blockingTasks: [{
         type: Schema.Types.ObjectId,
         ref: 'Task',

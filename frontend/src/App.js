@@ -28,8 +28,8 @@ export default function App() {
         <AuthRoute exact path="/login" component={LoginForm} />
 
         <ProtectedRoute exact path="/home" component={UserHome} />
+        <ProtectedRoute exact path="/projects/:projectId/timeline" component={Timeline} />
         <ProtectedRoute exact path="/projects/:projectId" component={ProjectHome} />
-        <ProtectedRoute exact path='/timeline' component={Timeline} />
         <ProtectedRoute exact path='/test' component={TestPage} />
 
       </Switch>

@@ -1,36 +1,59 @@
+.gantt {
+  height: 100%;
+  min-height: 100%;
+  font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Helvetica,Arial,sans-serif;
+}
+
 .gantt .grid-background {
+  fill:#1e1f21;
+  height: 100vh;
+}
+
+.gantt .grid-header {
+  fill: #1e1f21;
+  stroke: rgb(80, 78, 78); /* this adds a border around the whole container which houses the titles*/
+  stroke-width: 1.4;
+  border-left: none;
+  border-right: none;
+}
+
+.gantt .grid-row {
+  fill: #1e1f21;
+}
+
+/* this would change the color of each row*/
+.gantt .grid-row:nth-child(even) {
   fill: none;
 }
-.gantt .grid-header {
-  fill: #ffffff;
-  stroke: #e0e0e0;
-  stroke-width: 1.4;
-}
-.gantt .grid-row {
-  fill: #ffffff;
-}
-.gantt .grid-row:nth-child(even) {
-  fill: #f5f5f5;
-}
+
+/* this would change the color of each row grid line*/
 .gantt .row-line {
-  stroke: #ebeff2;
+  stroke: none;
 }
+
+/* this would change the color of each column grid line*/
 .gantt .tick {
-  stroke: #e0e0e0;
+  stroke: white;
   stroke-width: 0.2;
+  height: 100vh;
+  min-height: 100%;
 }
+
 .gantt .tick.thick {
   stroke-width: 0.4;
 }
+
 .gantt .today-highlight {
   fill: #fcf8e3;
   opacity: 0.5;
 }
+
 .gantt .arrow {
   fill: none;
   stroke: #666;
   stroke-width: 1.4;
 }
+
 .gantt .bar {
   fill: #b8c2cc;
   stroke: #8D99A6;
@@ -38,18 +61,23 @@
   transition: stroke-width 0.3s ease;
   user-select: none;
 }
+
 .gantt .bar-progress {
-  fill: #8686d1;
+  fill: #00aeef;
 }
+
 .gantt .bar-invalid {
   fill: transparent;
   stroke: #8D99A6;
   stroke-width: 1;
   stroke-dasharray: 5;
 }
+
 .gantt .bar-invalid ~ .bar-label {
   fill: #555;
 }
+
+/* label if the bar is expanded and it's inside*/
 .gantt .bar-label {
   fill: #fff;
   dominant-baseline: central;
@@ -57,10 +85,13 @@
   font-size: 12px;
   font-weight: lighter;
 }
+
+/* label if the bar is condensed and it pops outside*/
 .gantt .bar-label.big {
-  fill: #555;
+  fill: #a2a0a2;
   text-anchor: start;
 }
+
 .gantt .handle {
   fill: #ddd;
   cursor: ew-resize;
@@ -68,45 +99,74 @@
   visibility: hidden;
   transition: opacity 0.3s ease;
 }
+
 .gantt .bar-wrapper {
   cursor: pointer;
   outline: none;
 }
+
 .gantt .bar-wrapper:hover .bar {
   fill: #a9b5c1;
 }
+
 .gantt .bar-wrapper:hover .bar-progress {
   fill: #8a8aff;
 }
+
 .gantt .bar-wrapper:hover .handle {
   visibility: visible;
   opacity: 1;
 }
+
 .gantt .bar-wrapper.active .bar {
   fill: #a9b5c1;
 }
+
 .gantt .bar-wrapper.active .bar-progress {
   fill: #8a8aff;
 }
+
 .gantt .lower-text, .gantt .upper-text {
   font-size: 12px;
   text-anchor: middle;
 }
+
+/* Main headers for the chart*/
 .gantt .upper-text {
-  fill: #555;
+  fill: white;
 }
+
+/* Time headers for the chart*/
 .gantt .lower-text {
-  fill: #333;
+  fill: white;
 }
+
 .gantt .hide {
   display: none;
 }
 
+/* this is the container the controls the view and scroll bar*/
 .gantt-container {
   position: relative;
   overflow: auto;
   font-size: 12px;
+  margin-left: 2px;
 }
+
+/* scroll stlying */
+.gantt-container::-webkit-scrollbar {
+  width: 10px;
+}
+
+.gantt-container::-webkit-scrollbar-track {
+  background-color: transparent;
+}
+
+.gantt-container::-webkit-scrollbar-thumb {
+  background-color: #3e3f42;
+  border-radius: 20px;
+}
+
 .gantt-container .popup-wrapper {
   position: absolute;
   top: 0;
@@ -116,14 +176,17 @@
   color: #959da5;
   border-radius: 3px;
 }
+
 .gantt-container .popup-wrapper .title {
   border-bottom: 3px solid #a3a3ff;
   padding: 10px;
 }
+
 .gantt-container .popup-wrapper .subtitle {
   padding: 10px;
   color: #dfe2e5;
 }
+
 .gantt-container .popup-wrapper .pointer {
   position: absolute;
   height: 5px;

@@ -1,125 +1,83 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useMemo, useRef} from 'react';
+import { useParams } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
 import Gantt from 'frappe-gantt';
 import './GanttChart.css';
+import { fetchProject } from '../../../store/project';
 
 export default function GanttChart() {
+  const { projectId } = useParams()
+  const dispatch = useDispatch()
+  const time = useSelector(state => state.timeframe.selectedTimeframe);
+  const formattedTime = useMemo(() => time ? time.charAt(0).toUpperCase() + time.slice(1) : null, [time]);
+
+  // The useRef and useMemo are needed otherwise the chart would not render properly on first load and or would cause inifinte rerenders.
+
+  // Grab the project from state
+  const projectTasks = useSelector(state => state.projects);
+
+  // Function to reformat the date
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    const formattedDate = `${year}-${month}-${day}`;
+    return formattedDate;
+  };
+
+  // Reformate the tasks data for the Gantt chart
+  const formattedTasks = useMemo(() => projectTasks[projectId]?.tasks
+  ? projectTasks[projectId].tasks.map((task, index) => {
+    const sDate = task.startDate ? formatDate(task.startDate) : '';
+    const eDate = task.endDate ? formatDate(task.endDate) : '';
+    return {
+      id: task._id,
+      name: task.title,
+      start: sDate,
+      end: eDate,
+      progress: task.progress,
+      dependencies: task.blockingTasks //task.blockingTasks
+    };
+  })
+  : [], [projectTasks, projectId]);
 
   useEffect(() => {
-    const tasks = [
-      {
-        id: 'Task 1',
-        name: 'Redesign website',
-        start: '2023-01-01',
-        end: '2023-01-10',
-        progress: 70,
-        dependencies: ''
-      },
-      {
-        id: 'Task 2',
-        name: 'Develop new features',
-        start: '2023-01-11',
-        end: '2023-01-20',
-        progress: 50,
-        dependencies: 'Task 1'
-      },
-      {
-        id: 'Task 3',
-        name: 'Develop new features',
-        start: '2023-02-11',
-        end: '2023-02-20',
-        progress: 50,
-        dependencies: 'Task 2'
-      },
-      {
-        id: 'Task 4',
-        name: 'Develop new features',
-        start: '2023-03-11',
-        end: '2023-03-20',
-        progress: 50,
-        dependencies: 'Task 3'
-      },
-      {
-        id: 'Task 5',
-        name: 'Develop new features',
-        start: '2023-04-11',
-        end: '2023-04-20',
-        progress: 50,
-        dependencies: 'Task 4'
-      },
-      {
-        id: 'Task 6',
-        name: 'Develop new features',
-        start: '2023-05-11',
-        end: '2023-05-20',
-        progress: 50,
-        dependencies: 'Task 5'
-      },
-      {
-        id: 'Task 7',
-        name: 'Develop new features',
-        start: '2023-06-11',
-        end: '2023-06-20',
-        progress: 50,
-        dependencies: 'Task 6'
-      },
-      {
-        id: 'Task 8',
-        name: 'Develop new features',
-        start: '2023-07-11',
-        end: '2023-07-20',
-        progress: 50,
-        dependencies: 'Task 7'
-      },
-      {
-        id: 'Task 9',
-        name: 'Develop new features',
-        start: '2023-08-11',
-        end: '2023-08-20',
-        progress: 50,
-        dependencies: 'Task 8'
-      },
-      {
-        id: 'Task 10',
-        name: 'Develop new features',
-        start: '2023-09-11',
-        end: '2023-09-20',
-        progress: 50,
-        dependencies: 'Task 9'
-      },
-      // Add more tasks as needed
-    ];
 
-    let startViewMode = 'Month'
+    // Add the project to state
+    dispatch(fetchProject(projectId))
 
-    const gantt = new Gantt("#gantt", tasks, {
-      header_height: 50,
-      column_width: 30,
-      step: 24,
-      view_modes: ['Quarter Day', 'Half Day', 'Day', 'Week', 'Month'],
-      bar_height: 20,
-      bar_corner_radius: 3,
-      arrow_curve: 5,
-      padding: 18,
-      view_mode: startViewMode,
-      date_format: 'YYYY-MM-DD',
-      language: 'en', // or 'es', 'it', 'ru', 'ptBr', 'fr', 'tr', 'zh', 'de', 'hu'
-      custom_popup_html: null
-  });
+  }, [dispatch, projectId]);
 
+  const ganttRef = useRef();
 
-
-
-    // gantt.change_view_mode('Week') // this can be a dropdown - Quarter Day, Half Day, Day, Week, Month
-  }, []);
+  useEffect(() => {
+    // Generate the Gantt chart
+    if (ganttRef.current && formattedTasks.length && formattedTime) {
+      new Gantt("#gantt", formattedTasks, {
+        header_height: 50,
+        column_width: 30,
+        step: 24,
+        view_modes: ['Day', 'Week', 'Month'], // this is also a 'Quarter Day', 'Half Day' but they can't render properly
+        bar_height: 20,
+        bar_corner_radius: 3,
+        arrow_curve: 5,
+        padding: 18,
+        view_mode: formattedTime,
+        date_format: 'YYYY-MM-DD',
+        language: 'en', // or 'es', 'it', 'ru', 'ptBr', 'fr', 'tr', 'zh', 'de', 'hu'
+        custom_popup_html: null
+      });
+    }
+  }, [ganttRef, formattedTasks, formattedTime])
 
   return (
 
     <>
-      <svg id="gantt" className="gantt"></svg>
+        <svg id="gantt" className="gantt" ref={ganttRef}></svg>
     </>
 
 
   )
-
 
 }

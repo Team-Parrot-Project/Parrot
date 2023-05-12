@@ -1,5 +1,36 @@
 .project-home-wrapper {
-    display: flex;
-    height: 100vh;
-  }
-  
+  display: flex;
+  min-height: 100vh;
+  background-color: #2e2e30;
+  color: white;
+  grid-column: auto;
+  text-align: center;
+  font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Helvetica,Arial,sans-serif;
+}
+
+.project-home-wrapper button {
+  margin-top: 15px;
+  margin-bottom: 10px;
+}
+
+.project-home-wrapper form {
+  display: flex;
+  color: black;
+  width: 75%;
+  margin: 10px;
+}
+
+.project-home-wrapper .recommended-tasks {
+  background-color: #2e2e30;
+  color: white;
+}
+
+.project-home-table-title {
+  margin: 10px;
+  font-size: 30px;
+}
+
+.centered-container {
+  width: 100vw;
+}
+

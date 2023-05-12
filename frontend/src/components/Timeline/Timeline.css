@@ -2,3 +2,10 @@
   display: flex;
   height: 100vh;
 }
+
+.gantt-chart-wrapper {
+
+  background-color: #1e1f21;
+  width: 100vw;
+  overflow: hidden; /* if this is overflow scroll you get a scroll bar but wonky extra space*/
+}

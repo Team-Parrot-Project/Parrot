@@ -1,12 +1,15 @@
 import { useState } from 'react';
 import './TaskRecommendation.css'
 
-const TaskRecommendation = ({ title, description, startDate, endDate }) => {
+const TaskRecommendation = ({ project, recommendedTasks, setRecommendedTasks }) => {
   const apiKey = process.env.REACT_APP_OPENAI_API_KEY;
-  const [recommendedTasks, setRecommendedTasks] = useState('');
+  // const [recommendedTasks, setRecommendedTasks] = useState('');
+  const [buttonClicked, setButtonClicked] = useState(false);
+  const [buttonDisabled, setButtonDisabled] = useState(false);
+  const [displayTasks, setDisplayTasks] = useState('')
 
   const generateRecommendedTasks = async () => {
-    const prompt = `Given a new project with the following information:\n\nTitle: ${title}\nDescription: ${description}\nStart Date: ${startDate}\nEnd Date: ${endDate}\n\nWhat are some recommended tasks to complete for this project?`;
+    const prompt = `Given a new project with the following information:\n\nTitle: ${project.title}\nDescription: ${project.description}\n\nWhat are some recommended tasks to complete for this project? Please provide the recommended tasks each capitalized in comma seperated format for each task, remove numbering, and the period at the beginning/end.`;
 
     const requestBody = {
       prompt,
@@ -15,6 +18,8 @@ const TaskRecommendation = ({ title, description, startDate, endDate }) => {
       n: 1,
       model: 'text-davinci-003',
     };
+
+    setButtonDisabled(true);
 
     const response = await fetch('https://api.openai.com/v1/completions', {
       method: 'POST',
@@ -26,17 +31,23 @@ const TaskRecommendation = ({ title, description, startDate, endDate }) => {
     });
 
     const data = await response.json();
-    console.log(data);
     if (data.choices && data.choices.length > 0) {
-      setRecommendedTasks(data.choices[0].text.trim());
+      setRecommendedTasks(data.choices[0].text.trim().split(','));
+      setDisplayTasks(data.choices[0].text)
     }
+
+    setButtonClicked(true); 
   };
 
   return (
     <div>
-      <button onClick={generateRecommendedTasks}>Generate Recommended Tasks</button>
-      {recommendedTasks && <div className="recommended-tasks">{recommendedTasks}</div>}
-
+      {!buttonClicked && (
+        <div>
+          <p>Click below to generate recommended tasks based on the project title and description utilizing the Open AI API: </p>
+          <button onClick={generateRecommendedTasks}>Generate Recommended Tasks</button>
+        </div>
+      )}
+      {recommendedTasks.length > 0 && <div className="recommended-tasks">The recommended tasks are rendered in the Task Create forms below: {displayTasks}</div>}
     </div>
   );
 };
