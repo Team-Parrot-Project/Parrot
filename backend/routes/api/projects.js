@@ -39,6 +39,7 @@ router.get('/:projectid', requireUser, async (req,res,next)=>{
                 ['startDate', project.startDate],
                 ['endDate', project.endDate],
                 ['tasks', project.tasks],
+                ['collaborators', project.collaborators]
             ]
         )
 
