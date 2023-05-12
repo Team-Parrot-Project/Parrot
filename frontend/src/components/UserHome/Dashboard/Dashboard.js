@@ -34,7 +34,7 @@ export default function Dashboard() {
     return count;
   }, 0);
 
-  
+
 
   function createProject() {
     console.log("This is happening");
@@ -66,13 +66,7 @@ export default function Dashboard() {
                 <div className="parent-user-dashboard-widget-select-date-container">
                   <div className="child-user-dashboard-widget-select-date-container">
                     <div className="dashboard-widget">
-                      <select
-                        className="user-dashboard-widget-select-date">
-                        <option value="my_week">My week</option>
-                        <option value="upcoming">Upcoming</option>
-                        <option value="overdue">Overdue</option>
-                        <option value="completed">Completed</option>
-                      </select>
+                      <div>my week</div>
                     </div>
                   </div>
                 </div>
