@@ -19,6 +19,8 @@ export default function FilterBar() {
   const handleProjectIdChange = (event) => {
     const selectedProjectId = event.target.value;
     dispatch(setProjectId(selectedProjectId));
+    const projectLink = `/projects/${selectedProjectId}/timeline`;
+    window.location.href = projectLink;
   }
 
   return (
