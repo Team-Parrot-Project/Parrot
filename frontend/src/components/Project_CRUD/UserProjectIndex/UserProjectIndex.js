@@ -24,6 +24,7 @@ function UserProjectIndex() {
 
   const handleClick = (e,project)=>{
     e.preventDefault();
+    console.log("GHFHFHFHFHF")
     history.push(`/projects/${project._id}`)
   }
 
@@ -35,15 +36,15 @@ function UserProjectIndex() {
   return (
     <div className="user-project-index" >
       <TableRow row={["Title", "Collaborators","Tasks"]} rowClass={"task-table-header"}/>
-      {allProjects.map((p) => {
+      {allProjects.map((p, ix) => {
         const collabCount = p.collaborators.length;
         const taskCount = p.tasks.length;
         return (
-          <TableRow row={[p.title, collabCount, taskCount]}/>
+          <TableRow key={ix} handleClick={handleClick} rowElement={p} row={[p.title, collabCount, taskCount]}/>
         )
       })}
 
-  
+
       {/* <h2>Your Projects</h2> */}
       {/* <ul>
         {allProjects.map((project) => (

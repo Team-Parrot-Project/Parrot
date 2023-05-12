@@ -1,5 +1,25 @@
+.user-project-index {
+    /* width: 100vw; */
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.user-project-index ul {
+    justify-content: center;
+    align-items: center;
+    max-width: 75%;
+}
+
 .user-project-index li{
     border: 1px solid rgb(244, 244, 248);
+    border-radius: 5px;
     margin-top: 10px;
     margin-bottom: 10px;
 }
+
+.task-create-forms {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* Two columns with equal width */
+    grid-gap: 0px; /* Gap between columns */
+    max-width: 90%;
+  }

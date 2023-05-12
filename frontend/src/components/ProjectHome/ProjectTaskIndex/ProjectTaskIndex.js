@@ -11,19 +11,26 @@ function ProjectTaskIndex() {
 
   return (
     <div className="user-project-index">
-      <h2>Project Tasks</h2>
-      <ul>
-        {allTasks.map((task) => (
-          <li key={task._id}>
-            <h3>{task.title}</h3>
-            <p>{task.description}</p>
-            <p>
-              Start Date: {task.startDate} <br></br>| End Date: {task.endDate} <br></br>
-            </p>
-            <br></br>
-          </li> 
-        ))}
-      </ul>
+      <table className="task-table">
+        <thead>
+          <tr>
+            <th>Task Title</th>
+            <th>Task Description</th>
+            <th>Start Date</th>
+            <th>End Date</th>
+          </tr>
+        </thead>
+        <tbody>
+          {allTasks.map((task) => (
+            <tr key={task._id}>
+              <td>{task.title}</td>
+              <td>{task.description}</td>
+              <td>{task.startDate}</td>
+              <td>{task.endDate}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </div>
   );
 }

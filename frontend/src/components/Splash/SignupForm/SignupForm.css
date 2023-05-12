@@ -12,6 +12,13 @@
   text-align: center;
 }
 
+.hero-page-signup-form {
+  padding: 20px;
+  padding-right: 38px;
+  border-radius: 10px;
+  box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
+}
+
 .hero-page-signup-form-text {
   font-size: calc(33.75px + (45 - 33.75) * ((100vw - 2000px) / (1280 - 480)));
   line-height: 1.244;
