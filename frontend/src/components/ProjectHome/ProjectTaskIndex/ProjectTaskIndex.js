@@ -5,6 +5,7 @@ import * as taskActions from '../../../store/task';
 import { selectUser } from '../../../store/session';
 import * as projectActions from '../../../store/project';
 import { useParams } from 'react-router-dom/cjs/react-router-dom';
+import { formatDate } from '../../../store/util';
 
 function ProjectTaskIndex() {
   const {projectId} = useParams();
@@ -33,8 +34,8 @@ function ProjectTaskIndex() {
             <tr key={task._id}>
               <td>{task.title}</td>
               <td>{task.description}</td>
-              <td>{task.startDate}</td>
-              <td>{task.endDate}</td>
+              <td>{formatDate(task.startDate)}</td>
+              <td>{formatDate(task.endDate)}</td>
             </tr>
           ))}
         </tbody>

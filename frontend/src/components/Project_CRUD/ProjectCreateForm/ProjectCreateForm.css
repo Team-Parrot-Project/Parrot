@@ -4,7 +4,7 @@
     align-items: center;
     border: 2px solid #eee;
     padding: 20px;
-    background-color: #f9f7f7;
+    background-color: #333;
   }
 
   .project-create-form label {
@@ -22,7 +22,7 @@
     border: 2px solid #eee;
     margin-bottom: 20px;
     background-color: #ffffff;
-    color: #eee;
+    color: black;
   }
 
   .project-create-form button {
@@ -53,6 +53,6 @@
     .project-create-form input,
     .project-create-form textarea {
       border-color: #eee;
-      color: #eee;
+      color: black;
     }
   }
