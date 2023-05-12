@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { setTimeframe, setProjectId } from '../../../store/timeframeActions';
@@ -11,6 +11,14 @@ export default function FilterBar() {
   const dispatch = useDispatch();
   const projects = useSelector(state => state.projects);
 
+  // useEffect(()=>{
+  //   if(project){
+  //     setProjectId(project._id)]
+  //     console.log(projectId,"projectId")
+  //   }
+  // },[project,projectId, setProjectId])
+
+
   const handleTimeframeChange = (event) => {
     const selectedTimeframe = event.target.value;
     dispatch(setTimeframe(selectedTimeframe));
@@ -22,6 +30,9 @@ export default function FilterBar() {
     const projectLink = `/projects/${selectedProjectId}/timeline`;
     window.location.href = projectLink;
   }
+  console.log(Object.values(projects), "projects")
+  function logIt (log){
+    console.log(project)}
 
   return (
     <>
@@ -29,10 +40,10 @@ export default function FilterBar() {
         <h1 className="timeline-project-title">{project?.title}</h1>
         <div className="gantt-filter-group">
           <label className="gantt-filter-group-title">Project:</label>
-          <select onChange={handleProjectIdChange}>
-            {Object.keys(projects).map((projectId) => (
-              <option key={projectId} value={projects[projectId]._id}>
-                {projects[projectId].title}
+          <select onChange={handleProjectIdChange} defaultValue={projectId}>
+            {Object.values(projects).map((project) => (
+              <option key={project._id} value={project._id} selected={(projectId === project._id)}>
+                {`${project.title}`}
               </option>
             ))}
           </select>
