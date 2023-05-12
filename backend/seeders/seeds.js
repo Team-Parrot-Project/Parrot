@@ -88,8 +88,8 @@ const seedDB = async () => {
                 blockingTasks: []
               },
               {
-                title: "Prettify the ",
-                description: faker.lorem.paragraph(),
+                title: "Prettify the site",
+                description: "we got the team from Neighborhood Node....nuff said",
                 priority: 'medium',
                 assignee: userOne,
                 status: "in progress",
@@ -99,8 +99,8 @@ const seedDB = async () => {
                 blockingTasks: []
               },
               {
-                title: faker.lorem.words(),
-                description: faker.lorem.paragraph(),
+                title: "Present the App",
+                description: "Rodman, you're up!",
                 priority: 'medium',
                 assignee: userOne,
                 status: "in progress",
@@ -132,19 +132,105 @@ const seedDB = async () => {
     mainProject.tasks[4].blockingTasks.push(mainProject.tasks[3])
 
     secondaryProject = new Project ({
-        title: faker.lorem.words(),
-        description: faker.lorem.paragraph(),
+        title: "Rails Olympics",
+        description: "enter into and dominate rails Olympics",
         adminId: userOne,
         collaborators: [userOne],
-        tasks: [],
+        tasks: [
+          {
+            title: "Read",
+            description: "AAO is your best friend",
+            priority: 'medium',
+            assignee: userOne,
+            status: "in progress",
+            startDate: getFutureDate(0),
+            endDate: getFutureDate(3),
+            progress: 50,
+            blockingTasks: []
+        },
+        {
+          title: "Practice",
+          description: "aren't you glad Darren recorded these sessions?",
+          priority: 'medium',
+          assignee: userOne,
+          status: "in progress",
+          startDate: getFutureDate(3),
+          endDate: getFutureDate(6),
+          progress: 50,
+          blockingTasks: []
+      },
+      {
+        title: "Compete",
+        description: "SPIRE, CRRLLL",
+        priority: 'medium',
+        assignee: userOne,
+        status: "in progress",
+        startDate: getFutureDate(6),
+        endDate: getFutureDate(9),
+        progress: 50,
+        blockingTasks: []
+    }
+        ],
         startDate: faker.date.past(),
         endDate: faker.date.future()
     })
 
     userOne.projects.push(secondaryProject);
+    userOne.assignedTasks.push(secondaryProject.tasks[0]);
+    userOne.assignedTasks.push(secondaryProject.tasks[1]);
+    userOne.assignedTasks.push(secondaryProject.tasks[2]);
+
+    thirdProject = new Project ({
+      title: "Kahoot",
+      description: "enter into and dominate rails Olympics",
+      adminId: userOne,
+      collaborators: [userOne],
+      tasks: [
+        {
+          title: "Login",
+          description: "get the code",
+          priority: 'medium',
+          assignee: userOne,
+          status: "in progress",
+          startDate: getFutureDate(0),
+          endDate: getFutureDate(5),
+          progress: 50,
+          blockingTasks: []
+      },
+      {
+        title: "Listen to lit music",
+        description: "tell the instrutor to turn it up?",
+        priority: 'medium',
+        assignee: userOne,
+        status: "in progress",
+        startDate: getFutureDate(5),
+        endDate: getFutureDate(10),
+        progress: 50,
+        blockingTasks: []
+    },
+    {
+      title: "Compete",
+      description: "don't answer too fast!",
+      priority: 'medium',
+      assignee: userOne,
+      status: "in progress",
+      startDate: getFutureDate(10),
+      endDate: getFutureDate(15),
+      progress: 50,
+      blockingTasks: []
+  }
+      ],
+      startDate: faker.date.past(),
+      endDate: faker.date.future()
+  })
+
+  userOne.projects.push(thirdProject);
+  userOne.assignedTasks.push(thirdProject.tasks[0]);
+  userOne.assignedTasks.push(thirdProject.tasks[1]);
+  userOne.assignedTasks.push(thirdProject.tasks[2]);
 
     await User.insertMany([userOne, userTwo, userThree]);
-    const projectResult = await Project.insertMany([mainProject, secondaryProject]);
+    const projectResult = await Project.insertMany([mainProject, secondaryProject, thirdProject]);
     console.log(projectResult, "projectResult");
     console.log(projectResult[0].tasks[1], "second task");
 
