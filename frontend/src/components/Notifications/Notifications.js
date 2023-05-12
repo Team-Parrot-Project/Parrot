@@ -7,6 +7,8 @@ import * as notificationActions from "../../store/notification"
 import * as projectActions from "../../store/project"
 import { fetchNotifications } from "../../store/notification";
 import socket from "./socket";
+import { AiOutlineClose } from "react-icons/ai";
+import "./Notifications.css";
 
 
 function Notifications () {
@@ -20,6 +22,7 @@ function Notifications () {
     useEffect(()=>{
         dispatch(userActions.fetchUser(userId))
         dispatch(notificationActions.fetchNotifications(userId))
+        console.log("Remount")
     },[dispatch,userId])
 
     useEffect(()=>{
@@ -48,10 +51,18 @@ function Notifications () {
         setMessages([...notifications])
     },[notifications])
 
+    const handleDelete = (e,messageId)=> {
+        e.preventDefault();
+        console.log(messageId,"click event messageId");
+        dispatch(notificationActions.deleteNotification(userId,messageId))
+    }
     return(
-        <div>
+        <div className="notificationHub">
             {messages.map((message)=>{
-                return <div>{message.message}</div>
+                return <div className="messageWrapper">
+                 <div className="notificationMessage" key={message._id}>{message.message}</div>
+                 <div className="notificationX" onClick={(e)=>{handleDelete(e,message._id)}}><AiOutlineClose size={15}/></div>
+                 </div>
             })}
         </div>
     )
