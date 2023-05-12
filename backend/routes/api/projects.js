@@ -3,6 +3,7 @@ var router = express.Router();
 const mongoose = require('mongoose');
 const Project = mongoose.model('Project');
 const User = mongoose.model('User');
+const Notification = mongoose.model('Notification');
 const { isProduction } = require('../../config/keys');
 const { requireUser } = require('../../config/passport');
 const { userOnProject, projectParams, taskProtector, stringifyCompare } = require('../../config/util');
@@ -13,6 +14,7 @@ const { Task } = require('../../models/Project');
 
 router.get('/:projectid', requireUser, async (req,res,next)=>{
     const projectId = req.params.projectid
+
     // console.log(req.user._id, "THIS IS THE LOGGED IN USER")
 
     // get the project
@@ -45,7 +47,18 @@ router.get('/:projectid', requireUser, async (req,res,next)=>{
         let nestedProject = Object.fromEntries([
             [project._id, baseProject]
         ])
-
+        const newNotification = new Notification({
+            message: `Project test by ${req.user.username}`,
+            target: "project",
+            task: null,
+            project: projectId,
+            admin: project.admin,
+        })
+        if(newNotification.save()){
+            req.io.to(projectId).emit("message",newNotification)
+        }else{
+            req.io.to(projectId).emit("message",{message:"Issue with Notification"})
+        }
         return res.json(nestedProject);
     } else {
         return res.json("Nothing was found");
@@ -81,7 +94,20 @@ router.post('/:projectId/tasks', requireUser, async (req,res,next)=>{
                 ...returnedTask.toObject(),
                 projectId: project._id
               };
-
+            const newNotification = new Notification({
+                message: `Task created by ${req.user.username}`,
+                target: "task",
+                task: manipulatedTask._id,
+                project: projectId,
+                admin: project.admin,
+            })
+            if(newNotification.save()){
+                req.io.to(project.admin).emit("message",newNotification)
+                req.io.to(manipulatedTask.assignee).emit("message",newNotification)
+            }else{
+                req.io.to(project.admin).emit("message","Issue with Notification")
+                req.io.to(updatedTask.assignee).emit("message","Issue with Notification")
+            }
             return res.json(manipulatedTask);
         } catch (error) {
             return res.json(error);
@@ -117,10 +143,23 @@ router.patch('/:projectId/tasks/:taskId', requireUser, async (req,res,next)=>{
         
         // updating the task with the body
         Object.assign(task, req.body)
-
+        // 
+        
         // saving the project, which will save the task
         await project.save();
-        
+        const newNotification = new Notification({
+            message: `Task updated by ${req.user.username}`,
+            target: "task",
+            task: taskId,
+            project: projectId,
+            admin: project.admin,
+        })
+        if(newNotification.save()){
+            req.io.to(project.admin).emit("message",newNotification);
+            req.io.to(updatedTask.assignee).emit("message",newNotification)
+        }else{
+            req.io.to(project.admin).emit("message",{message:"Issue with Notification"})
+        }
         return res.json(updatedTask);
 
     } else {
@@ -271,6 +310,18 @@ router.patch('/:projectId', requireUser, async (req,res,next) =>{
     );
     
     if(updatedProject) {
+        const newNotification = new Notification({
+            message: `Project Updated by ${req.user.username}`,
+            target: "project",
+            task: null,
+            project: projectId,
+            admin: updatedProject.admin,
+        })
+        if(newNotification.save()){
+            req.io.to(projectId).emit("message",newNotification)
+        }else{
+            req.io.to(projectId).emit("message",{message:"Issue with Notification"})
+        }
         return res.json(updatedProject);
     } else {
         return res.json({message:"Problem with project update"})

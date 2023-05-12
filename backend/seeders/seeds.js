@@ -15,6 +15,7 @@ const { faker } = require('@faker-js/faker');
     await User.deleteMany({});
     // await Task.deleteMany({});
     await Project.deleteMany({});
+    await Notification.deleteMany({});
     console.log('Data deleted!');
   };
 

@@ -5,11 +5,13 @@ import session from './session';
 import errors from './errors';
 import projects from './project';
 import tasks from './task';
+import notifications from './notification'
 
 const rootReducer = combineReducers({
   session,
   projects,
   tasks,
+  notifications,
   errors
 });
 

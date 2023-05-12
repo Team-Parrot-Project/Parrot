@@ -7,6 +7,7 @@ const { isProduction } = require('./config/keys');
 const csurf = require('csurf');
 const debug = require('debug');
 require('./models/User');
+require('./models/Notification')
 const {Project, Task} = require('./models/Project');
 require('./models/Project');
 require('./config/passport');
@@ -15,6 +16,7 @@ const passport = require('passport');
 var usersRouter = require('./routes/api/users');
 const csrfRouter = require('./routes/api/csrf');
 const projectsRouter = require('./routes/api/projects');
+const notificationsRouter = require('./routes/api/notifications');
 var app = express();
 const server = require('http').createServer(app);
 const io = require('socket.io')(server, {
@@ -34,11 +36,6 @@ io.on('connection', socket => {
     console.log('disconnecting....')
   });
 });
-
-const sendMessage = (message) => {
-    io.emit('message',message)
-    // io.to(:userId).emit("message",payload)
-}
 
 
 
@@ -73,7 +70,7 @@ app.use((req,res,next)=>{
 app.use('/api/users', usersRouter);
 app.use('/api/csrf', csrfRouter);
 app.use('/api/projects', projectsRouter);
-
+app.use('/api/notifications', notificationsRouter);
 if (isProduction) {
   const path = require('path');
   // Serve the frontend's index.html file at the root route

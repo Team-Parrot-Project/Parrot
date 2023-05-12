@@ -9,6 +9,8 @@ const { isProduction } = require('../../config/keys');
 const validateRegisterInput = require('../../validations/register');
 const validateLoginInput = require('../../validations/login');
 const app = require('../../app');
+
+
 router.get('/current', restoreUser, (req, res) => {
   if (!isProduction) {
     // In development, allow React server to gain access to the CSRF token
@@ -32,11 +34,7 @@ router.get('/:userid', async (req, res, next)=>{
   const user = await User.findOne({"_id":`${userId}`}).populate("projects")
   //Users show needs full populate on tasks, projects, and needs to hide password 
   //Might need to delete the password hash in memory or select subset
-  const projects = user.projects
-  projects.forEach((project) => {
-    req.io.emit("message","Bird's the word")
-  })
-  
+  // req.io.to(userId).emit("message",{message:"Hit /userid"})
   return res.json(user)
 });
 
