@@ -4,7 +4,7 @@
     align-items: center;
     border: 2px solid #eee;
     padding: 20px;
-    background-color: #444;
+    background-color: #f9f7f7;
   }
 
   .project-create-form label {
@@ -21,7 +21,7 @@
     border-radius: 5px;
     border: 2px solid #eee;
     margin-bottom: 20px;
-    background-color: #333;
+    background-color: #ffffff;
     color: #eee;
   }
 
@@ -43,7 +43,7 @@
   @media (prefers-color-scheme: dark) {
     .project-create-form {
       border-color: #333;
-      background-color: #222;
+      background-color: #333;
     }
 
     .project-create-form label {
@@ -53,7 +53,6 @@
     .project-create-form input,
     .project-create-form textarea {
       border-color: #eee;
-      background-color: #333;
       color: #eee;
     }
   }
