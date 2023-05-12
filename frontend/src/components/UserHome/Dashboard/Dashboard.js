@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useSelector } from 'react-redux';
 import CurrentDate from './Date/Date';
 import UserGreeting from './UserGreeting/UserGreeting';
 import './Dashboard.css';
@@ -13,6 +14,26 @@ export default function Dashboard() {
 
   const [showModal, setShowModal] = useState(false);
   const closeModal = () => setShowModal(false);
+
+
+  // grabs all the project collaborators from state
+  const projects = useSelector(state => state.projects);
+
+  const totalCollaborators = Object.keys(projects).reduce((count, projectId) => {
+    const project = projects[projectId];
+    return count + project.collaborators.length;
+  }, 0);
+
+  // grabs all completed tasks from state
+  const tasks = useSelector(state => state.tasks);
+  const completedTasks = Object.keys(tasks).reduce((count, taskId) => {
+    const task = tasks[taskId];
+    if (task.status === 'completed') {
+      return count + 1;
+    }
+    return count;
+  }, 0);
+
 
 
   function createProject() {
@@ -45,13 +66,7 @@ export default function Dashboard() {
                 <div className="parent-user-dashboard-widget-select-date-container">
                   <div className="child-user-dashboard-widget-select-date-container">
                     <div className="dashboard-widget">
-                      <select
-                        className="user-dashboard-widget-select-date">
-                        <option value="my_week">My week</option>
-                        <option value="upcoming">Upcoming</option>
-                        <option value="overdue">Overdue</option>
-                        <option value="completed">Completed</option>
-                      </select>
+                      <div>my week</div>
                     </div>
                   </div>
                 </div>
@@ -72,7 +87,7 @@ export default function Dashboard() {
                     <div className="child-user-dashboard-project-task-number-ticker-container">
                       <h4
                         className="user-dashboard-project-task-number-ticker">
-                        0</h4>
+                        {completedTasks}</h4>
                     </div>
                   </div>
                 </div><span className="user-dashboard-project-quick-stats-title">tasks completed</span>
@@ -89,7 +104,7 @@ export default function Dashboard() {
                     <div className="child-user-dashboard-project-task-number-ticker-container">
                       <h4
                         className="user-dashboard-project-task-number-ticker">
-                        0</h4>
+                        {totalCollaborators}</h4>
                     </div>
                   </div>
                 </div><span className="user-dashboard-project-quick-stats-title">collaborators</span>
@@ -127,7 +142,7 @@ export default function Dashboard() {
           <div className="user-dashboard-projects-container">
             <div className='project-plus-button'>
               <ProjectCreateModal />
-              
+
             </div>
             <h2 className="user-dashboard-project-task-container-title-x">Projects</h2>
                 <div className='project-list'>
