@@ -10,14 +10,14 @@ const TaskCreateForm = ({ users, taskTitle = '' }) => {
   const [description, setDescription] = useState('');
   const [dueDate, setDueDate] = useState('');
   const [assignee, setAssignee] = useState('');
-  const [status, setStatus] = useState('');
+  const [status, setStatus] = useState('In progress');
   const currentUser = useSelector(state => state.session.user);
   const {projectId} = useParams();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     // Validate input values
-    if (!title || !description || !dueDate || !assignee) {
+    if (!title || !dueDate || !assignee) {
       // Display an error message if any input field is empty
       alert('Please fill in all fields.');
       return;
