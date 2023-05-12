@@ -25,20 +25,20 @@ router.get('/:userid', async (req, res, next)=>{
     return res.json(notificationArray)
   });
   
-router.delete('/:userId/:notificationid', requireUser, async(req, res, next)=> {
-    const userId = req.params.userid
-    const notificationId = req.params.notificationid
-    const notification = await Notification.findOne({"_id":`${notificationId}`});
+router.delete('/:userId/:notificationId', async(req, res, next)=> {
 
+    const userId = req.params.userId
+    const notificationId = req.params.notificationId
+    console.log([userId,notificationId],"In Delete")
+    const notification = await Notification.findOne({"_id":`${notificationId}`});
     if(!notification){
         return res.json({message:"No project found"})
+    }else{
+        const deleteResult = await Notification.deleteOne({"_id":`${notificationId}`});
+        if(deleteResult.deletedCount === 1){
+            return res.json({message: "Successful Delete"})
+        }
     }
-    const deleteResult = await Project.deleteOne({"_id":`${notificationId}`});
-
-    if(deleteResult.deleteCount === 1){
-        return res.json({message: "Successful Delete"})
-    }
-
 })
 
   module.exports = router;

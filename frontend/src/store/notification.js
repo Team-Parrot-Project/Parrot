@@ -32,7 +32,10 @@ export const notificationReducer = (state = {}, action) => {
         case ADD_NOTIFICATION:
             return {...state, [action.notification._id]: action.notification}
         case ADD_NOTIFICATIONS:
-            return {...action.notifications}
+            action.notifications.forEach(notification => {
+                newState[notification._id] = notification
+            })
+            return newState
         case REMOVE_NOTIFICATION:
             delete newState[action.notificationId]
             return newState;
@@ -61,10 +64,16 @@ export const fetchNotifications = (userId) => async dispatch =>{
 }
 
 export const deleteNotification = (userId,notificationId) => async dispatch =>{
+    console.log([userId,notificationId],"trying to delete")
     let res = await jwtFetch(`/api/notifications/${userId}/${notificationId}`,{
-        method: 'DELETE'
+        method: 'DELETE',
+        headers: {
+            'Content-Type':'application/json'
+        }
     })
+    console.log(res,"res")
     if(res.ok){
+        console.log(res,"res in deleteNotif")
         dispatch(removeNotification(notificationId))
     }
 }

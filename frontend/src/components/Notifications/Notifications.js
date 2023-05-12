@@ -52,15 +52,14 @@ function Notifications () {
     },[notifications])
 
     const handleDelete = (e,messageId)=> {
-        e.preventDefault();
-        console.log(messageId,"click event messageId");
-        dispatch(notificationActions.deleteNotification(userId,messageId))
+        console.log([userId,messageId],"click event messageId");
+        dispatch(notificationActions.deleteNotification(userId,messageId));
     }
     return(
         <div className="notificationHub">
             {messages.map((message)=>{
-                return <div className="messageWrapper">
-                 <div className="notificationMessage" key={message._id}>{message.message}</div>
+                return <div className="messageWrapper" key={message._id}>
+                 <div className="notificationMessage">{message.message}</div>
                  <div className="notificationX" onClick={(e)=>{handleDelete(e,message._id)}}><AiOutlineClose size={15}/></div>
                  </div>
             })}
