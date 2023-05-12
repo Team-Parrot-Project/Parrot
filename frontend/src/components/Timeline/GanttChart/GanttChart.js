@@ -4,11 +4,13 @@ import { useSelector, useDispatch } from 'react-redux';
 import Gantt from 'frappe-gantt';
 import './GanttChart.css';
 import { fetchProject } from '../../../store/project';
+import { fetchUser } from '../../../store/user';
 
 export default function GanttChart() {
   const { projectId } = useParams()
   const dispatch = useDispatch()
   const time = useSelector(state => state.timeframe.selectedTimeframe);
+  const userId = useSelector(state => state.session.user._id);
   const formattedTime = useMemo(() => time ? time.charAt(0).toUpperCase() + time.slice(1) : null, [time]);
 
   // The useRef and useMemo are needed otherwise the chart would not render properly on first load and or would cause inifinte rerenders.
@@ -46,8 +48,9 @@ export default function GanttChart() {
 
     // Add the project to state
     dispatch(fetchProject(projectId))
+    dispatch(fetchUser(userId))
 
-  }, [dispatch, projectId]);
+  }, [dispatch, projectId, userId]);
 
   const ganttRef = useRef();
 

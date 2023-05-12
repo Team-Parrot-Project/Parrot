@@ -24,7 +24,6 @@ function UserProjectIndex() {
 
   const handleClick = (e,project)=>{
     e.preventDefault();
-    console.log("GHFHFHFHFHF")
     history.push(`/projects/${project._id}`)
   }
 

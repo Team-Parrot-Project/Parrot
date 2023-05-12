@@ -81,11 +81,6 @@
 
 }
 
-.child-user-dashboard-widget-select-date-container:hover {
-  color: #f5f4f3;
-  background-color: #6a696a;
-}
-
 .user-dashboard-widget-select-date {
   min-width: 1px;
   overflow: hidden;

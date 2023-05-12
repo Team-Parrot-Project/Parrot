@@ -1,7 +1,7 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { setTimeframe } from '../../../store/timeframeActions';
+import { setTimeframe, setProjectId } from '../../../store/timeframeActions';
 import { getProject } from '../../../store/project';
 import './FilterBar.css'
 
@@ -9,13 +9,17 @@ export default function FilterBar() {
   const { projectId } = useParams()
   const project = useSelector(getProject(projectId));
   const dispatch = useDispatch();
+  const projects = useSelector(state => state.projects);
 
   const handleTimeframeChange = (event) => {
     const selectedTimeframe = event.target.value;
     dispatch(setTimeframe(selectedTimeframe));
   };
 
-  if (project) console.log(project.title)
+  const handleProjectIdChange = (event) => {
+    const selectedProjectId = event.target.value;
+    dispatch(setProjectId(selectedProjectId));
+  }
 
   return (
     <>
@@ -23,11 +27,13 @@ export default function FilterBar() {
         <h1 className="timeline-project-title">{project?.title}</h1>
         <div className="gantt-filter-group">
           <label className="gantt-filter-group-title">Project:</label>
-          {/* <select id="gantt-project-filter" onChange={handleProjectChange}>
-            {projects.map(project => (
-              <option key={project.id} value={project.id}>{project.title}</option>
+          <select onChange={handleProjectIdChange}>
+            {Object.keys(projects).map((projectId) => (
+              <option key={projectId} value={projects[projectId]._id}>
+                {projects[projectId].title}
+              </option>
             ))}
-          </select> */}
+          </select>
         </div>
         <div className="gantt-filter-group">
           <label className="gantt-filter-group-title">Timeframe:</label>
