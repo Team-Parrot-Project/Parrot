@@ -7,6 +7,7 @@ const { isProduction } = require('./config/keys');
 const csurf = require('csurf');
 const debug = require('debug');
 require('./models/User');
+require('./models/Notification')
 const {Project, Task} = require('./models/Project');
 require('./models/Project');
 require('./config/passport');
@@ -15,6 +16,7 @@ const passport = require('passport');
 var usersRouter = require('./routes/api/users');
 const csrfRouter = require('./routes/api/csrf');
 const projectsRouter = require('./routes/api/projects');
+const notificationsRouter = require('./routes/api/notifications');
 var app = express();
 const server = require('http').createServer(app);
 const io = require('socket.io')(server, {
@@ -26,18 +28,17 @@ server.listen(5001);
 
 io.on('connection', socket => {
   console.log(socket.id,'a user connected')
-  socket.on('message',(message)=>{
-    console.log(message,"message")
-    socket.emit("message","Hey from server")
-  })
+  socket.emit("message","Connection Made")
   socket.on('join-channel',(room)=>{
     socket.join(room);
-    socket.to(room).emit("message",`Joined Room`)
   })
   socket.on('disconnect',()=>{
     console.log('disconnecting....')
   });
-  });
+});
+
+
+
 
 app.use(logger('dev'));
 app.use(express.json());
@@ -62,11 +63,14 @@ app.use(
     })
   );
 
-// app.use('/', indexRouter);
+app.use((req,res,next)=>{
+  req.io = io;
+  next();
+});
 app.use('/api/users', usersRouter);
 app.use('/api/csrf', csrfRouter);
 app.use('/api/projects', projectsRouter);
-
+app.use('/api/notifications', notificationsRouter);
 if (isProduction) {
   const path = require('path');
   // Serve the frontend's index.html file at the root route
@@ -111,3 +115,4 @@ app.use((req, res, next) => {
   });
 
 module.exports = app;
+// exports.io = io;

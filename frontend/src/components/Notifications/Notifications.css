@@ -1,0 +1,18 @@
+.notificationHub {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+
+}
+
+.messageWrapper {
+    display: flex;
+    justify-content: space-between;
+    margin: 2px;
+    padding: 1px;
+
+}
+
+.notificationX:hover {
+    cursor: pointer;
+}
