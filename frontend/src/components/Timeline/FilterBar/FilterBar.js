@@ -9,13 +9,12 @@ export default function FilterBar() {
   const { projectId } = useParams()
   const project = useSelector(getProject(projectId));
   const dispatch = useDispatch();
+  const projects = useSelector(state => state.projects);
 
   const handleTimeframeChange = (event) => {
     const selectedTimeframe = event.target.value;
     dispatch(setTimeframe(selectedTimeframe));
   };
-
-  if (project) console.log(project.title)
 
   return (
     <>
