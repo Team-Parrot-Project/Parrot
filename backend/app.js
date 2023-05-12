@@ -28,7 +28,7 @@ server.listen(5001);
 
 io.on('connection', socket => {
   console.log(socket.id,'a user connected')
-  socket.emit("message","Connection Made")
+  // socket.emit("message","Connection Made")
   socket.on('join-channel',(room)=>{
     socket.join(room);
   })

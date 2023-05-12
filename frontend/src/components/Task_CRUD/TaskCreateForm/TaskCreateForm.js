@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import './TaskCreateForm.css';
 import  { useDispatch, useSelector } from 'react-redux';
 import { createTask } from '../../../store/task';
+import { useParams } from 'react-router-dom/cjs/react-router-dom';
 
 const TaskCreateForm = ({ users, taskTitle = '' }) => {
   const dispatch = useDispatch();
@@ -11,7 +12,7 @@ const TaskCreateForm = ({ users, taskTitle = '' }) => {
   const [assignee, setAssignee] = useState('');
   const [status, setStatus] = useState('');
   const currentUser = useSelector(state => state.session.user);
-  const projectId = "645c0ae85a55a470b69c5ba3";
+  const {projectId} = useParams();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -86,7 +87,7 @@ const TaskCreateForm = ({ users, taskTitle = '' }) => {
         {users?.map(user => (
           <option key={user._id} value={user._id}>{user.name}</option>
         ))}
-        <option value={currentUser.username}>{currentUser.username}</option>
+        <option value={currentUser._id}>{currentUser.username}</option>
       </select>
       <button type="submit">Create Task</button>
     </form>

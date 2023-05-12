@@ -14,7 +14,8 @@ const { Task } = require('../../models/Project');
 
 router.get('/:projectid', requireUser, async (req,res,next)=>{
     const projectId = req.params.projectid
-
+    // req.io.emit("message",{message:"Hit /project"})
+    // req.io.to(projectId).emit("message",{message:"To ProjectId"})
     // console.log(req.user._id, "THIS IS THE LOGGED IN USER")
 
     // get the project
@@ -48,18 +49,18 @@ router.get('/:projectid', requireUser, async (req,res,next)=>{
         let nestedProject = Object.fromEntries([
             [project._id, baseProject]
         ])
-        const newNotification = new Notification({
-            message: `Project test by ${req.user.username}`,
-            target: "project",
-            task: null,
-            project: projectId,
-            admin: project.admin,
-        })
-        if(newNotification.save()){
-            req.io.to(projectId).emit("message",newNotification)
-        }else{
-            req.io.to(projectId).emit("message",{message:"Issue with Notification"})
-        }
+        // const newNotification = new Notification({
+        //     message: `Project test by ${req.user.username}`,
+        //     target: "project",
+        //     task: null,
+        //     project: projectId,
+        //     admin: project.admin,
+        // })
+        // if(newNotification.save()){
+        //     // req.io.emit("message",newNotification)
+        // }else{
+        //     req.io.to(projectId).emit("message",{message:"Issue with Notification"})
+        // }
         return res.json(nestedProject);
     } else {
         return res.json({message: "Nothing was found"});
@@ -127,7 +128,20 @@ router.post('/:projectId/tasks', requireUser, async (req,res,next)=>{
         // console.log(newTask, "newTask")
 
         project.tasks.push(newTask);
-
+        const newNotification = new Notification({
+            message: `Task created by ${req.user.username}`,
+            target: "task",
+            task: newTask._id,
+            project: projectId,
+            admin: project.admin,
+        })
+        if(newNotification.save()){
+            console.log("Made it")
+            req.io.emit("message",newNotification)
+        }else{
+            req.io.to(project.admin).emit("message","Issue with Notification")
+            req.io.to(updatedTask.assignee).emit("message","Issue with Notification")
+        }
         try {
             const savedProject = await project.save();
             console.log(savedProject, "savedProject\n****\n");
@@ -149,20 +163,7 @@ router.post('/:projectId/tasks', requireUser, async (req,res,next)=>{
                 ...returnedTask.toObject(),
                 projectId: project._id
               };
-            const newNotification = new Notification({
-                message: `Task created by ${req.user.username}`,
-                target: "task",
-                task: manipulatedTask._id,
-                project: projectId,
-                admin: project.admin,
-            })
-            if(newNotification.save()){
-                req.io.to(project.admin).emit("message",newNotification)
-                req.io.to(manipulatedTask.assignee).emit("message",newNotification)
-            }else{
-                req.io.to(project.admin).emit("message","Issue with Notification")
-                req.io.to(updatedTask.assignee).emit("message","Issue with Notification")
-            }
+            
             console.log(manipulatedTask, "manipulatedTask\n****\n");
 
             return res.json(manipulatedTask);

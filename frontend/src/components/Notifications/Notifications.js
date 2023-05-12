@@ -5,8 +5,8 @@ import io from "socket.io-client";
 import * as userActions from "../../store/user"
 import * as notificationActions from "../../store/notification"
 import * as projectActions from "../../store/project"
-import { fetchNotifications } from "../../store/notification";
-import socket from "./socket";
+
+// import socket from "./socket";
 import { AiOutlineClose } from "react-icons/ai";
 import "./Notifications.css";
 
@@ -18,34 +18,41 @@ function Notifications () {
     const projects = useSelector(projectActions.getProjects)
     const notifications = useSelector(notificationActions.getNotifications)
     console.log("Re-Rendered")
-
+    // const socket = io('http://localhost:5001');
     useEffect(()=>{
         dispatch(userActions.fetchUser(userId))
         dispatch(notificationActions.fetchNotifications(userId))
-        console.log("Remount")
     },[dispatch,userId])
 
     useEffect(()=>{
+        console.log("in socket")
+        let socket = io('http://localhost:5001');
         //Eventually refactor to join appropriate room channels
-        
-        socket.on("connect", ()=>{
-            console.log("connection")
-            socket.emit('join-channel',`${userId}`)
-            if(projects){
-                projects.forEach((project)=>{
-                    let projectId = project._id
-                    socket.emit('join-channel',projectId);
-                })
-            }
-        });
-        
+        socket.on('connect',()=>{
+            console.log(socket.id,"connection")
+            
+        })
+        console.log(projects,"projects")
+        if(projects){
+            projects.forEach((project)=>{
+                let projectId = project._id
+                socket.emit('join-channel',projectId);
+            })
+        }
         socket.on('message',(input)=>{
             console.log(input,"message")
             dispatch(notificationActions.addNotification(input))
         })
+
         
     return ()=>{socket.disconnect()}
-    },[socket,projects,userId,dispatch])
+    },[userId,dispatch,projects])
+
+    useEffect(()=>{
+        
+    },[projects])
+
+    
 
     useEffect(()=>{
         setMessages([...notifications])
