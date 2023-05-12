@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import './TaskRecommendation.css'
+import './TaskRecommendation.css';
 
 const TaskRecommendation = ({ project, recommendedTasks, setRecommendedTasks }) => {
   const apiKey = process.env.REACT_APP_OPENAI_API_KEY;
