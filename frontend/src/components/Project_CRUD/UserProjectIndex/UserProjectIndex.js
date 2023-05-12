@@ -37,6 +37,7 @@ function UserProjectIndex() {
     <div className="user-project-index" >
       <TableRow row={["Title", "Collaborators","Tasks"]} rowClass={"task-table-header"}/>
       {allProjects.map((p, ix) => {
+        console.log(p, "this is the p")
         const collabCount = p.collaborators.length;
         const taskCount = p.tasks.length;
         return (
