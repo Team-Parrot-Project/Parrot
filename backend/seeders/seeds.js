@@ -13,6 +13,7 @@ const { getFutureDate } = require("../config/util.js");
     await User.deleteMany({});
     // await Task.deleteMany({});
     await Project.deleteMany({});
+    await Notification.deleteMany({});
     console.log('Data deleted!');
   };
 

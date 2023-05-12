@@ -15,7 +15,7 @@ function UserProjectIndex() {
   const history = useHistory();
   useEffect(() => {
 
-    if (currentUser) dispatch(userActions.fetchUser(currentUser._id));
+    // if (currentUser) dispatch(userActions.fetchUser(currentUser._id));
   }, [currentUser._id, dispatch]);
 
   const userProjects = allProjects.filter(

@@ -66,6 +66,7 @@ export const fetchProject = (projectId) => async dispatch=>{
     let res = await jwtFetch(`/api/projects/${projectId}`)
     if(res.ok){
         let data = await res.json();
+        console.log(data[projectId],"project before Add Project");
         dispatch(addProject(data[projectId]));
     }
 }

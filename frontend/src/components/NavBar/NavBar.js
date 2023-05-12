@@ -4,6 +4,7 @@ import { useParams } from 'react-router-dom';
 import * as sessionActions from '../../store/session';
 import logo from "../../assets/logo_text_version.png"
 import './NavBar.css';
+import Notifications from "../Notifications/Notifications";
 
 export default function NavBar() {
 
@@ -82,6 +83,7 @@ export default function NavBar() {
               </svg>
               <span className="nav-text">Notifications</span>
             </a>
+            <Notifications/>
           </section>
         </div>
       </nav>
