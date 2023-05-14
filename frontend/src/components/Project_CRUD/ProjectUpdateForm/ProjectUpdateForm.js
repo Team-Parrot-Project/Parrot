@@ -1,32 +1,26 @@
 import React, { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { getProject, updateProject } from '../../../store/project';
+import { useParams } from 'react-router-dom/cjs/react-router-dom.min';
+import './ProjectUpdateForm.css';
+import { formatDate } from '../../../store/util';
 
-export default function ProjectUpdateForm({ projectId }) {
+export default function ProjectUpdateForm() {
   const dispatch = useDispatch();
-
-  const [project, setProject] = useState(null);
+  const {projectId} = useParams();
+  const project = useSelector(getProject(projectId));
   const [projectName, setProjectName] = useState('');
   const [description, setDescription] = useState('');
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
 
   useEffect(() => {
-    async function fetchProject() {
-      const data = await dispatch(getProject(projectId));
-      setProject(data);
-    }
-
-    fetchProject();
-  }, [dispatch, projectId]);
-
-  useEffect(() => {
     // This effect hook will run only when the project state variable is set
     if (project) {
       setProjectName(project.title);
       setDescription(project.description);
-      setStartDate(project.startDate);
-      setEndDate(project.endDate);
+      setStartDate(formatDate(project.startDate));
+      setEndDate(formatDate(project.endDate));
     }
   }, [project]);
 
@@ -45,7 +39,6 @@ export default function ProjectUpdateForm({ projectId }) {
       startDate: startDate,
       endDate: endDate,
     };
-    console.log(updatedProject,"updatedProject")
     try {
       dispatch(updateProject(updatedProject));
       alert('Project updated successfully!');
@@ -55,7 +48,7 @@ export default function ProjectUpdateForm({ projectId }) {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit} className="project-update-form">
       <label htmlFor="projectName">Project Name:</label>
       <input
         type="text"
