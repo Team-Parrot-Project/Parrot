@@ -17,7 +17,7 @@ export default function ProjectHome () {
   const [recommendedTasks, setRecommendedTasks] = useState([]);
   const project = useSelector((state) => state.projects[projectId]);
   console.log(project);
-    
+
     useEffect(() => {
         dispatch(taskActions.purgeTasks());
         dispatch(projectActions.fetchProject(projectId));
@@ -28,7 +28,8 @@ export default function ProjectHome () {
       <div className="project-home-wrapper">
         <NavBar/>
       <div className="centered-container">
-        <h1 className="project-home-table-title">{project?.title}</h1>
+        <h1 className="project-home-table-title">Project: {project?.title}</h1>
+        <h2 className="project-home-table-title">Description: {project?.description}</h2>
         <ProjectTaskIndex/>
         <TaskRecommendation project={project} recommendedTasks={recommendedTasks} setRecommendedTasks={setRecommendedTasks}/>
         <div className="task-create-forms">

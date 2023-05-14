@@ -1,23 +1,21 @@
 import React, { useState, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import './ProjectTaskIndex.css';
-import * as taskActions from '../../../store/task';
-import { selectUser } from '../../../store/session';
+import { useSelector } from 'react-redux';
 import * as projectActions from '../../../store/project';
 import { useParams } from 'react-router-dom/cjs/react-router-dom';
 import { formatDate } from '../../../store/util';
+import './ProjectTaskIndex.css';
 
 function ProjectTaskIndex() {
   const {projectId} = useParams();
   const [allTasks,setAllTasks] = useState([]);
   const project = useSelector(projectActions.getProject(projectId));
-  
+
   useEffect(()=>{
     if(project){
         setAllTasks(project.tasks);
       }
   },[project,setAllTasks])
-  
+
   return (
     <div className="user-project-index">
       <table className="task-table">
