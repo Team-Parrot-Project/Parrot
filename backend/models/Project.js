@@ -27,11 +27,16 @@ const taskSchema = new Schema({
     },
     startDate: {
         type: Date,
-        required: false
+        required: true
     },
     endDate: {
         type: Date,
-        required: false
+        required: true,
+        validate: {
+            validator: function (value) {
+                return value >= this.startDate},
+            message: 'End date must be greater than or equal to start date.'
+        }
     },
     progress : {
         type: Number,
