@@ -26,8 +26,12 @@ export default function TaskUpdateForm({taskId,projectId}) {
     const handleSubmit = (event) => {
         event.preventDefault();
         const updatedTask = {...task, title, description, dueDate};
-        console.log(updatedTask,"updatedTask")
-        dispatch(updateTask(projectId, updatedTask));
+        try {
+            dispatch(updateTask(projectId, updatedTask));
+            alert('Project updated successfully!');
+          } catch (err) {
+            alert('Failed to update project. Please try again later.');
+          }
     };
 
     return (

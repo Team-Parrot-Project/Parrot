@@ -98,7 +98,7 @@ router.post('/:projectId/tasks', requireUser, async (req,res,next)=>{
     else if (!userOnProject(project, req.user._id)) {
         return res.json({message: "logged in user is not a collaborator or admin of the project"});
     }
-    
+
     // optional field validation - if these are present, we must validate them
 
     // if there is an assigneeId make sure it is valid by looking for the User and making sure they are an admin or collaborator
@@ -128,10 +128,10 @@ router.post('/:projectId/tasks', requireUser, async (req,res,next)=>{
         }
     }
 
-    
-    // perform other validation, ultimately attempting a save    
+
+    // perform other validation, ultimately attempting a save
     const newTask = new Task (req.body);
-    
+
     if(newTask.blockingTasks?.length > 0) {
         console.log("performing a check of blocking tasks\n****\n")
 
@@ -144,7 +144,7 @@ router.post('/:projectId/tasks', requireUser, async (req,res,next)=>{
             return res.json({message: "invalid blocking tasks, retry with updated dates or blocking tasks"});
         }
     }
-    
+
     // at this point all checks have been passed
     project.tasks.push(newTask);
     const newNotification = new Notification({
@@ -298,14 +298,14 @@ router.patch('/:projectId/tasks/:taskId', requireUser, async (req,res,next)=>{
 
         }
 
-        
+
         // the special version to be sent to the back end if the next check passes
         const updatedTask = {
             ...task.toObject(),
             projectId: project._id,
             ...req.body,
         };
-        
+
         // if incoming blocking tasks has been defined with a non 0 sized array we need to check it
         if(incomingBlockingTasks !== undefined && incomingBlockingTasks?.length > 0) {
             console.log("performing a blocking task check \n****\n");
@@ -318,18 +318,18 @@ router.patch('/:projectId/tasks/:taskId', requireUser, async (req,res,next)=>{
 
             // console.log(req.body, "REQ BODY PRIOR TO DIFF")
             const {added, removed} = arrayDiff(priorBlockingTaskStrings, incomingBlockingTasks);
-            
+
             console.log(added, "added to blocking tasks \n****\n")
             console.log(removed, "removed from blocking tasks \n****\n")
-            
+
             // we don't care about removal, but we do care about adds
             if(added.length > 0) {
                 console.log("new blocking tasks present \n****\n");
-                
+
                 const blockCheck = await blockingTaskCheck(updatedTask, project);
                 console.log(req.body, "REQ BODY AFTER blockCheck")
                 console.log(blockCheck, "blockCheck\n****\n");
-                
+
                 if (!blockCheck) {
                     console.log("Stopping PATCH due to invalue blocking task");
                     return res.json({message: "invalid blocking tasks"});
@@ -381,7 +381,7 @@ router.delete('/:projectId/tasks/:taskId', requireUser, async (req,res,next)=>{
     const taskId = req.params.taskId;
 
     const project = await Project.findOne({"_id":`${projectId}`})
-    const task = project.tasks.id(taskId);
+    const task = project?.tasks.id(taskId);
 
     let user;
 
