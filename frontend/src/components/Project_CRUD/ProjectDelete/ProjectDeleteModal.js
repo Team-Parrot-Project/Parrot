@@ -2,12 +2,13 @@ import React, { useState } from "react";
 import { Modal } from '../../../context/Modal';
 import { useDispatch } from "react-redux";
 import * as projectActions from "../../../store/project";
+import { useParams } from "react-router-dom/cjs/react-router-dom.min";
 
-export default function DeleteProjectModal(props) {
+export default function DeleteProjectModal() {
     const dispatch = useDispatch();
     const [showModal, setShowModal] = useState(false);
     const [isDeleting, setIsDeleting] = useState(false);
-    const projectId = props.projectId; // assuming projectId is passed as a prop
+    const {projectId} = useParams();
 
     const handleDelete = async () => {
         setIsDeleting(true);

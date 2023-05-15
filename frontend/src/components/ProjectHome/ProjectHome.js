@@ -11,6 +11,7 @@ import * as taskActions from '../../store/task';
 import TaskRecommendation from '../UserHome/TaskRecommendation/TaskRecommendation';
 import TaskCreateForm from '../Task_CRUD/TaskCreateForm/TaskCreateForm';
 import ProjectUpdateModal from '../Project_CRUD/ProjectUpdateForm/';
+import DeleteProjectModal from '../Project_CRUD/ProjectDelete/ProjectDeleteModal';
 
 export default function ProjectHome () {
   const dispatch = useDispatch();
@@ -32,6 +33,7 @@ export default function ProjectHome () {
         <h2 className="project-home-table-title">Description: {project?.description}</h2>
         <ProjectUpdateModal />
         <ProjectTaskIndex/>
+        <DeleteProjectModal />
         <TaskRecommendation project={project} recommendedTasks={recommendedTasks} setRecommendedTasks={setRecommendedTasks}/>
         <div className="task-create-forms">
           {recommendedTasks.length > 0 && recommendedTasks.map((taskTitle) => (
