@@ -10,7 +10,7 @@
     border-radius: 5px;
     margin: 20px;
     font-size: 18px;
-    color: #333;
+    color: white
   }
 
   #modal-background {
@@ -21,4 +21,3 @@
     bottom: 0;
     background-color: rgba(0, 0, 0, 0.7);
   }
-
