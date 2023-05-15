@@ -6,11 +6,15 @@ const User = mongoose.model('User');
 const Notification = mongoose.model('Notification');
 const { isProduction } = require('../../config/keys');
 const { requireUser } = require('../../config/passport');
-const { userOnProject, projectParams, taskProtector, stringifyCompare } = require('../../config/util');
+const { userOnProject, projectParams, taskProtector, stringifyCompare, blockingTaskCheck } = require('../../config/util');
 const jbuilder = require('jbuilder');
 const { Task } = require('../../models/Project');
 
 // 645a748b33dbf64bdcb0e658
+
+router.get("/test", async (req, res, next) => {
+    blockingTaskCheck();
+})
 
 router.get('/:projectid', requireUser, async (req,res,next)=>{
     const projectId = req.params.projectid

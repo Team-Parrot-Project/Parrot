@@ -77,10 +77,16 @@ function getFutureDate(daysInFuture = 0) {
     return base; 
 }
 
+async function blockingTaskCheck() {
+    const lastTask = await Project.findById("645d442bd2720cbe90f126f7");
+    console.log(lastTask);
+}
+
 module.exports = {
     userOnProject,
     projectParams,
     taskProtector,
     stringifyCompare,
-    getFutureDate
+    getFutureDate,
+    blockingTaskCheck
 }
