@@ -7,7 +7,7 @@ import * as notificationActions from "../../store/notification"
 import * as projectActions from "../../store/project"
 
 // import socket from "./socket";
-import { AiOutlineClose } from "react-icons/ai";
+import { IoIosCloseCircleOutline } from "react-icons/io";
 import "./Notifications.css";
 
 
@@ -67,7 +67,7 @@ function Notifications () {
             {messages.map((message)=>{
                 return <div className="messageWrapper" key={message._id}>
                  <div className="notificationMessage">{message.message}</div>
-                 <div className="notificationX" onClick={(e)=>{handleDelete(e,message._id)}}><AiOutlineClose size={15}/></div>
+                 <div className="notificationX" onClick={(e)=>{handleDelete(e,message._id)}}><IoIosCloseCircleOutline size={15}/></div>
                  </div>
             })}
         </div>
