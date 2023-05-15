@@ -7,6 +7,7 @@
 .task-table thead {
     display: flex;
     justify-content: space-between;
+    width: 87%;
 }
 
 .task-table th {

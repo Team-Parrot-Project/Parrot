@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { getTask, updateTask } from "../../../store/task";
 import { fetchProject, getProject } from "../../../store/project";
+import { formatDate } from "../../../store/util";
+import './TaskUpdateForm.css';
 
 export default function TaskUpdateForm({taskId,projectId}) {
     const dispatch = useDispatch();
@@ -14,26 +16,26 @@ export default function TaskUpdateForm({taskId,projectId}) {
         if(task){
         setTitle(task.title);
         setDescription(task.description);
-        setDueDate(task.endDate); }
+        setDueDate(formatDate(task.endDate)); }
     },[task,setTitle,setDescription,setDueDate])
 
-    // console.log(task);
-    if(task){
-    }
-
     useEffect(()=>{
-        dispatch(fetchProject("645b10f130847c853dd2cbc6"))
+        dispatch(fetchProject(projectId))
     },[dispatch])
 
     const handleSubmit = (event) => {
         event.preventDefault();
         const updatedTask = {...task, title, description, dueDate};
-        console.log(updatedTask,"updatedTask")
-        dispatch(updateTask(projectId, updatedTask));
+        try {
+            dispatch(updateTask(projectId, updatedTask));
+            alert('Project updated successfully!');
+          } catch (err) {
+            alert('Failed to update project. Please try again later.');
+          }
     };
 
     return (
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} className="task-update-form">
             <div>
                 <label htmlFor="title">Title</label>
                 <input id="title" type="text" value={title} onChange={(event) => setTitle(event.target.value)} />

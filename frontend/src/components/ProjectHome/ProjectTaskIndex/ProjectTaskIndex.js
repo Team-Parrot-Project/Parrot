@@ -3,6 +3,8 @@ import { useSelector } from 'react-redux';
 import * as projectActions from '../../../store/project';
 import { useParams } from 'react-router-dom/cjs/react-router-dom';
 import { formatDate } from '../../../store/util';
+import TaskUpdateModal from '../../Task_CRUD/TaskUpdateForm';
+import DeleteTaskModal from '../../Task_CRUD/TaskDelete/TaskDelete';
 import './ProjectTaskIndex.css';
 
 function ProjectTaskIndex() {
@@ -14,7 +16,8 @@ function ProjectTaskIndex() {
     if(project){
         setAllTasks(project.tasks);
       }
-  },[project,setAllTasks])
+      console.log(allTasks, "tasks");
+  },[project, setAllTasks, allTasks])
 
   return (
     <div className="user-project-index">
@@ -34,6 +37,8 @@ function ProjectTaskIndex() {
               <td>{task.description}</td>
               <td>{formatDate(task.startDate)}</td>
               <td>{formatDate(task.endDate)}</td>
+              <TaskUpdateModal taskId={task._id} projectId={project._id} />
+              <DeleteTaskModal  taskId={task._id} projectId={project._id} />
             </tr>
           ))}
         </tbody>

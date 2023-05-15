@@ -1,8 +1,9 @@
 .project-update-form {
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: left;
     padding: 20px;
+    padding-right: 30px;
     background-color: #333;
 }
 
@@ -25,14 +26,16 @@
   }
 
   .project-update-form button {
+    margin: 10px;
+    background-color: #1e90ec;
+    color: #fff;
     padding: 10px 20px;
+    border: none;
     border-radius: 5px;
-    background-color: #007bff;
-    color: white;
     font-size: 16px;
+    text-align: center;
+    text-decoration: none;
     cursor: pointer;
-    transition: background-color 0.2s ease-in-out;
-    margin-top: 20px;
   }
 
   .project-update-form button:hover {

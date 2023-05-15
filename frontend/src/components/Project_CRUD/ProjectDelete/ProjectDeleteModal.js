@@ -3,6 +3,7 @@ import { Modal } from '../../../context/Modal';
 import { useDispatch } from "react-redux";
 import * as projectActions from "../../../store/project";
 import { useParams } from "react-router-dom/cjs/react-router-dom.min";
+import './ProjectDelete.css';
 
 export default function DeleteProjectModal() {
     const dispatch = useDispatch();
@@ -21,9 +22,11 @@ export default function DeleteProjectModal() {
             <button onClick={() => setShowModal(true)}>Delete Project</button>
             {showModal && (
                 <Modal onClose={() => setShowModal(false)}>
+                <div className="delete-project-modal">
                 <p>Are you sure you want to delete this project?</p>
                 <button onClick={handleDelete} disabled={isDeleting}>Yes, delete project</button>
                 <button onClick={() => setShowModal(false)}>Cancel</button>
+                </div>
                 </Modal>
             )}
         </>
