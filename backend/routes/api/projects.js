@@ -83,7 +83,7 @@ router.post('/:projectId/tasks', requireUser, async (req,res,next)=>{
 
     let fetchedAssignee;
     let project;
-    
+
     // find the project
 
     try {
@@ -102,7 +102,7 @@ router.post('/:projectId/tasks', requireUser, async (req,res,next)=>{
 
             const fetchedAssigneeProjectIds = fetchedAssignee.projects.map(p => p.toString());
             console.log(fetchedAssigneeProjectIds, "fetchedAssigneeProjectIds\n****\n");
-        
+
             const foundProject = fetchedAssigneeProjectIds.includes(projectId);
             console.log(foundProject, "foundProject\n****\n");
 
@@ -153,11 +153,11 @@ router.post('/:projectId/tasks', requireUser, async (req,res,next)=>{
             const returnedTask = savedProject.tasks.id(newTask._id);
             console.log(returnedTask, "returnedTask\n****\n");
 
-            
+
 
             if(assigneeId) {
                 fetchedAssignee.assignedTasks.push(returnedTask._id)
-                
+
                 const savedAssigneeResult = await fetchedAssignee.save();
                 console.log(savedAssigneeResult, "savedAssigneeResult\n****\n");
             }
@@ -167,7 +167,7 @@ router.post('/:projectId/tasks', requireUser, async (req,res,next)=>{
                 ...returnedTask.toObject(),
                 projectId: project._id
               };
-            
+
             console.log(manipulatedTask, "manipulatedTask\n****\n");
 
             return res.json(manipulatedTask);
@@ -189,7 +189,7 @@ router.patch('/:projectId/tasks/:taskId', requireUser, async (req,res,next)=>{
 
     const taskId = req.params.taskId;
     console.log(taskId, "taskId\n****\n");
-    
+
     let project;
 
     try {
@@ -259,7 +259,7 @@ router.patch('/:projectId/tasks/:taskId', requireUser, async (req,res,next)=>{
                 // then add the task to the new assignee, IF it is a non falsey value. Note if it is undefined, then the prior instance will be removed with the if statement above but this one will not run
                 console.log(incomingAssigneeId, "12345 incomingAssigneeId");
                 if(incomingAssigneeId) {
-            
+
 
                     console.log("12345");
                     const newAssignee = await User.findOneAndUpdate (
@@ -277,18 +277,18 @@ router.patch('/:projectId/tasks/:taskId', requireUser, async (req,res,next)=>{
             }
 
         }
-        
+
         // the special version to be sent to the back end
         const updatedTask = {
             ...task.toObject(),
             projectId: project._id,
             ...req.body,
           };
-        
+
         // updating the task with the body
         Object.assign(task, req.body)
-        // 
-        
+        //
+
         // saving the project, which will save the task
         await project.save();
         const newNotification = new Notification({
@@ -312,8 +312,8 @@ router.patch('/:projectId/tasks/:taskId', requireUser, async (req,res,next)=>{
         } catch (error) {
             return res.json(error);
         }
-        
-        
+
+
         return res.json(updatedTask);
 
     } else {
@@ -322,7 +322,7 @@ router.patch('/:projectId/tasks/:taskId', requireUser, async (req,res,next)=>{
 })
 
 router.delete('/:projectId/tasks/:taskId', requireUser, async (req,res,next)=>{
-    
+
     const projectId = req.params.projectId;
     const taskId = req.params.taskId;
 
@@ -330,16 +330,16 @@ router.delete('/:projectId/tasks/:taskId', requireUser, async (req,res,next)=>{
     const task = project.tasks.id(taskId);
 
     let user;
-    
+
     if (project && task && userOnProject(project, req.user._id)) {
-        
+
         // first check whether this task is assigned to a user
         user = await User.findOne({ assignedTasks: taskId });
-        
+
         // if so we need to delete that task from the user's assigned tasks
         if(user) {
             const assignedTaskIndex = user.assignedTasks.findIndex((tId) => tId.toString() === taskId);
-            
+
             // delete the element at the discovered index
             user.assignedTasks.splice(assignedTaskIndex,1);
 
@@ -419,7 +419,7 @@ router.patch('/:projectId', requireUser, async (req,res,next) =>{
     // if we make it through error handling, it's update time. First need to check whether we need to make collaborator updates
 
     // if there are collaborators, we need to compare incoming list to the outgoing list to see what removals need to be made from these users
-    if (project.collaborators) {
+    if (req.project?.collaborators) {
         // get the prior collaborators as a sorted string of IDs
         const priorCollaborators = project.collaborators.map(c => (c.toString())).sort();
 
@@ -462,7 +462,7 @@ router.patch('/:projectId', requireUser, async (req,res,next) =>{
         { $set: req.body },
         { new: true }
     );
-    
+
     if(updatedProject) {
         const newNotification = new Notification({
             message: `Project Updated by ${req.user.username}`,
