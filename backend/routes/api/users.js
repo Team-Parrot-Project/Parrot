@@ -32,9 +32,6 @@ router.get('/:userid', async (req, res, next)=>{
   const userId = req.params.userid 
   console.log(userId,'userId')
   const user = await User.findOne({"_id":`${userId}`}).populate("projects")
-  //Users show needs full populate on tasks, projects, and needs to hide password 
-  //Might need to delete the password hash in memory or select subset
-  // req.io.to(userId).emit("message",{message:"Hit /userid"})
   return res.json(user)
 });
 
@@ -57,16 +54,13 @@ router.post('/register', validateRegisterInput, async (req, res, next) => {
     if (user.email === req.body.email) {
       errors.email = "A user has already registered with this email";
     }
-    // if (user.username === req.body.username) {
-    //   errors.username = "A user has already registered with this username";
-    // }
+
     err.errors = errors;
     return next(err);
   }
 
   // Otherwise create a new user
   const newUser = new User({
-    // username: req.body.username,
     email: req.body.email,
     username: req.body.username
   });
