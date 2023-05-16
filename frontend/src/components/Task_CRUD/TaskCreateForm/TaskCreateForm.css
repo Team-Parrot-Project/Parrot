@@ -22,8 +22,14 @@ select {
     background-color: #f1f1f1;
 }
 
-.task-create-form input[type="date"]::-webkit-calendar-picker-indicator {
-    filter: invert(1);
+.task-create-form input[type="date"] {
+    width: auto;
+    padding: 10px;
+    border-radius: 5px;
+    border: 2px solid #eee;
+    margin-bottom: 20px;
+    background-color: #ffffff;
+    color: black;
 }
 
 .task-create-form button[type="submit"] {
