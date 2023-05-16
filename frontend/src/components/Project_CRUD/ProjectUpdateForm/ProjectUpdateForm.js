@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getProject, updateProject } from '../../../store/project';
 import { useParams } from 'react-router-dom/cjs/react-router-dom.min';
-import './ProjectUpdateForm.css';
 import { formatDate } from '../../../store/util';
+import './ProjectUpdateForm.css';
 
 export default function ProjectUpdateForm() {
   const dispatch = useDispatch();
@@ -41,7 +41,7 @@ export default function ProjectUpdateForm() {
     };
     try {
       dispatch(updateProject(updatedProject));
-      alert('Project updated successfully!');
+      window.location.reload();
     } catch (err) {
       alert('Failed to update project. Please try again later.');
     }

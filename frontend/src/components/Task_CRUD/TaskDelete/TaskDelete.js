@@ -17,6 +17,7 @@ export default function DeleteTaskModal(props) {
         setIsDeleting(true);
         dispatch(taskActions.deleteTask(projectId, taskId));
         setShowModal(false);
+        window.location.reload();
     };
     return (
         <>
