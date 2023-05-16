@@ -22,42 +22,6 @@ function userOnProject(project, userId) {
         console.log("not authorized");
         return false;
     }
-
-}
-
-const validTaskParams = [
-    "title",
-    "description",
-    "priority",
-    "assignee",
-    "status",
-    "startDate",
-    "blockingTasks"
-]
-
-function projectParams (project) {
-
-    // const keys = Object.keys(project);
-    // const strongProj = {};
-    // const permitted = [
-    //     "title",
-    //     "description",
-    //     "adminId",
-    //     "collaborators",
-    //     "tasks",
-    //     "startDate",param {
-    //         existingTask[param] =   "startDate",para
-    //     }
-    //     "endDate"
-    // ]
-
-    // keys.forEach((k) => {
-    //     if(permitted.indexOf(k) >= 0) {
-    //         strongProj[k] = project.k
-    //     }
-    // })
-
-    // return strongProj;
 }
 
 function taskProtector(taskUpdates, existingTask) {
@@ -126,14 +90,10 @@ async function blockingTaskCheck(rootTask, project) {
 
         // get the task from the id
         const currentTask = hashedTasks[currentTaskId]
-        // console.log(currentTask, "currentTask\n****\n");
+
+        if(!currentTask) return false;
 
         // check the tasks end date against the anchor date. If the end date of the current task is after the start date of the root, then it is invalid, sos return true
-
-        // console.log(currentTask.endDate, "currentTask.endDate\n****\n");
-        // console.log(anchorDate, "anchorDate\n****\n");
-        // console.log(currentTask.endDate > anchorDate, "COMPARISON\n****\n");
-
         if (currentTask.endDate > anchorDate) {
             console.log(`Task ${currentTask._id} date of ${currentTask.endDate} is after ${anchorDate}  \n****\n`);
             return false
@@ -157,7 +117,6 @@ function arrayDiff(array1, array2) {
 
 module.exports = {
     userOnProject,
-    projectParams,
     taskProtector,
     stringifyCompare,
     getFutureDate,
