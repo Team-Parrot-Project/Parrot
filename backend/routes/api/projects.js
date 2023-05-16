@@ -38,7 +38,8 @@ router.get('/:projectid', requireUser, async (req,res,next)=>{
 
         return res.json(nestedProject);
     } else {
-        return res.json({message: "Nothing was found"});
+        res.statusCode = 404;
+        return res.json({message: "No Project Found"});
     }
 });
 
@@ -67,10 +68,12 @@ router.post('/:projectId/tasks', requireUser, async (req,res,next)=>{
 
     // baseline checks - all of these fields must be present in post request, so they will be validated
     if (!project) {
+        res.statusCode = 404;
         return res.json({message: "no project found"});
     }
     // the logged in user must always be present and on the task
     else if (!userOnProject(project, req.user._id)) {
+        res.statusCode = 403;
         return res.json({message: "logged in user is not a collaborator or admin of the project"});
     }
 
@@ -91,10 +94,13 @@ router.post('/:projectId/tasks', requireUser, async (req,res,next)=>{
 
 
             if(!fetchedAssignee) {
+                res.statusCode = 404;
                 return res.json({message: "Can't find assignee"});
             } else if (!userOnProject(project, assigneeId)) {
+                res.statusCode = 403;
                 return res.json({message: "assignee is not listed as a collaborator on the project"});
             } else if (!foundProject) {
+                res.statusCode = 403;
                 return res.json({message: "assignee does not have this project on their list of projects"});
             }
 
@@ -115,6 +121,7 @@ router.post('/:projectId/tasks', requireUser, async (req,res,next)=>{
         // nesting so I can get the console log above in
         if(!blockCheck) {
             console.log("Stopping POST due to invalue blocking task");
+            res.statusCode = 404;
             return res.json({message: "invalid blocking tasks, retry with updated dates or blocking tasks"});
         }
     }
@@ -420,10 +427,8 @@ router.patch('/:projectId', requireUser, async (req,res,next) =>{
 
     // error handling
     if(!project) {
-        return res.json({message:"Project Not Found"})
-        // const err = new Error('Project Not Found');
-        // err.statusCode = 404;
-        // next(err);
+        res.statusCode = 400;
+        return res.json({message:"Project Not Found"});
     }
 
     if(!userOnProject(project, req.user._id)) {
@@ -484,6 +489,7 @@ router.patch('/:projectId', requireUser, async (req,res,next) =>{
         }
         return res.json(updatedProject);
     } else {
+        res.statusCode = 500;
         return res.json({message:"Problem with project update"})
         // const err = new Error('Problem with project update');
         // err.statusCode = 422;
@@ -504,9 +510,11 @@ router.delete('/:projectId', requireUser, async (req,res,next) =>{
     // console.log(req.user._id, "loged in as")
 
     if(!project) {
+        res.statusCode = 404;
         return res.json({message:"No project found"});
     }
     if(!userOnProject(project, req.user._id)) {
+        res.statusCode = 403;
         return res.json({message:"User not allowed to modify this project"});
     }
 
@@ -531,8 +539,10 @@ router.delete('/:projectId', requireUser, async (req,res,next) =>{
     console.log(deleteResult, "result of removing the project");
 
     if(deleteResult.deletedCount === 1) {
+        res.statusCode = 200;
         return res.json({message: "Successful Delete"});
     } else {
+        res.statusCode = 500;
         return res.json({message:"Issue with Delete"});
     }
 });

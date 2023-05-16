@@ -137,7 +137,7 @@ const seedDB = async () => {
         title: "Rails Olympics",
         description: "enter into and dominate rails Olympics",
         adminId: userOne,
-        collaborators: [userOne],
+        collaborators: [userOne, userTwo],
         tasks: [
           {
             title: "Read",
@@ -181,6 +181,8 @@ const seedDB = async () => {
     userOne.assignedTasks.push(secondaryProject.tasks[0]);
     userOne.assignedTasks.push(secondaryProject.tasks[1]);
     userOne.assignedTasks.push(secondaryProject.tasks[2]);
+
+    userTwo.projects.push(secondaryProject);
 
     thirdProject = new Project ({
       title: "Kahoot",
