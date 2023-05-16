@@ -38,11 +38,11 @@ const ProjectCreateForm = () => {
       const response = dispatch(createProject(newProject));
 
       // Update the UI to indicate that the project has been created
-      alert('Project created successfully!');
       setProjectName('');
       setDescription('');
       setStartDate('');
       setEndDate('');
+      window.location.reload();
     } catch (err) {
       // Display an error message if there's an error sending the request
       alert('Failed to create project. Please try again later.');

@@ -42,3 +42,7 @@
 .task-update-form button[type="submit"]:hover {
     background-color: #0062cc;
 }
+
+.task-update-form #blockingTasks {
+    width: 100%;
+}
