@@ -8,9 +8,25 @@
   font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Helvetica,Arial,sans-serif;
 }
 
-.project-home-wrapper button {
-  margin-top: 15px;
-  margin-bottom: 10px;
+.centered-container button {
+  margin: 10px;
+  background-color: #1e90ec;
+  color: #fff;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.project-home-wrapper button:hover {
+  background-color: #6c9da9;
+}
+
+.project-home-wrapper button:active {
+  background-color: #6c9da9;
 }
 
 .project-home-wrapper form {
@@ -25,12 +41,17 @@
   color: white;
 }
 
-.project-home-table-title {
+h1.project-home-table-title {
   margin: 10px;
   font-size: 30px;
+  text-decoration: underline;
+}
+
+h2.project-home-table-title {
+  margin: 10px;
+  font-size: 24px;
 }
 
 .centered-container {
-  width: 100vw;
+  width: 80vw;
 }
-

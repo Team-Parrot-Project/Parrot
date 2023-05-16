@@ -10,14 +10,15 @@ import { useEffect, useState } from 'react';
 import * as taskActions from '../../store/task';
 import TaskRecommendation from '../UserHome/TaskRecommendation/TaskRecommendation';
 import TaskCreateForm from '../Task_CRUD/TaskCreateForm/TaskCreateForm';
+import ProjectUpdateModal from '../Project_CRUD/ProjectUpdateForm/';
+import DeleteProjectModal from '../Project_CRUD/ProjectDelete/ProjectDeleteModal';
 
 export default function ProjectHome () {
   const dispatch = useDispatch();
   const {projectId} = useParams();
   const [recommendedTasks, setRecommendedTasks] = useState([]);
   const project = useSelector((state) => state.projects[projectId]);
-  console.log(project);
-    
+
     useEffect(() => {
         dispatch(taskActions.purgeTasks());
         dispatch(projectActions.fetchProject(projectId));
@@ -28,8 +29,11 @@ export default function ProjectHome () {
       <div className="project-home-wrapper">
         <NavBar/>
       <div className="centered-container">
-        <h1 className="project-home-table-title">{project?.title}</h1>
+        <h1 className="project-home-table-title">Project: {project?.title}</h1>
+        <h2 className="project-home-table-title">Description: {project?.description}</h2>
+        <ProjectUpdateModal />
         <ProjectTaskIndex/>
+        <DeleteProjectModal />
         <TaskRecommendation project={project} recommendedTasks={recommendedTasks} setRecommendedTasks={setRecommendedTasks}/>
         <div className="task-create-forms">
           {recommendedTasks.length > 0 && recommendedTasks.map((taskTitle) => (

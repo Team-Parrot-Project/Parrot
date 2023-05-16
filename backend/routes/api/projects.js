@@ -6,11 +6,9 @@ const User = mongoose.model('User');
 const Notification = mongoose.model('Notification');
 const { isProduction } = require('../../config/keys');
 const { requireUser } = require('../../config/passport');
-const { userOnProject, projectParams, taskProtector, stringifyCompare } = require('../../config/util');
+const { userOnProject, projectParams, taskProtector, stringifyCompare, blockingTaskCheck, arrayDiff } = require('../../config/util');
 const jbuilder = require('jbuilder');
 const { Task } = require('../../models/Project');
-
-// 645a748b33dbf64bdcb0e658
 
 router.get('/:projectid', requireUser, async (req,res,next)=>{
     const projectId = req.params.projectid
@@ -73,13 +71,16 @@ router.post('/:projectId/tasks', requireUser, async (req,res,next)=>{
 
     const projectId = req.params.projectId;
     const assigneeId = req.body.assignee;
+    const blockingTasks = req.body.blockingTasks;
+    const startDate = req.body.startDate;
+    const endDate = req.body.endDate;
 
     console.log(projectId, "projectId\n****\n");
     console.log(assigneeId, "assigneeId\n****\n");
 
     let fetchedAssignee;
     let project;
-    
+
     // find the project
 
     try {
@@ -89,8 +90,19 @@ router.post('/:projectId/tasks', requireUser, async (req,res,next)=>{
         return res.json(error);
     }
 
+    // baseline checks - all of these fields must be present in post request, so they will be validated
+    if (!project) {
+        return res.json({message: "no project found"});
+    }
+    // the logged in user must always be present and on the task
+    else if (!userOnProject(project, req.user._id)) {
+        return res.json({message: "logged in user is not a collaborator or admin of the project"});
+    }
+
+    // optional field validation - if these are present, we must validate them
+
     // if there is an assigneeId make sure it is valid by looking for the User and making sure they are an admin or collaborator
-    if (project && assigneeId) {
+    if (assigneeId) {
 
         try {
             fetchedAssignee = await User.findById(assigneeId);
@@ -98,7 +110,7 @@ router.post('/:projectId/tasks', requireUser, async (req,res,next)=>{
 
             const fetchedAssigneeProjectIds = fetchedAssignee.projects.map(p => p.toString());
             console.log(fetchedAssigneeProjectIds, "fetchedAssigneeProjectIds\n****\n");
-        
+
             const foundProject = fetchedAssigneeProjectIds.includes(projectId);
             console.log(foundProject, "foundProject\n****\n");
 
@@ -116,60 +128,66 @@ router.post('/:projectId/tasks', requireUser, async (req,res,next)=>{
         }
     }
 
+
     // perform other validation, ultimately attempting a save
-    if (!project) {
-        return res.json({message: "no project found"});
-    }
-    else if (!userOnProject(project, req.user._id)) {
-        return res.json({message: "logged in user is not a collaborator or admin of the project"});
-    }
-    else {
-        const newTask = new Task (req.body);
-        // console.log(newTask, "newTask")
+    const newTask = new Task (req.body);
 
-        project.tasks.push(newTask);
-        const newNotification = new Notification({
-            message: `Task created by ${req.user.username}`,
-            target: "task",
-            task: newTask._id,
-            project: projectId,
-            admin: project.admin,
-        })
-        if(newNotification.save()){
-            console.log("Made it")
-            req.io.emit("message",newNotification)
-        }else{
-            req.io.to(project.admin).emit("message","Issue with Notification")
-            req.io.to(updatedTask.assignee).emit("message","Issue with Notification")
+    if(newTask.blockingTasks?.length > 0) {
+        console.log("performing a check of blocking tasks\n****\n")
+
+        const blockCheck = blockingTaskCheck(newTask, project)
+        console.log(blockCheck, "blockCheck\n****\n");
+
+        // nesting so I can get the console log above in
+        if(!blockCheck) {
+            console.log("Stopping POST due to invalue blocking task");
+            return res.json({message: "invalid blocking tasks, retry with updated dates or blocking tasks"});
         }
-        try {
-            const savedProject = await project.save();
-            console.log(savedProject, "savedProject\n****\n");
+    }
 
-            const returnedTask = savedProject.tasks.id(newTask._id);
-            console.log(returnedTask, "returnedTask\n****\n");
+    // at this point all checks have been passed
+    project.tasks.push(newTask);
+    const newNotification = new Notification({
+        message: `Task created by ${req.user.username}`,
+        target: "task",
+        task: newTask._id,
+        project: projectId,
+        admin: project.admin,
+    })
+    if(newNotification.save()){
+        console.log("Made it")
+        req.io.emit("message",newNotification)
+    }else{
+        req.io.to(project.admin).emit("message","Issue with Notification")
+        req.io.to(updatedTask.assignee).emit("message","Issue with Notification")
+    }
+    try {
+        const savedProject = await project.save();
+        console.log(savedProject, "savedProject\n****\n");
 
-            
+        const returnedTask = savedProject.tasks.id(newTask._id);
+        console.log(returnedTask, "returnedTask\n****\n");
 
-            if(assigneeId) {
-                fetchedAssignee.assignedTasks.push(returnedTask._id)
-                
-                const savedAssigneeResult = await fetchedAssignee.save();
-                console.log(savedAssigneeResult, "savedAssigneeResult\n****\n");
-            }
 
-            // embed the project id into the task, for Ryder ;)
-            const manipulatedTask = {
-                ...returnedTask.toObject(),
-                projectId: project._id
-              };
-            
-            console.log(manipulatedTask, "manipulatedTask\n****\n");
 
-            return res.json(manipulatedTask);
-        } catch (error) {
-            return res.json(error);
+        if(assigneeId) {
+            fetchedAssignee.assignedTasks.push(returnedTask._id)
+
+            const savedAssigneeResult = await fetchedAssignee.save();
+            console.log(savedAssigneeResult, "savedAssigneeResult\n****\n");
         }
+
+        // embed the project id into the task, for Ryder ;)
+        const manipulatedTask = {
+            ...returnedTask.toObject(),
+            projectId: project._id
+            };
+
+        console.log(manipulatedTask, "manipulatedTask\n****\n");
+
+        return res.json(manipulatedTask);
+    } catch (error) {
+        return res.json(error);
     }
 })
 
@@ -185,7 +203,10 @@ router.patch('/:projectId/tasks/:taskId', requireUser, async (req,res,next)=>{
 
     const taskId = req.params.taskId;
     console.log(taskId, "taskId\n****\n");
-    
+
+    const incomingBlockingTasks = req.body.blockingTasks;
+    console.log(incomingBlockingTasks, "incomingBlockingTasks\n****\n");
+
     let project;
 
     try {
@@ -199,6 +220,9 @@ router.patch('/:projectId/tasks/:taskId', requireUser, async (req,res,next)=>{
     console.log(task, "task from project\n****\n")
 
     const priorAssignee = task.assignee;
+    const priorBlockingTasks = task.blockingTasks;
+
+    console.log(priorBlockingTasks, "priorBlockingTasks\n****\n");
 
     console.log(task, "task\n****\n");
 
@@ -255,7 +279,7 @@ router.patch('/:projectId/tasks/:taskId', requireUser, async (req,res,next)=>{
                 // then add the task to the new assignee, IF it is a non falsey value. Note if it is undefined, then the prior instance will be removed with the if statement above but this one will not run
                 console.log(incomingAssigneeId, "12345 incomingAssigneeId");
                 if(incomingAssigneeId) {
-            
+
 
                     console.log("12345");
                     const newAssignee = await User.findOneAndUpdate (
@@ -273,18 +297,52 @@ router.patch('/:projectId/tasks/:taskId', requireUser, async (req,res,next)=>{
             }
 
         }
-        
-        // the special version to be sent to the back end
+
+
+        // the special version to be sent to the back end if the next check passes
         const updatedTask = {
             ...task.toObject(),
             projectId: project._id,
             ...req.body,
-          };
-        
+        };
+
+        // if incoming blocking tasks has been defined with a non 0 sized array we need to check it
+        if(incomingBlockingTasks !== undefined && incomingBlockingTasks?.length > 0) {
+            console.log("performing a blocking task check \n****\n");
+
+            const priorBlockingTaskStrings = priorBlockingTasks.map((bt) => {
+                return bt.toString();
+            })
+
+            // perform a compare of the two arrays utilizing this mongoose method which provides an array containing what was added vs removed between the two
+
+            // console.log(req.body, "REQ BODY PRIOR TO DIFF")
+            const {added, removed} = arrayDiff(priorBlockingTaskStrings, incomingBlockingTasks);
+
+            console.log(added, "added to blocking tasks \n****\n")
+            console.log(removed, "removed from blocking tasks \n****\n")
+
+            // we don't care about removal, but we do care about adds
+            if(added.length > 0) {
+                console.log("new blocking tasks present \n****\n");
+
+                const blockCheck = await blockingTaskCheck(updatedTask, project);
+                console.log(req.body, "REQ BODY AFTER blockCheck")
+                console.log(blockCheck, "blockCheck\n****\n");
+
+                if (!blockCheck) {
+                    console.log("Stopping PATCH due to invalue blocking task");
+                    return res.json({message: "invalid blocking tasks"});
+                }
+            }
+        }
+
+        console.log(req.body, "req.body full prior to save\n****\n")
         // updating the task with the body
         Object.assign(task, req.body)
-        // 
-        
+        console.log(task, "assigned task after collab \n****\n")
+        //
+
         // saving the project, which will save the task
         await project.save();
         const newNotification = new Notification({
@@ -308,8 +366,8 @@ router.patch('/:projectId/tasks/:taskId', requireUser, async (req,res,next)=>{
         } catch (error) {
             return res.json(error);
         }
-        
-        
+
+
         return res.json(updatedTask);
 
     } else {
@@ -318,24 +376,24 @@ router.patch('/:projectId/tasks/:taskId', requireUser, async (req,res,next)=>{
 })
 
 router.delete('/:projectId/tasks/:taskId', requireUser, async (req,res,next)=>{
-    
+
     const projectId = req.params.projectId;
     const taskId = req.params.taskId;
 
     const project = await Project.findOne({"_id":`${projectId}`})
-    const task = project.tasks.id(taskId);
+    const task = project?.tasks.id(taskId);
 
     let user;
-    
+
     if (project && task && userOnProject(project, req.user._id)) {
-        
+
         // first check whether this task is assigned to a user
         user = await User.findOne({ assignedTasks: taskId });
-        
+
         // if so we need to delete that task from the user's assigned tasks
         if(user) {
             const assignedTaskIndex = user.assignedTasks.findIndex((tId) => tId.toString() === taskId);
-            
+
             // delete the element at the discovered index
             user.assignedTasks.splice(assignedTaskIndex,1);
 
@@ -415,7 +473,7 @@ router.patch('/:projectId', requireUser, async (req,res,next) =>{
     // if we make it through error handling, it's update time. First need to check whether we need to make collaborator updates
 
     // if there are collaborators, we need to compare incoming list to the outgoing list to see what removals need to be made from these users
-    if (project.collaborators) {
+    if (req.project?.collaborators) {
         // get the prior collaborators as a sorted string of IDs
         const priorCollaborators = project.collaborators.map(c => (c.toString())).sort();
 
@@ -458,7 +516,7 @@ router.patch('/:projectId', requireUser, async (req,res,next) =>{
         { $set: req.body },
         { new: true }
     );
-    
+
     if(updatedProject) {
         const newNotification = new Notification({
             message: `Project Updated by ${req.user.username}`,

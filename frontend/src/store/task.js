@@ -69,8 +69,8 @@ export const taskReducer = (state = defaultState,action) =>{
 
 export default taskReducer;
 
-export const getTask = (taskId) => (state)=>{
-    if(state.tasks){
+export const getTask = (taskId) => (state) => {
+    if (state.tasks) {
         return state.tasks[taskId]
     }else{
         return null;

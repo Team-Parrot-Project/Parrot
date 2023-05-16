@@ -6,9 +6,9 @@ import './Dashboard.css';
 import UserProjectIndex from '../../Project_CRUD/UserProjectIndex/UserProjectIndex';
 import UserTaskIndex from '../../Task_CRUD/UserTaskIndex/UserTaskIndex';
 import TableRow from '../../TableRow/TableRow';
-import { AiOutlinePlusCircle } from 'react-icons/ai';
+// import { AiOutlinePlusCircle } from 'react-icons/ai';
 import { Modal } from '../../../context/Modal';
-import ProjectCreateModal from '../../Project_CRUD/ProjectCreateForm';
+import ProjectCreateModal from '../../Project_CRUD/ProjectCreateForm/index';
 
 export default function Dashboard() {
 

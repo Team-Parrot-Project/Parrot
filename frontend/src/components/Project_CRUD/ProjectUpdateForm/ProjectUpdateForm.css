@@ -1,0 +1,60 @@
+.project-update-form {
+    display: flex;
+    flex-direction: column;
+    align-items: left;
+    padding: 20px;
+    padding-right: 30px;
+    background-color: #333;
+}
+
+.project-update-form label {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: #eee;
+  }
+
+  .project-update-form input,
+  .project-update-form textarea {
+    width: 100%;
+    padding: 10px;
+    border-radius: 5px;
+    border: 2px solid #eee;
+    margin-bottom: 20px;
+    background-color: #ffffff;
+    color: black;
+  }
+
+  .project-update-form button {
+    margin: 10px;
+    background-color: #1e90ec;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+  }
+
+  .project-update-form button:hover {
+    background-color: #0069d9;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    .project-update-form {
+      border-color: #333;
+      background-color: #333;
+    }
+
+    .project-update-form label {
+      color: #eee;
+    }
+
+    .project-update-form input,
+    .project-update-form textarea {
+      border-color: #eee;
+      color: black;
+    }
+  }
