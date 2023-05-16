@@ -93,11 +93,21 @@ Our backend is built on the combination of [MongoDB](https://www.mongodb.com/) a
 
 -----------------
 
-## UX / UI Design
+## OpenAi
 
-Our UX/UI design is characterized by a minimalist style and carefully selected colors, creating a clean and visually pleasing interface. By embracing simplicity and decluttering, we prioritize essential elements, enhancing user focus and intuitiveness. The chosen color palette complements the overall design, evoking a sense of harmony and reinforcing the app's visual identity. This design approach fosters an enjoyable and streamlined user experience, promoting ease of use and efficient interaction with the application.
+Parrot integrates [OpenAI's API](https://openai.com/product) and utilizes Chat GPT to automate task generation based on the project's name and description. By leveraging the capabilities of Chat GPT, accurate and relevant tasks are automatically generated, providing teams with an efficient and streamlined workflow. Experience the power of artificial intelligence in project management by leveraging our innovative solution.
 
-Our logo is a testament to our brand's uniqueness, as it was custom designed by Christopher Banas. The logo features a distinctive A shape that cleverly incorporates a subtle resemblance to a bird or parrot.
+## Gantt Chart
+
+A Gantt chart is a visual tool that displays project tasks as horizontal bars on a timeline, enabling efficient project planning, tracking, resource allocation, bottleneck identification, and progress monitoring in project management apps.
+
+We Implemented an intuitive user experience for the Gantt chart visualization in Parrot by leveraging the capabilities of npm packages such as [moment](https://momentjs.com/) for time manipulation, [snapsvg](http://snapsvg.io/) for interactive SVG rendering, [frappe-gantt](https://frappe.io/) for Gantt chart functionality, and [sass](https://sass-lang.com/) for seamless and maintainable styling.
+
+By integrating the Gantt chart with the application's state, this enabled real-time updates and synchronization with the project data.
+
+## Websocket Live Notifications
+
+This MERN stack project showcases the seamless integration of websockets to enable live notifications for project and task CRUD operations. By utilizing websockets, users receive real-time notifications whenever a project or task is created, updated, or deleted. This dynamic feature enhances collaboration and keeps team members informed about the latest changes, ensuring a synchronized and efficient project management experience.
 
 -----------------
 
@@ -115,21 +125,13 @@ Our logo is a testament to our brand's uniqueness, as it was custom designed by 
 
 -----------------
 
-## OpenAi
+## UX / UI Design
 
-Parrot integrates [OpenAI's API](https://openai.com/product) and utilizes Chat GPT to automate task generation based on the project's name and description. By leveraging the capabilities of Chat GPT, accurate and relevant tasks are automatically generated, providing teams with an efficient and streamlined workflow. Experience the power of artificial intelligence in project management by leveraging our innovative solution.
+Our UX/UI design is characterized by a minimalist style and carefully selected colors, creating a clean and visually pleasing interface. By embracing simplicity and decluttering, we prioritize essential elements, enhancing user focus and intuitiveness. The chosen color palette complements the overall design, evoking a sense of harmony and reinforcing the app's visual identity. This design approach fosters an enjoyable and streamlined user experience, promoting ease of use and efficient interaction with the application.
 
-## Gantt Chart
+Our logo is a testament to our brand's uniqueness, as it was custom designed by Christopher Banas. The logo features a distinctive 'P' shape that cleverly incorporates a subtle resemblance to a parrot.
 
-A Gantt chart is a visual tool that displays project tasks as horizontal bars on a timeline, enabling efficient project planning, tracking, resource allocation, bottleneck identification, and progress monitoring in project management apps.
-
-We Implemented an intuitive user experience for the Gantt chart visualization in Parrot by leveraging the capabilities of npm packages such as [moment](https://momentjs.com/) for time manipulation, [snapsvg](http://snapsvg.io/) for interactive SVG rendering, [frappe-gantt](https://frappe.io/) for Gantt chart functionality, and [sass](https://sass-lang.com/) for seamless and maintainable styling.
-
-By integrating the Gantt chart with the application's state, this enabled real-time updates and synchronization with the project data.
-
-## Websocket Live Notifications
-
-This MERN stack project showcases the seamless integration of websockets to enable live notifications for project and task CRUD operations. By utilizing websockets, users receive real-time notifications whenever a project or task is created, updated, or deleted. This dynamic feature enhances collaboration and keeps team members informed about the latest changes, ensuring a synchronized and efficient project management experience.
+<img src="./frontend/src/assets/parrot_brand_guide.png" alt="Parrot Brand Guide" style="height: 500px; width: 500px;">
 
 -----------------
 
