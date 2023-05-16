@@ -19,9 +19,10 @@ const projectsRouter = require('./routes/api/projects');
 const notificationsRouter = require('./routes/api/notifications');
 var app = express();
 const server = require('http').createServer(app);
+const { instrument } = require('@socket.io/admin-ui')
 const io = require('socket.io')(server, {
   cors: {
-    origin: "http://localhost:3000"
+    origin: ["http://localhost:3000", 'https://admin.socket.io']
   }
 });
 server.listen(5001);
@@ -37,6 +38,7 @@ io.on('connection', socket => {
   });
 });
 
+instrument(io,{auth: false})
 
 
 
