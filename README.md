@@ -91,12 +91,27 @@ Our backend is built on the combination of [MongoDB](https://www.mongodb.com/) a
 * Redis
 * Google Domains
 
+-----------------
+
 ## UX / UI Design
+
+Our UX/UI design is characterized by a minimalist style and carefully selected colors, creating a clean and visually pleasing interface. By embracing simplicity and decluttering, we prioritize essential elements, enhancing user focus and intuitiveness. The chosen color palette complements the overall design, evoking a sense of harmony and reinforcing the app's visual identity. This design approach fosters an enjoyable and streamlined user experience, promoting ease of use and efficient interaction with the application.
+
+Our logo is a testament to our brand's uniqueness, as it was custom designed by Christopher Banas. The logo features a distinctive A shape that cleverly incorporates a subtle resemblance to a bird or parrot.
 
 -----------------
 
 ## Features
 
+- **Signup:** Users can sign up for Parrot by providing their name, email, and a password
+
+- **Logout:** Users can logout of their account at any time, which will immediately end their session and ensure that their data is secure.
+
+- **Projects:** Users can create new projects within the application, enabling them to organize and manage their initiatives effectively. Each project can be customized with relevant details, such as descriptions, deadlines, and assigned team members. This feature provides a streamlined platform for users to collaborate, track progress, and ensure the successful execution of their projects.
+
+- **Tasks:** Users have the ability to create and manage tasks within the application, allowing for efficient organization and execution of project activities. Each task can be assigned to specific team members, set with deadlines, and categorized with relevant details. This feature empowers users to track progress, delegate responsibilities, and ensure the timely completion of project tasks, enhancing overall project productivity and success.
+
+- **Notifications:** Parrot incorporates a notification system that keeps users informed about important updates and activities. Users receive real-time notifications for project-related events, such as task assignments, task completions, and project milestones. This feature ensures that users stay up-to-date with project progress and fosters efficient communication and collaboration within the team.
 
 -----------------
 
@@ -106,9 +121,11 @@ Parrot integrates [OpenAI's API](https://openai.com/product) and utilizes Chat G
 
 ## Gantt Chart
 
-A Gantt chart is a visual representation of a project schedule that displays tasks as horizontal bars on a timeline. It illustrates the start and end dates of each task, dependencies between tasks, and overall project progress. In project management apps, Gantt charts provide an efficient way to plan, track, and communicate project timelines, helping teams visualize the project's timeline, allocate resources, identify bottlenecks, and monitor progress towards completion.
+A Gantt chart is a visual tool that displays project tasks as horizontal bars on a timeline, enabling efficient project planning, tracking, resource allocation, bottleneck identification, and progress monitoring in project management apps.
 
 We Implemented an intuitive user experience for the Gantt chart visualization in Parrot by leveraging the capabilities of npm packages such as [moment](https://momentjs.com/) for time manipulation, [snapsvg](http://snapsvg.io/) for interactive SVG rendering, [frappe-gantt](https://frappe.io/) for Gantt chart functionality, and [sass](https://sass-lang.com/) for seamless and maintainable styling.
+
+By integrating the Gantt chart with the application's state, this enabled real-time updates and synchronization with the project data.
 
 ## Websocket Live Notifications
 
