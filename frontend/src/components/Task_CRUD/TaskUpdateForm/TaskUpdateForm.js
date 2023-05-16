@@ -28,7 +28,7 @@ export default function TaskUpdateForm({taskId,projectId}) {
         const updatedTask = {...task, title, description, dueDate};
         try {
             dispatch(updateTask(projectId, updatedTask));
-            alert('Project updated successfully!');
+            window.location.reload();
           } catch (err) {
             alert('Failed to update project. Please try again later.');
           }
