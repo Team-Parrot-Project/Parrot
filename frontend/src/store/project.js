@@ -1,5 +1,5 @@
 import jwtFetch from "./jwt";
-import { ADD_TASK } from "./task";
+import { ADD_TASK, REMOVE_TASK } from "./task";
 
 export const ADD_PROJECT = 'project/addProject';
 export const ADD_PROJECTS = 'project/addProjects'
@@ -28,6 +28,10 @@ export const removeProject = (projectId)=>{
 
 export const projectReducer = (state = {},action) =>{
     const newState = {...state};
+    let projectId;
+    let taskArray;
+    let existingIdx;
+
     switch(action.type){
         case ADD_PROJECT:
             return {...state, [action.project._id]: action.project}
@@ -40,11 +44,24 @@ export const projectReducer = (state = {},action) =>{
         case REMOVE_PROJECT:
             delete newState[action.projectId]
             return newState;
-        case ADD_TASK:
-            let projectId = action.task.projectId;
-            let taskArray = newState[projectId].tasks;
+        case REMOVE_TASK:
+            taskArray = newState[action.payload.projectId].tasks;
+            existingIdx = taskArray.findIndex((ele) => {
+                // debugger;
+                return ele._id === action.payload.taskId
+            })
 
-            let existingIdx = taskArray.findIndex((ele) => {
+            if(existingIdx >= 0) {
+                taskArray.splice(existingIdx, 1);
+                newState[action.payload.projectId].tasks = taskArray;
+            }
+            // debugger;
+            return newState;
+        case ADD_TASK:
+            projectId = action.task.projectId;
+            taskArray = newState[projectId].tasks;
+
+            existingIdx = taskArray.findIndex((ele) => {
                 return ele._id === action.task._id
             })
 
