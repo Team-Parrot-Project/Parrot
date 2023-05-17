@@ -1,10 +1,8 @@
 import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Redirect, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import * as sessionActions from "../../store/session";
 import logo from "../../assets/logo_text_version.png";
-import github from "../../assets/github.png"
-import linkedin from "../../assets/linkedin.png"
 import './LoginForm.css';
 
 import { login, clearSessionErrors } from '../../store/session';
@@ -36,6 +34,14 @@ export default function LoginForm() {
     e.preventDefault();
     dispatch(
       sessionActions.login({ email: "admin@example.com", password: "password" })
+    )
+      .then(move => history.push("/home"));
+  };
+
+  const handleDemo2 = (e) => {
+    e.preventDefault();
+    dispatch(
+      sessionActions.login({ email: "ryde@or-die.com", password: "password" })
     )
       .then(move => history.push("/home"));
   };
@@ -117,7 +123,9 @@ export default function LoginForm() {
               </div>
               <input className="login-form-button" type="submit" value="Log In" disabled={!email || !password} tabIndex="0" />
 
-              <input className="login-form-demo-button" type="submit" value="Demo User Log In" tabIndex="0" onClick={handleDemo} />
+              <input className="login-form-demo-button" type="submit" value="Demo Log In" tabIndex="0" onClick={handleDemo} />
+              
+              <input className="login-form-demo-button" type="submit" value="Demo 2 Log In" tabIndex="0" onClick={handleDemo2} />
 
             </form>
           </div>

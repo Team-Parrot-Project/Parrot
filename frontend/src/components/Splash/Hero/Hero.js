@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import * as sessionActions from "../../../store/session";
-import { useDispatch, useSelector } from "react-redux";
-import { Redirect, useHistory } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { useHistory } from "react-router-dom";
 import SignupForm from "../SignupForm/SignupForm"
 import logo from "../../../assets/logo_text_version.png"
 import github from "../../../assets/github.png"
@@ -13,7 +13,6 @@ export default function Hero() {
 
   const history = useHistory();
   const dispatch = useDispatch();
-  const sessionUser = useSelector(state => state.session.user);
   const [errors, setErrors] = useState([]);
 
 
@@ -22,6 +21,15 @@ export default function Hero() {
     setErrors([]);
     dispatch(
       sessionActions.login({ email: "admin@example.com", password: "password" })
+    )
+    .then(move => history.push("/home"));
+  };
+
+  const handleDemo2 = (e) => {
+    e.preventDefault();
+    setErrors([]);
+    dispatch(
+      sessionActions.login({ email: "ryde@or-die.com", password: "password" })
     )
     .then(move => history.push("/home"));
   };
@@ -35,7 +43,8 @@ export default function Hero() {
           </div>
           <div className="nav-buttons">
             <a href="/login"><button className="login">Login</button></a>
-            <button className="demo-login" onClick={handleDemo}>Demo User Login</button>
+            <button className="demo-login" onClick={handleDemo}>Demo Login</button>
+            <button className="demo-login" onClick={handleDemo2}>Demo 2 Login</button>
           </div>
         </header>
 
