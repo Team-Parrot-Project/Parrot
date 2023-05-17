@@ -8,11 +8,14 @@ const TaskCreateForm = ({ users, taskTitle = '' }) => {
   const dispatch = useDispatch();
   const [title, setTitle] = useState(taskTitle);
   const [description, setDescription] = useState('');
+  const [startDate, setStartDate] = useState('');
   const [dueDate, setDueDate] = useState('');
   const [assignee, setAssignee] = useState('');
   const [status, setStatus] = useState('In progress');
   const currentUser = useSelector(state => state.session.user);
   const {projectId} = useParams();
+
+  const statusOptions = ['not started','in progress', 'complete']
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -65,15 +68,33 @@ const TaskCreateForm = ({ users, taskTitle = '' }) => {
         onChange={(e) => setDescription(e.target.value)}
       />
       <label htmlFor="status">Status:</label>
-      <input
+      <select id='status'
+      value={status}
+      onChange={(e) => setStatus(e.target.value)}
+      >
+        {statusOptions.map((o, ix) => {
+          return (<option value={o} key={ix}>{o}</option>)
+        })}
+      </select>
+      {/* <input
         id="status"
         value={status}
         onChange={(e) => setStatus(e.target.value)}
+      /> */}
+      <label htmlFor="startDate">Start Date:</label>
+      <input
+        type="date"
+        id="startDate"
+        value={startDate}
+        required
+        onChange={(e) => setStartDate(e.target.value)}
       />
       <label htmlFor="dueDate">Due Date:</label>
       <input
         type="date"
         id="dueDate"
+        min={startDate || ""}
+        required
         value={dueDate}
         onChange={(e) => setDueDate(e.target.value)}
       />

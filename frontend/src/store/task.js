@@ -1,7 +1,7 @@
 import jwtFetch from "./jwt";
 import { ADD_PROJECT, ADD_PROJECTS } from "./project";
 
-const ADD_TASK = 'Task/addTask';
+export const ADD_TASK = 'Task/addTask';
 const ADD_TASKS = 'Task/addTasks'
 const REMOVE_TASK = 'Task/removeTask';
 const PURGE_TASKS = 'Task/purgeTasks';

@@ -11,7 +11,7 @@ export default function TaskUpdateModal({taskId, projectId}) {
             <button className='update-task-button' onClick={() => setShowModal(true)}>Update Task</button>
             {showModal && (
                 <Modal onClose={() => setShowModal(false)}>
-                    <TaskUpdateForm taskId={taskId} projectId={projectId} onSubmit={closeModal}/>
+                    <TaskUpdateForm taskId={taskId} projectId={projectId} closeModal={closeModal}/>
                 </Modal>
             )}
         </>

@@ -5,7 +5,7 @@ import { fetchProject, getProject } from "../../../store/project";
 import { formatDate } from "../../../store/util";
 import './TaskUpdateForm.css';
 
-export default function TaskUpdateForm({taskId,projectId}) {
+export default function TaskUpdateForm({taskId,projectId, closeModal}) {
     const dispatch = useDispatch();
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
@@ -35,7 +35,8 @@ export default function TaskUpdateForm({taskId,projectId}) {
         const updatedTask = {...currentTask, title, description, startDate, dueDate, blockingTasks};
         try {
             dispatch(updateTask(projectId, updatedTask));
-            window.location.reload();
+
+            closeModal();
           } catch (err) {
             setErrors(err.errors);
           }
@@ -53,11 +54,21 @@ export default function TaskUpdateForm({taskId,projectId}) {
             </div>
             <div>
                 <label htmlFor="startDate">Start Date</label>
-                <input id="startDate" type="date" required value={startDate} onChange={(event) => setStartDate(event.target.value)} />
+                <input 
+                id="startDate" 
+                type="date" 
+                required 
+                value={startDate} 
+                onChange={(event) => setStartDate(event.target.value)} />
             </div>
             <div>
                 <label htmlFor="dueDate">Due Date</label>
-                <input id="dueDate" type="date" required value={dueDate} onChange={(event) => setDueDate(event.target.value)} />
+                <input id="dueDate"
+                type="date" 
+                min={startDate || ""}
+                required
+                value={dueDate}
+                onChange={(event) => setDueDate(event.target.value)} />
             </div>
             <div>
                 <label htmlFor="blockingTasks">Blocking Tasks (ctrl + click to select/deselect multiple tasks)</label> <br/>

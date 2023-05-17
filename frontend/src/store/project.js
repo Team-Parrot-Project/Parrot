@@ -1,4 +1,5 @@
 import jwtFetch from "./jwt";
+import { ADD_TASK } from "./task";
 
 export const ADD_PROJECT = 'project/addProject';
 export const ADD_PROJECTS = 'project/addProjects'
@@ -38,7 +39,23 @@ export const projectReducer = (state = {},action) =>{
             return newState
         case REMOVE_PROJECT:
             delete newState[action.projectId]
-            return newState
+            return newState;
+        case ADD_TASK:
+            let projectId = action.task.projectId;
+            let taskArray = newState[projectId].tasks;
+
+            let existingIdx = taskArray.findIndex((ele) => {
+                return ele._id === action.task._id
+            })
+
+            if (existingIdx < 0) {
+                taskArray.push(action.task)
+            } else {
+                taskArray[existingIdx] = action.task;
+            }
+            
+            newState[projectId].tasks = taskArray;
+            return newState;
         default:
             return state;
     }
@@ -58,6 +75,14 @@ export const getProjects = (state)=>{
     if(state.projects){
         return Object.values(state.projects)
     }else{
+        return [];
+    }
+}
+
+export const getProjectTasks = (projectId) => (state) => {
+    if (state.projects && state.projects[projectId]) {
+        return Object.values(state.projects[projectId].tasks)
+    } else {
         return [];
     }
 }
