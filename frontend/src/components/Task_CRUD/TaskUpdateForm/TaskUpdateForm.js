@@ -32,7 +32,10 @@ export default function TaskUpdateForm({taskId,projectId, closeModal}) {
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        const updatedTask = {...currentTask, title, description, startDate, dueDate, blockingTasks};
+        const updatedTask = {...currentTask, title, description, startDate, endDate: dueDate, blockingTasks};
+        // console.log(currentTask, "current task unspread");
+        // console.log(...currentTask, "current task spread");
+        console.log(updatedTask, "updateTask!!!!!");
         try {
             dispatch(updateTask(projectId, updatedTask));
 

@@ -25,12 +25,12 @@ const TaskCreateForm = ({ users, taskTitle = '' }) => {
       alert('Please fill in all fields.');
       return;
     }
-
+    
     // Create a new task object with input values
     const newTask = {
       title: title,
       description: description,
-      startDate: dueDate,
+      startDate: startDate,
       endDate: dueDate,
       status: status,
       assignee: assignee,
@@ -38,6 +38,7 @@ const TaskCreateForm = ({ users, taskTitle = '' }) => {
 
     try {
       // Send a POST request to the server to save the new task
+      // console.log(newTask, "NEW TASK!!!")
       dispatch(createTask(projectId, newTask));
 
       // Update the UI to indicate that the task has been created
