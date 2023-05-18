@@ -5,6 +5,7 @@ import { updateTask } from '../../../store/task';
 import { fetchProject } from '../../../store/project';
 import { fetchUser } from '../../../store/user';
 import { formatDate } from '../../../store/util';
+import { debounce } from 'lodash';
 import Gantt from 'frappe-gantt';
 import './GanttChart.css';
 
@@ -14,12 +15,6 @@ export default function GanttChart() {
   const time = useSelector(state => state.timeframe.selectedTimeframe);
   const userId = useSelector(state => state.session.user._id);
   const formattedTime = useMemo(() => time ? time.charAt(0).toUpperCase() + time.slice(1) : null, [time]);
-
-  // For Gantt task update
-  const [startDate, setStartDate] = useState('');
-  const [dueDate, setDueDate] = useState('');
-  const [progress, setProgress] = useState('');
-
 
   // The useRef and useMemo are needed otherwise the chart would not render properly on first load and or would cause inifinte rerenders.
 
@@ -52,6 +47,12 @@ export default function GanttChart() {
 
   const ganttRef = useRef();
 
+  const handleDateChange = (updatedTask) => {
+    dispatch(updateTask(projectId, updatedTask));
+  }
+
+  const debouncedDateChange = debounce(handleDateChange, 3000)
+
   useEffect(() => {
     // Generate the Gantt chart
     if (ganttRef.current && formattedTasks.length && formattedTime) {
@@ -72,7 +73,11 @@ export default function GanttChart() {
           console.log("on click");
         },
         on_date_change: function (task, start, end) {
-          console.log("on_date_change");
+          console.log("to many!!!!");
+
+          // const updatedTask = {...task, _id: task.id, startDate: start, endDate: end}
+          // debouncedDateChange(updatedTask)
+
         },
         on_progress_change: function (task, progress) {
           console.log("on_progress_change");

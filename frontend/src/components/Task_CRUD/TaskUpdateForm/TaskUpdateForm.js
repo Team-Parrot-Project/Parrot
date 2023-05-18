@@ -5,7 +5,7 @@ import { fetchProject, getProject } from "../../../store/project";
 import { formatDate } from "../../../store/util";
 import './TaskUpdateForm.css';
 
-export default function TaskUpdateForm({taskId,projectId, closeModal}) {
+export default function TaskUpdateForm({ taskId, projectId, closeModal }) {
     const dispatch = useDispatch();
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
@@ -16,23 +16,23 @@ export default function TaskUpdateForm({taskId,projectId, closeModal}) {
     const currentTask = useSelector(getTask(taskId));
     const project = useSelector(getProject(projectId));
 
-    useEffect(()=>{
+    useEffect(() => {
         if (currentTask) {
-        setTitle(currentTask.title);
-        setDescription(currentTask.description);
-        setStartDate(formatDate(currentTask.startDate));
-        setDueDate(formatDate(currentTask.endDate));
-        setBlockingTasks(currentTask.blockingTasks || []);
-    }
-    },[currentTask,setTitle,setDescription,setDueDate])
+            setTitle(currentTask.title);
+            setDescription(currentTask.description);
+            setStartDate(formatDate(currentTask.startDate));
+            setDueDate(formatDate(currentTask.endDate));
+            setBlockingTasks(currentTask.blockingTasks || []);
+        }
+    }, [currentTask, setTitle, setDescription, setDueDate])
 
-    useEffect(()=>{
+    useEffect(() => {
         dispatch(fetchProject(projectId))
-    },[dispatch])
+    }, [dispatch])
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        const updatedTask = {...currentTask, title, description, startDate, endDate: dueDate, blockingTasks};
+        const updatedTask = { ...currentTask, title, description, startDate, endDate: dueDate, blockingTasks };
         // console.log(currentTask, "current task unspread");
         // console.log(...currentTask, "current task spread");
         console.log(updatedTask, "updateTask!!!!!");
@@ -40,9 +40,9 @@ export default function TaskUpdateForm({taskId,projectId, closeModal}) {
             dispatch(updateTask(projectId, updatedTask));
 
             closeModal();
-          } catch (err) {
+        } catch (err) {
             setErrors(err.errors);
-          }
+        }
     };
 
     return (
@@ -57,24 +57,24 @@ export default function TaskUpdateForm({taskId,projectId, closeModal}) {
             </div>
             <div>
                 <label htmlFor="startDate">Start Date</label>
-                <input 
-                id="startDate" 
-                type="date" 
-                required 
-                value={startDate} 
-                onChange={(event) => setStartDate(event.target.value)} />
+                <input
+                    id="startDate"
+                    type="date"
+                    required
+                    value={startDate}
+                    onChange={(event) => setStartDate(event.target.value)} />
             </div>
             <div>
                 <label htmlFor="dueDate">Due Date</label>
                 <input id="dueDate"
-                type="date" 
-                min={startDate || ""}
-                required
-                value={dueDate}
-                onChange={(event) => setDueDate(event.target.value)} />
+                    type="date"
+                    min={startDate || ""}
+                    required
+                    value={dueDate}
+                    onChange={(event) => setDueDate(event.target.value)} />
             </div>
             <div>
-                <label htmlFor="blockingTasks">Blocking Tasks (ctrl + click to select/deselect multiple tasks)</label> <br/>
+                <label htmlFor="blockingTasks">Blocking Tasks (ctrl + click to select/deselect multiple tasks)</label> <br />
                 <select id="blockingTasks" value={blockingTasks} onChange={(event) =>
                     setBlockingTasks(Array.from(event.target.selectedOptions, (option) => option.value))} multiple>
                     {project && project.tasks
@@ -83,7 +83,7 @@ export default function TaskUpdateForm({taskId,projectId, closeModal}) {
                             <option key={task._id} value={task._id}>
                                 {task.title}
                             </option>
-                    ))}
+                        ))}
                 </select>
             </div>
             <button type="submit">Update Task</button>
