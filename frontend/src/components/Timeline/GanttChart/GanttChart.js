@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef, useState } from 'react';
+import React, { useEffect, useMemo, useRef } from 'react';
 import { useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { updateTask } from '../../../store/task';
@@ -45,17 +45,28 @@ export default function GanttChart() {
 
   }, [dispatch, projectId, userId]);
 
+  // Used to create a dummy ref for the chart before it exisits
   const ganttRef = useRef();
 
-  const handleDateChange = (updatedTask) => {
+  // Handles live date update on dragging and is throttled. Even though when the chart is clicked it gets 6 hits, useMemo helps to keep it to only one hit
+  const handleDateChange = useMemo(() => (updatedTask) => {
     console.log("ONEONEONEONEOEN")
     dispatch(updateTask(projectId, updatedTask));
-  }
+  }, [dispatch, projectId]);
 
-  const debouncedDateChange = debounce(handleDateChange, 3000)
+  const debouncedDateChange = useMemo(() => debounce(handleDateChange, 250), [handleDateChange])
 
+  // Handles live progress update on dragging and is throttled
+  const handleProgressChange = useMemo(() => (updatedTask) => {
+    console.log("tttttttttttt")
+    dispatch(updateTask(projectId, updatedTask));
+  }, [dispatch, projectId])
+
+  const debouncedProgressChange = useMemo(() => debounce(handleProgressChange, 250), [handleProgressChange])
+
+  // Generate the Gantt chart
   useEffect(() => {
-    // Generate the Gantt chart
+    console.log("HIT THE CHART")
     if (ganttRef.current && formattedTasks.length && formattedTime) {
       new Gantt("#gantt", formattedTasks, {
         header_height: 50,
@@ -70,25 +81,19 @@ export default function GanttChart() {
         date_format: 'YYYY-MM-DD',
         language: 'en', // or 'es', 'it', 'ru', 'ptBr', 'fr', 'tr', 'zh', 'de', 'hu'
         custom_popup_html: null,
-        on_click: function (task) {
-          console.log("on click");
-        },
         on_date_change: function (task, start, end) {
-          console.log("to many!!!!");
-
+          console.log("on_date_change");
           const updatedTask = {...task, _id: task.id, startDate: start, endDate: end}
           debouncedDateChange(updatedTask)
-
         },
         on_progress_change: function (task, progress) {
           console.log("on_progress_change");
-        },
-        on_view_change: function (mode) {
-          console.log("on_view_change");
+          const updatedTask = {...task, _id: task.id, progress: progress}
+          debouncedProgressChange(updatedTask)
         }
       });
     }
-  }, [ganttRef, formattedTasks, formattedTime, debouncedDateChange])
+  }, [ganttRef, formattedTasks, formattedTime, debouncedDateChange, debouncedProgressChange])
 
   return (
 
