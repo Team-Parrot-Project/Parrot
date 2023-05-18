@@ -7,6 +7,7 @@ import projects from './project';
 import tasks from './task';
 import notifications from './notification'
 import timeframe from './timeframeActions'
+import userReducer from './user';
 
 const rootReducer = combineReducers({
   session,
@@ -14,7 +15,8 @@ const rootReducer = combineReducers({
   tasks,
   notifications,
   timeframe,
-  errors
+  errors,
+  users: userReducer
 });
 
 let enhancer;
