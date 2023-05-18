@@ -1,10 +1,12 @@
-import React, { useEffect, useMemo, useRef} from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import Gantt from 'frappe-gantt';
-import './GanttChart.css';
+import { updateTask } from '../../../store/task';
 import { fetchProject } from '../../../store/project';
 import { fetchUser } from '../../../store/user';
+import { formatDate } from '../../../store/util';
+import Gantt from 'frappe-gantt';
+import './GanttChart.css';
 
 export default function GanttChart() {
   const { projectId } = useParams()
@@ -13,36 +15,32 @@ export default function GanttChart() {
   const userId = useSelector(state => state.session.user._id);
   const formattedTime = useMemo(() => time ? time.charAt(0).toUpperCase() + time.slice(1) : null, [time]);
 
+  // For Gantt task update
+  const [startDate, setStartDate] = useState('');
+  const [dueDate, setDueDate] = useState('');
+  const [progress, setProgress] = useState('');
+
+
   // The useRef and useMemo are needed otherwise the chart would not render properly on first load and or would cause inifinte rerenders.
 
   // Grab the project from state
   const projectTasks = useSelector(state => state.projects);
 
-  // Function to reformat the date
-  const formatDate = (dateString) => {
-    const date = new Date(dateString);
-    const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, '0');
-    const day = String(date.getDate()).padStart(2, '0');
-    const formattedDate = `${year}-${month}-${day}`;
-    return formattedDate;
-  };
-
   // Reformate the tasks data for the Gantt chart
   const formattedTasks = useMemo(() => projectTasks[projectId]?.tasks
-  ? projectTasks[projectId].tasks.map((task, index) => {
-    const sDate = task.startDate ? formatDate(task.startDate) : '';
-    const eDate = task.endDate ? formatDate(task.endDate) : '';
-    return {
-      id: task._id,
-      name: task.title,
-      start: sDate,
-      end: eDate,
-      progress: task.progress,
-      dependencies: task.blockingTasks //task.blockingTasks
-    };
-  })
-  : [], [projectTasks, projectId]);
+    ? projectTasks[projectId].tasks.map((task, index) => {
+      const sDate = task.startDate ? formatDate(task.startDate) : '';
+      const eDate = task.endDate ? formatDate(task.endDate) : '';
+      return {
+        id: task._id,
+        name: task.title,
+        start: sDate,
+        end: eDate,
+        progress: task.progress,
+        dependencies: task.blockingTasks //task.blockingTasks
+      };
+    })
+    : [], [projectTasks, projectId]);
 
   useEffect(() => {
 
@@ -69,7 +67,19 @@ export default function GanttChart() {
         view_mode: formattedTime,
         date_format: 'YYYY-MM-DD',
         language: 'en', // or 'es', 'it', 'ru', 'ptBr', 'fr', 'tr', 'zh', 'de', 'hu'
-        custom_popup_html: null
+        custom_popup_html: null,
+        on_click: function (task) {
+          console.log("on click");
+        },
+        on_date_change: function (task, start, end) {
+          console.log("on_date_change");
+        },
+        on_progress_change: function (task, progress) {
+          console.log("on_progress_change");
+        },
+        on_view_change: function (mode) {
+          console.log("on_view_change");
+        }
       });
     }
   }, [ganttRef, formattedTasks, formattedTime])
@@ -77,7 +87,7 @@ export default function GanttChart() {
   return (
 
     <>
-        <svg id="gantt" className="gantt" ref={ganttRef}></svg>
+      <svg id="gantt" className="gantt" ref={ganttRef}></svg>
     </>
 
 
