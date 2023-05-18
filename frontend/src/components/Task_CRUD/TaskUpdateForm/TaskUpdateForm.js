@@ -13,8 +13,13 @@ export default function TaskUpdateForm({taskId,projectId, closeModal}) {
     const [dueDate, setDueDate] = useState('');
     const [blockingTasks, setBlockingTasks] = useState([]);
     const [errors, setErrors] = useState([]);
+    const [assignee, setAssignee] = useState('');
+    const [status, setStatus] = useState('in progress');
     const currentTask = useSelector(getTask(taskId));
+    const [progress, setProgress] = useState(0);
     const project = useSelector(getProject(projectId));
+    const currentUser = useSelector(state => state.session.user);
+    const statusOptions = ['not started','in progress', 'complete'];
 
     useEffect(()=>{
         if (currentTask) {
@@ -55,6 +60,12 @@ export default function TaskUpdateForm({taskId,projectId, closeModal}) {
                 <label htmlFor="description">Description</label>
                 <textarea id="description" value={description} onChange={(event) => setDescription(event.target.value)} />
             </div>
+            <label htmlFor="status">Status:</label>
+            <select id='status' value={status} onChange={(e) => setStatus(e.target.value)}>
+                {statusOptions.map((o, ix) => {
+                return (<option value={o} key={ix}>{o}</option>)
+                })}
+            </select>
             <div>
                 <label htmlFor="startDate">Start Date</label>
                 <input 
@@ -73,19 +84,23 @@ export default function TaskUpdateForm({taskId,projectId, closeModal}) {
                 value={dueDate}
                 onChange={(event) => setDueDate(event.target.value)} />
             </div>
-            <div>
-                <label htmlFor="blockingTasks">Blocking Tasks (ctrl + click to select/deselect multiple tasks)</label> <br/>
-                <select id="blockingTasks" value={blockingTasks} onChange={(event) =>
-                    setBlockingTasks(Array.from(event.target.selectedOptions, (option) => option.value))} multiple>
-                    {project && project.tasks
-                        .filter((task) => task._id !== taskId && task.startDate < currentTask.startDate) // Apply the condition
-                        .map((task) => (
-                            <option key={task._id} value={task._id}>
-                                {task.title}
-                            </option>
-                    ))}
-                </select>
-            </div>
+            <label htmlFor="assignee">Assignee:</label>
+      <select id="assignee" value={assignee} onChange={(e) => setAssignee(e.target.value)}>
+        <option value={currentUser._id}>{currentUser.username}</option>
+      </select>
+      <label htmlFor="progress">Progress:</label>
+      <input type="integer" id="progress" min={0} max={100} value={progress} onChange={(e) => setProgress(e.target.value)}/>
+            <label htmlFor="blockingTasks">Blocking Tasks (ctrl + click to select/deselect multiple tasks)</label> <br/>
+            <select id="blockingTasks" value={blockingTasks} onChange={(event) =>
+                setBlockingTasks(Array.from(event.target.selectedOptions, (option) => option.value))} multiple>
+                {project && project.tasks
+                    .filter((task) => task._id !== taskId && task.startDate < currentTask.startDate) // Apply the condition
+                    .map((task) => (
+                        <option key={task._id} value={task._id}>
+                            {task.title}
+                        </option>
+                ))}
+            </select>
             <button type="submit">Update Task</button>
             {errors && errors.map((error) => <div key={error}>{error}</div>)}
         </form>
