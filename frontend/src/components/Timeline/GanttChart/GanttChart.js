@@ -48,6 +48,7 @@ export default function GanttChart() {
   const ganttRef = useRef();
 
   const handleDateChange = (updatedTask) => {
+    console.log("ONEONEONEONEOEN")
     dispatch(updateTask(projectId, updatedTask));
   }
 
@@ -75,8 +76,8 @@ export default function GanttChart() {
         on_date_change: function (task, start, end) {
           console.log("to many!!!!");
 
-          // const updatedTask = {...task, _id: task.id, startDate: start, endDate: end}
-          // debouncedDateChange(updatedTask)
+          const updatedTask = {...task, _id: task.id, startDate: start, endDate: end}
+          debouncedDateChange(updatedTask)
 
         },
         on_progress_change: function (task, progress) {
@@ -87,7 +88,7 @@ export default function GanttChart() {
         }
       });
     }
-  }, [ganttRef, formattedTasks, formattedTime])
+  }, [ganttRef, formattedTasks, formattedTime, debouncedDateChange])
 
   return (
 
