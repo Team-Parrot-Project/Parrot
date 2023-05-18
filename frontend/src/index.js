@@ -9,12 +9,14 @@ import configureStore from './store/store';
 import jwtFetch from './store/jwt';
 import { fetchProject } from './store/project';
 import { Modal, ModalProvider } from './context/Modal';
+import { fetchUsers } from './store/user';
 
 const store = configureStore();
 
 if (process.env.NODE_ENV !== "production") {
   window.store = store;
   window.jwtFetch = jwtFetch;
+  window.fetchUsers = fetchUsers;
 }
 
 const rootElement = document.getElementById('root');
