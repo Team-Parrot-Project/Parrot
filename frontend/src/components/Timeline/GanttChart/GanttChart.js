@@ -62,22 +62,22 @@ export default function GanttChart() {
   const ganttRef = useRef();
 
   // Handles live date update on dragging and is throttled. Even though when the chart is clicked it gets 6 hits, useMemo helps to keep it to only one hit
-  const handleTaskChange = useMemo(() => () => {
-    console.log("updating tasks!!!!!");
-    // debugger;
-    Object.values(updatedTasks).forEach((t) => {
-      // debugger;
-      dispatch(updateTask(projectId, t)).then(() => {
-        setTasksProcessing(prev => (prev-1));
-      })
-      setTasksProcessing(prev => (prev + 1));
-    })
+  // const handleTaskChange = useMemo(() => () => {
+  //   console.log("updating tasks!!!!!");
+  //   // debugger;
+  //   Object.values(updatedTasks).forEach((t) => {
+  //     // debugger;
+  //     dispatch(updateTask(projectId, t)).then(() => {
+  //       setTasksProcessing(prev => (prev-1));
+  //     })
+  //     setTasksProcessing(prev => (prev + 1));
+  //   })
 
 
-    // dispatch(updateTask(projectId, updatedTask));
-  }, [dispatch, projectId, updatedTasks]);
+  //   // dispatch(updateTask(projectId, updatedTask));
+  // }, [dispatch, projectId, updatedTasks]);
 
-  const debouncedTaskChange = useMemo(() => debounce(handleTaskChange, 250), [handleTaskChange])
+  // const debouncedTaskChange = useMemo(() => debounce(handleTaskChange, 250), [handleTaskChange])
 
   // function initializeTasks(tasks) {
   //   let newTasks = {};
@@ -137,7 +137,7 @@ useEffect(() => {
       }
     });
   }
-}, [ganttRef, formattedTasks, formattedTime, debouncedTaskChange, tasksProcessing])
+}, [ganttRef, formattedTasks, formattedTime, tasksProcessing])
 
 // this use effect fires when the component unmounts to ensure their changes are saved
 useEffect(() => {
@@ -154,19 +154,22 @@ useEffect(() => {
   };
 }, [])
 
+
+function patchTaskChanges () {
+  Object.values(updatedTasks).forEach((t) => {
+  // debugger;
+  dispatch(updateTask(projectId, t)).then(() => {
+    setTasksProcessing(prev => (prev-1));
+  })
+  setTasksProcessing(prev => (prev + 1));
+})}
+
 // this use effect fires when the user refreshes the page to ensure their changes are saved
 useEffect(() => {
   const handleBeforeUnload = (e) => {
     e.preventDefault();
     // e.returnValue = '';
-
-    Object.values(updatedTasks).forEach((t) => {
-      // debugger;
-      dispatch(updateTask(projectId, t)).then(() => {
-        setTasksProcessing(prev => (prev-1));
-      })
-      setTasksProcessing(prev => (prev + 1));
-    })
+    patchTaskChanges();
   }
 
   window.addEventListener('beforeunload', handleBeforeUnload);
