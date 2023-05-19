@@ -17,12 +17,11 @@ const TaskCreateForm = ({ taskTitle = '' }) => {
   const dispatch = useDispatch();
   const {projectId} = useParams();
 
-  // // In Progress: Populating the assignee dropdown with project collaborators
-  const state = useSelector(state => state);
-  const users = useSelector(state => state.users);
-  const currentProject = useSelector(state => state.projects[projectId] || {});
-  const collaboratorIds = currentProject.collaborators;
-  const collaborators = collaboratorIds?.map(id => state.users[id]);
+  const collaborators = useSelector(state => {
+    const currentProject = state.projects[projectId] || {};
+    const collaboratorIds = currentProject.collaborators || [];
+    return collaboratorIds.map(id => state.users[id]);
+  });
 
   const statusOptions = ['not started','in progress', 'complete']
 
@@ -75,7 +74,9 @@ const TaskCreateForm = ({ taskTitle = '' }) => {
       <label htmlFor="assignee">Assignee:</label>
       <select id="assignee" value={assignee} onChange={(e) => setAssignee(e.target.value)}>
         <option value="">Select an assignee</option>
-        {Object.values(collaborators).map(collaborator => (
+        {collaborators && Object.values(collaborators)
+          .filter(collaborator => collaborator && collaborator._id)
+          .map(collaborator => (
           <option key={collaborator._id} value={collaborator._id}>{collaborator.username}</option>
         ))}
       </select>
