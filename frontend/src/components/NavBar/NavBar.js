@@ -1,6 +1,6 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { useParams } from 'react-router-dom';
+import { useParams, useLocation } from 'react-router-dom';
 import * as sessionActions from '../../store/session';
 import logo from "../../assets/logo_text_version.png"
 import './NavBar.css';
@@ -10,12 +10,15 @@ export default function NavBar() {
 
   const { projectId } = useParams()
   const dispatch = useDispatch();
+  const location = useLocation();
   const userName = useSelector(state => state.session.user.username);
 
   const hanldeLogout = (e) => {
     e.preventDefault();
     dispatch(sessionActions.logout())
   };
+
+  const isProjectTimelinePage = location.pathname === `/projects/${projectId}/timeline`;
 
   return (
     <>
@@ -39,11 +42,11 @@ export default function NavBar() {
                 <span className="nav-text">Home</span>
               </a>
             </li>
-            
-          { projectId &&
-            <li className="nav-list-item">
-              <a href={`/projects/${projectId}/timeline`} className="nav-link">
-                <svg className="nav-icon" viewBox="0 0 40 40"><path d="M34.5,6C32,6,30,8,30,10.5c0,1.1,0.4,2.1,1.1,2.9l-4.3,7.6C26.5,21,26.3,21,26,21c-0.9,0-1.6,0.3-2.3,0.7L19.2,18
+
+            {projectId &&
+              <li className="nav-list-item">
+                <a href={`/projects/${projectId}/timeline`} className="nav-link">
+                  <svg className="nav-icon" viewBox="0 0 40 40"><path d="M34.5,6C32,6,30,8,30,10.5c0,1.1,0.4,2.1,1.1,2.9l-4.3,7.6C26.5,21,26.3,21,26,21c-0.9,0-1.6,0.3-2.3,0.7L19.2,18
                 c0.2-0.5,0.3-1,0.3-1.5c0-2.5-2-4.5-4.5-4.5s-4.5,2-4.5,4.5c0,0.9,0.3,1.8,0.8,2.5l-4.5,6.2C6.4,25.1,5.9,25,5.5,25
                 C3,25,1,27,1,29.5S3,34,5.5,34s4.5-2,4.5-4.5c0-0.9-0.3-1.8-0.8-2.5l4.5-6.2c0.4,0.1,0.8,0.2,1.3,0.2c0.9,0,1.6-0.3,2.3-0.7l4.5,3.7
                 c-0.2,0.5-0.3,1-0.3,1.5c0,2.5,2,4.5,4.5,4.5s4.5-2,4.5-4.5c0-1.1-0.4-2.1-1.1-2.9l4.3-7.6c0.3,0,0.5,0.1,0.8,0.1
@@ -65,12 +68,23 @@ export default function NavBar() {
                 c0,0,0.1,0.1,0.1,0.1c0,0,0.1,0.1,0.1,0.1c0,0,0.1,0.1,0.1,0.1c0,0,0.1,0.1,0.1,0.1c0,0,0,0.1,0.1,0.1c0,0,0.1,0.1,0.1,0.1
                 c0,0,0,0.1,0.1,0.1c0,0,0,0.1,0,0.1c0,0,0,0.1,0,0.1c0,0.1,0,0.1,0,0.2c0,0,0,0.1,0,0.1c0,0.1,0,0.1,0,0.2c0,0,0,0.1,0,0.1
                 c0,0,0,0.1,0,0.1c0,0,0,0.1-0.1,0.1c-0.2,0.5-0.8,0.8-1.3,0.8C33.7,12,33,11.3,33,10.5z"></path></svg>
-                <span className="nav-text">Timeline</span>
-              </a>
-            </li>
+                  <span className="nav-text">Timeline</span>
+                </a>
+              </li>
+            }
 
-          }
 
+            {isProjectTimelinePage && (
+              <li className="nav-list-item">
+                <a href={`/projects/${projectId}`} className="nav-link">
+                  <svg className="nav-icon" viewBox="0 0 40 40">
+                    <path d="M30.5,9h-7.8l-3.6-3.6C18.2,4.5,16.9,4,15.6,4h-5.1C6.9,4,4,6.9,4,10.5v19c0,3.6,2.9,6.5,6.5,6.5h19c3.6,0,6.5-2.9,6.5-6.5v-15C36,11.5,33.5,9,30.5,9z M33,29.5c0,1.9-1.6,3.5-3.5,3.5h-19C8.6,33,7,31.4,7,29.5v-19C7,8.6,8.6,7,10.5,7h5.1c0.5,0,1,0.2,1.4,0.6l4.1,4c0.3,0.3,0.7,0.4,1.1,0.4h8.4c1.4,0,2.5,1.1,2.5,2.5L33,29.5L33,29.5z M13.5,13L13.5,13c0.8,0,1.5,0.7,1.5,1.5v13c0,0.8-0.7,1.5-1.5,1.5l0,0c-0.8,0-1.5-0.7-1.5-1.5v-13C12,13.7,12.7,13,13.5,13z M25.5,18L25.5,18c0.8,0,1.5,0.7,1.5,1.5v8c0,0.8-0.7,1.5-1.5,1.5l0,0c-0.8,0-1.5-0.7-1.5-1.5v-8C24,18.7,24.7,18,25.5,18z M19.5,22L19.5,22c0.8,0,1.5,0.7,1.5,1.5v4c0,0.8-0.7,1.5-1.5,1.5l0,0c-0.8,0-1.5-0.7-1.5-1.5v-4C18,22.7,18.7,22,19.5,22z">
+                    </path>
+                  </svg>
+                  <span className="nav-text">My Project</span>
+                </a>
+              </li>
+            )}
 
 
           </ul>
@@ -83,7 +97,7 @@ export default function NavBar() {
               </svg>
               <span className="nav-text">Notifications</span>
             </a>
-            <Notifications/>
+            <div className="nav-bar-notifications"><Notifications /></div>
           </section>
         </div>
       </nav>
