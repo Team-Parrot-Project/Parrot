@@ -322,7 +322,7 @@ router.patch('/:projectId/tasks/:taskId', requireUser, async (req,res,next)=>{
         //
 
         // saving the project, which will save the task
-        await project.save();
+        // await project.save();
         const newNotification = new Notification({
             message: `Task updated by ${req.user.username}`,
             target: "task",
@@ -470,11 +470,33 @@ router.patch('/:projectId', requireUser, async (req,res,next) =>{
         }
     }
 
-    const updatedProject = await Project.findOneAndUpdate(
-        { _id: projectId },
-        { $set: req.body },
-        { new: true }
-    );
+    // debugger
+    const previousTasks = project.tasks;
+    const newTasks = req.body.tasks;
+
+    if (newTasks) {
+        newTasks.forEach((t) => {
+            console.log(t, "entered task")
+            const taskToUpdate = previousTasks.find((checkTask) => {return (checkTask._id.toString() === t._id)})
+
+            console.log(taskToUpdate, "FOUND TASK");
+
+            if(taskToUpdate) {
+                Object.assign(taskToUpdate, t);
+            }
+        })
+    }
+
+    // console.log(previousTasks, "PREV!!");
+
+    const updatedProject = await project.save();
+    console.log(updatedProject, "Updated Project!!")
+
+    // const updatedProject = await Project.findOneAndUpdate(
+    //     { _id: projectId },
+    //     { $set: req.body },
+    //     { new: true }
+    // );
 
     if(updatedProject) {
         const newNotification = new Notification({
