@@ -20,6 +20,7 @@ export default function TaskUpdateForm({taskId,projectId, closeModal}) {
     const project = useSelector(getProject(projectId));
     const currentUser = useSelector(state => state.session.user);
     const statusOptions = ['not started','in progress', 'complete'];
+    const users = useSelector(state => state.users);
 
     useEffect(()=>{
         if (currentTask) {
@@ -85,9 +86,12 @@ export default function TaskUpdateForm({taskId,projectId, closeModal}) {
                 onChange={(event) => setDueDate(event.target.value)} />
             </div>
             <label htmlFor="assignee">Assignee:</label>
-      <select id="assignee" value={assignee} onChange={(e) => setAssignee(e.target.value)}>
-        <option value={currentUser._id}>{currentUser.username}</option>
-      </select>
+            <select id="assignee" value={assignee} onChange={(e) => setAssignee(e.target.value)}>
+                <option value="">Select an assignee</option>
+                {Object.values(users).map(user => (
+                <option key={user._id} value={user._id}>{user.username}</option>
+                ))}
+            </select>
       <label htmlFor="progress">Progress:</label>
       <input type="integer" id="progress" min={0} max={100} value={progress} onChange={(e) => setProgress(e.target.value)}/>
             <label htmlFor="blockingTasks">Blocking Tasks (ctrl + click to select/deselect multiple tasks)</label> <br/>

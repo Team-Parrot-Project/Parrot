@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { createProject } from '../../../store/project';
 import { useDispatch, useSelector } from 'react-redux';
 import * as sessionActions from '../../../store/session';
+import { fetchUsers } from '../../../store/user';
 import './ProjectCreateForm.css'
 
 
@@ -10,9 +11,10 @@ const ProjectCreateForm = () => {
   const [projectName, setProjectName] = useState('');
   const [description, setDescription] = useState('');
   const [startDate, setStartDate] = useState('');
+  const [collaborators, setCollaborators] = useState([]);
   const [endDate, setEndDate] = useState('');
-
   const adminId = useSelector(sessionActions.getUser);
+  const users = useSelector((state) => state.users);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -30,7 +32,7 @@ const ProjectCreateForm = () => {
       adminId: adminId,
       startDate: startDate,
       endDate: endDate,
-      collaborators: []
+      collaborators: collaborators
     }
 
     try {
@@ -52,32 +54,22 @@ const ProjectCreateForm = () => {
   return (
     <form onSubmit={handleSubmit} className="project-create-form">
       <label htmlFor="projectName">Project Name:</label>
-      <input
-        type="text"
-        id="projectName"
-        value={projectName}
-        onChange={(e) => setProjectName(e.target.value)}
-      />
+      <input type="text" id="projectName" value={projectName} onChange={(e) => setProjectName(e.target.value)}/>
       <label htmlFor="description">Description:</label>
-      <textarea
-        id="description"
-        value={description}
-        onChange={(e) => setDescription(e.target.value)}
-      />
+      <textarea id="description" value={description} onChange={(e) => setDescription(e.target.value)}/>
       <label htmlFor="startDate">Start Date:</label>
-      <input
-        type="date"
-        id="startDate"
-        value={startDate}
-        onChange={(e) => setStartDate(e.target.value)}
-      />
+      <input type="date" id="startDate" value={startDate} onChange={(e) => setStartDate(e.target.value)}/>
       <label htmlFor="endDate">End Date:</label>
-      <input
-        type="date"
-        id="endDate"
-        value={endDate}
-        onChange={(e) => setEndDate(e.target.value)}
-      />
+      <input type="date" id="endDate" value={endDate} onChange={(e) => setEndDate(e.target.value)}/>
+      <label htmlFor="collaborators">Add collaborators:</label>
+      <select id="collaborators" value={collaborators} onChange={(e) => 
+        setCollaborators(Array.from(e.target.selectedOptions, (option) => option.value))} multiple>
+      {Object.values(users).map((user) => (
+          <option key={user._id} value={user._id}>
+            {user.username}
+          </option>
+        ))}
+      </select>
       <button type="submit">Create Project</button>
     </form>
   );

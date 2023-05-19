@@ -13,6 +13,7 @@ import TaskCreateForm from '../Task_CRUD/TaskCreateForm/TaskCreateForm';
 import ProjectUpdateModal from '../Project_CRUD/ProjectUpdateForm/';
 import DeleteProjectModal from '../Project_CRUD/ProjectDelete/ProjectDeleteModal';
 import { formatDate } from '../../store/util';
+import { fetchUsers } from '../../store/user';
 
 export default function ProjectHome () {
   const dispatch = useDispatch();
@@ -20,10 +21,11 @@ export default function ProjectHome () {
   const [recommendedTasks, setRecommendedTasks] = useState([]);
   const project = useSelector((state) => state.projects[projectId]);
 
-    useEffect(() => {
-        dispatch(taskActions.purgeTasks());
-        dispatch(projectActions.fetchProject(projectId));
-    }, [projectId, dispatch]);
+  useEffect(() => {
+      dispatch(taskActions.purgeTasks());
+      dispatch(projectActions.fetchProject(projectId));
+      dispatch(fetchUsers())
+  }, [projectId, dispatch]);
 
     return (
       <>
