@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { setTimeframe, setProjectId } from '../../../store/timeframeActions';
@@ -11,14 +11,6 @@ export default function FilterBar() {
   const dispatch = useDispatch();
   const projects = useSelector(state => state.projects);
 
-  // useEffect(()=>{
-  //   if(project){
-  //     setProjectId(project._id)]
-  //     console.log(projectId,"projectId")
-  //   }
-  // },[project,projectId, setProjectId])
-
-
   const handleTimeframeChange = (event) => {
     const selectedTimeframe = event.target.value;
     dispatch(setTimeframe(selectedTimeframe));
@@ -30,9 +22,6 @@ export default function FilterBar() {
     const projectLink = `/projects/${selectedProjectId}/timeline`;
     window.location.href = projectLink;
   }
-  console.log(Object.values(projects), "projects")
-  function logIt (log){
-    console.log(project)}
 
   return (
     <>
