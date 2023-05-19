@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import  { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom/cjs/react-router-dom';
 import { createTask } from '../../../store/task';
@@ -6,7 +6,6 @@ import { formatDate } from '../../../store/util';
 import './TaskCreateForm.css';
 
 const TaskCreateForm = ({ taskTitle = '' }) => {
-  const dispatch = useDispatch();
   const [title, setTitle] = useState(taskTitle);
   const [description, setDescription] = useState('');
   const [startDate, setStartDate] = useState(formatDate(new Date()));
@@ -14,14 +13,21 @@ const TaskCreateForm = ({ taskTitle = '' }) => {
   const [assignee, setAssignee] = useState('');
   const [status, setStatus] = useState('in progress');
   const [progress, setProgress] = useState(0);
-  const currentUser = useSelector(state => state.session.user);
+
+  const dispatch = useDispatch();
   const {projectId} = useParams();
+
+  // // In Progress: Populating the assignee dropdown with project collaborators
+  const state = useSelector(state => state);
   const users = useSelector(state => state.users);
+  const currentProject = useSelector(state => state.projects[projectId] || {});
+  const collaboratorIds = currentProject.collaborators;
+  const collaborators = collaboratorIds?.map(id => state.users[id]);
 
   const statusOptions = ['not started','in progress', 'complete']
 
   const handleSubmit = async (e) => {
-    e.preventDefault();    
+    e.preventDefault();
     // Create a new task object with input values
     const newTask = {
       title: title,
@@ -53,9 +59,9 @@ const TaskCreateForm = ({ taskTitle = '' }) => {
   return (
     <form onSubmit={handleSubmit}className="task-create-form">
       <label htmlFor="title">Task Name:</label>
-      <input type="text" id="title" value={title} onChange={(e) => setTitle(e.target.value)}/>
+      <input type="text" id="title" value={title} onChange={(e) => setTitle(e.target.value)} required/>
       <label htmlFor="description">Description:</label>
-      <textarea id="description" value={description} onChange={(e) => setDescription(e.target.value)}/>
+      <textarea id="description" value={description} onChange={(e) => setDescription(e.target.value)} required/>
       <label htmlFor="status">Status:</label>
       <select id='status' value={status} onChange={(e) => setStatus(e.target.value)}>
         {statusOptions.map((o, ix) => {
@@ -69,8 +75,8 @@ const TaskCreateForm = ({ taskTitle = '' }) => {
       <label htmlFor="assignee">Assignee:</label>
       <select id="assignee" value={assignee} onChange={(e) => setAssignee(e.target.value)}>
         <option value="">Select an assignee</option>
-        {Object.values(users).map(user => (
-          <option key={user._id} value={user._id}>{user.username}</option>
+        {Object.values(collaborators).map(collaborator => (
+          <option key={collaborator._id} value={collaborator._id}>{collaborator.username}</option>
         ))}
       </select>
       <label htmlFor="progress">Progress:</label>
