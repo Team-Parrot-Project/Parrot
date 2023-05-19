@@ -20,7 +20,7 @@ export default function TaskUpdateForm({ taskId, projectId, closeModal }) {
     const project = useSelector(getProject(projectId));
     const currentUser = useSelector(state => state.session.user);
     const statusOptions = ['not started','in progress', 'complete'];
-    
+
     const collaborators = useSelector(state => {
         const currentProject = state.projects[projectId] || {};
         const collaboratorIds = currentProject.collaborators || [];
