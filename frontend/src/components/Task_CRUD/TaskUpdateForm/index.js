@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Modal } from '../../../context/Modal';
 import TaskUpdateForm from './TaskUpdateForm';
+import './TaskIndex.css';
 
 export default function TaskUpdateModal({ taskId, projectId }) {
     const [showModal, setShowModal] = useState(false);
