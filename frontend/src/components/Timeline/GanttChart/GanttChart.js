@@ -64,7 +64,7 @@ export default function GanttChart() {
   // Handles live date update on dragging and is throttled. Even though when the chart is clicked it gets 6 hits, useMemo helps to keep it to only one hit
   const handleTaskChange = useMemo(() => () => {
     console.log("updating tasks!!!!!");
-    debugger;
+    // debugger;
     Object.values(updatedTasks).forEach((t) => {
       // debugger;
       dispatch(updateTask(projectId, t)).then(() => {
@@ -139,10 +139,11 @@ useEffect(() => {
   }
 }, [ganttRef, formattedTasks, formattedTime, debouncedTaskChange, tasksProcessing])
 
+// this use effect fires when the component unmounts to ensure their changes are saved
 useEffect(() => {
   return () => {
     console.log("updating tasks!!!!!");
-    debugger;
+    // debugger;
     Object.values(updatedTasks).forEach((t) => {
       // debugger;
       dispatch(updateTask(projectId, t)).then(() => {
@@ -151,6 +152,28 @@ useEffect(() => {
       setTasksProcessing(prev => (prev + 1));
     })
   };
+}, [])
+
+// this use effect fires when the user refreshes the page to ensure their changes are saved
+useEffect(() => {
+  const handleBeforeUnload = (e) => {
+    e.preventDefault();
+    // e.returnValue = '';
+
+    Object.values(updatedTasks).forEach((t) => {
+      // debugger;
+      dispatch(updateTask(projectId, t)).then(() => {
+        setTasksProcessing(prev => (prev-1));
+      })
+      setTasksProcessing(prev => (prev + 1));
+    })
+  }
+
+  window.addEventListener('beforeunload', handleBeforeUnload);
+
+  return () => {
+    window.removeEventListener('beforeunload', handleBeforeUnload)
+  }
 }, [])
 
 return (
