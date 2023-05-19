@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { useHistory } from "react-router-dom";
+import { useHistory, Link } from "react-router-dom";
 import * as sessionActions from "../../store/session";
 import logo from "../../assets/logo_text_version.png";
 import './LoginForm.css';
@@ -60,9 +60,9 @@ export default function LoginForm() {
         <div className="login-logo-bar">
           <nav className="login-logo-bar-nav">
             <div className="login-logo-container">
-              <a href="/">
+              <Link to="/">
                 <img className="login-logo" src={logo} alt="Parrot logo" />
-              </a>
+              </Link>
             </div>
           </nav>
         </div>
@@ -124,7 +124,7 @@ export default function LoginForm() {
               <input className="login-form-button" type="submit" value="Log In" disabled={!email || !password} tabIndex="0" />
 
               <input className="login-form-demo-button" type="submit" value="Demo Log In" tabIndex="0" onClick={handleDemo} />
-              
+
               <input className="login-form-demo-button" type="submit" value="Demo 2 Log In" tabIndex="0" onClick={handleDemo2} />
 
             </form>
@@ -134,11 +134,11 @@ export default function LoginForm() {
               Don't have an
               account?
             </span>
-            <a
-              href="/"
+            <Link
+              to="/"
               className="login-form-redirect-to-signup">
               Sign up
-            </a>
+            </Link>
           </div>
 
         </div>

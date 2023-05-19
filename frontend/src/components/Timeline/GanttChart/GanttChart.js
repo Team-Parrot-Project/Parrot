@@ -11,7 +11,7 @@ import './GanttChart.css';
 
 export default function GanttChart() {
   // Live updates multiple dependencies
-  const [updatedTasks, setUpdatedTasks] = useState([])
+  const [updatedTasks, setUpdatedTasks] = useState({})
   const [tasksProcessing, setTasksProcessing] = useState(0);
 
   const { projectId } = useParams()
@@ -62,32 +62,33 @@ export default function GanttChart() {
   const ganttRef = useRef();
 
   // Handles live date update on dragging and is throttled. Even though when the chart is clicked it gets 6 hits, useMemo helps to keep it to only one hit
-  const handleTaskChange = useMemo(() => () => {
-    // debugger;
-    Object.values(updatedTasks).forEach((t) => {
-      // debugger;
-      dispatch(updateTask(projectId, t)).then(() => {
-        setTasksProcessing(prev => (prev-1));
-      })
-      setTasksProcessing(prev => (prev + 1));
-    })
+  // const handleTaskChange = useMemo(() => () => {
+  //   console.log("updating tasks!!!!!");
+  //   // debugger;
+  //   Object.values(updatedTasks).forEach((t) => {
+  //     // debugger;
+  //     dispatch(updateTask(projectId, t)).then(() => {
+  //       setTasksProcessing(prev => (prev-1));
+  //     })
+  //     setTasksProcessing(prev => (prev + 1));
+  //   })
 
 
-    // dispatch(updateTask(projectId, updatedTask));
-  }, [dispatch, projectId, updatedTasks]);
+  //   // dispatch(updateTask(projectId, updatedTask));
+  // }, [dispatch, projectId, updatedTasks]);
 
-  const debouncedTaskChange = useMemo(() => debounce(handleTaskChange, 250), [handleTaskChange])
+  // const debouncedTaskChange = useMemo(() => debounce(handleTaskChange, 250), [handleTaskChange])
 
-  function initializeTasks(tasks) {
-    let newTasks = {};
+  // function initializeTasks(tasks) {
+  //   let newTasks = {};
 
-    tasks.forEach((task) => {
-      // debugger;
-      newTasks[task._id] = task;
-    })
-    // debugger;
-    setUpdatedTasks(tasks)
-  };
+  //   tasks.forEach((task) => {
+  //     // debugger;
+  //     newTasks[task._id] = task;
+  //   })
+  //   // debugger;
+  //   setUpdatedTasks(tasks)
+  // };
 
 // ------------------------------------------------------------------------------------------------------------------
 
@@ -113,7 +114,7 @@ useEffect(() => {
 
         // debugger;
         console.log("on_date_change", task);
-        const updatedTask = { ...task, _id: task.id, startDate: start, endDate: end }
+        // const updatedTask = { ...task, _id: task.id, startDate: start, endDate: end }
 
         setUpdatedTasks((prev) => {
           // prev.push(updatedTask);
@@ -121,7 +122,7 @@ useEffect(() => {
           return prev;
         })
 
-        debouncedTaskChange();
+        // debouncedTaskChange();
       },
       on_progress_change: function (task, progress) {
         console.log("on_progress_change");
@@ -132,11 +133,51 @@ useEffect(() => {
           return prev;
         })
 
-        debouncedTaskChange();
+        // debouncedTaskChange();
       }
     });
   }
-}, [ganttRef, formattedTasks, formattedTime, debouncedTaskChange, tasksProcessing])
+}, [ganttRef, formattedTasks, formattedTime, tasksProcessing])
+
+// this use effect fires when the component unmounts to ensure their changes are saved
+useEffect(() => {
+  return () => {
+    console.log("updating tasks!!!!!");
+    // debugger;
+    Object.values(updatedTasks).forEach((t) => {
+      // debugger;
+      dispatch(updateTask(projectId, t)).then(() => {
+        setTasksProcessing(prev => (prev-1));
+      })
+      setTasksProcessing(prev => (prev + 1));
+    })
+  };
+}, [])
+
+
+function patchTaskChanges () {
+  Object.values(updatedTasks).forEach((t) => {
+  // debugger;
+  dispatch(updateTask(projectId, t)).then(() => {
+    setTasksProcessing(prev => (prev-1));
+  })
+  setTasksProcessing(prev => (prev + 1));
+})}
+
+// this use effect fires when the user refreshes the page to ensure their changes are saved
+useEffect(() => {
+  const handleBeforeUnload = (e) => {
+    e.preventDefault();
+    // e.returnValue = '';
+    patchTaskChanges();
+  }
+
+  window.addEventListener('beforeunload', handleBeforeUnload);
+
+  return () => {
+    window.removeEventListener('beforeunload', handleBeforeUnload)
+  }
+}, [])
 
 return (
 
