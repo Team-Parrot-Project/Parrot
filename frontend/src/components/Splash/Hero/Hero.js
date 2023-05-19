@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import * as sessionActions from "../../../store/session";
 import { useDispatch } from "react-redux";
-import { useHistory } from "react-router-dom";
+import { useHistory, Link } from "react-router-dom";
 import SignupForm from "../SignupForm/SignupForm"
 import logo from "../../../assets/logo_text_version.png"
 import github from "../../../assets/github.png"
@@ -42,7 +42,7 @@ export default function Hero() {
             <img className="hero-header-nav-bar-logo" src={logo} alt="Logo" />
           </div>
           <div className="nav-buttons">
-            <a href="/login"><button className="login">Login</button></a>
+            <Link to="/login"><button className="login">Login</button></Link>
             <button className="demo-login" onClick={handleDemo}>Demo Login</button>
             <button className="demo-login" onClick={handleDemo2}>Demo 2 Login</button>
           </div>
@@ -62,48 +62,48 @@ export default function Hero() {
             <div className="hero-footer-team-member">
               <p>Christopher Banas</p>
               <div className="hero-footer-social-links">
-                <a href="https://github.com/Team-Parrot-Project/Parrot" className="hero-footer-github-logo">
+                <Link to="https://github.com/Team-Parrot-Project/Parrot" className="hero-footer-github-logo">
                   <img src={github} className="hero-footer-github-logo" alt="Github logo" />
-                </a>
-                <a href="https://www.linkedin.com/in/christopher-banas/" className="hero-footer-linkedin-logo">
+                </Link>
+                <Link to="https://www.linkedin.com/in/christopher-banas/" className="hero-footer-linkedin-logo">
                   <img src={linkedin} className="hero-footer-linkedin-logo" alt="LinkedIn logo" />
-                </a>
+                </Link>
               </div>
             </div>
 
             <div className="hero-footer-team-member">
               <p>Michael Bird</p>
               <div className="hero-footer-social-links">
-                <a href="https://github.com/Team-Parrot-Project/Parrot" className="hero-footer-github-logo">
+                <Link to="https://github.com/Team-Parrot-Project/Parrot" className="hero-footer-github-logo">
                   <img src={github} className="hero-footer-github-logo" alt="Github logo" />
-                </a>
-                <a href="https://www.linkedin.com/in/mibird/" className="hero-footer-linkedin-logo">
+                </Link>
+                <Link to="https://www.linkedin.com/in/mibird/" className="hero-footer-linkedin-logo">
                   <img src={linkedin} className="hero-footer-linkedin-logo" alt="LinkedIn logo" />
-                </a>
+                </Link>
               </div>
             </div>
 
             <div className="hero-footer-team-member">
               <p>Roderick Mendoza</p>
               <div className="hero-footer-social-links">
-                <a href="https://github.com/Team-Parrot-Project/Parrot" className="hero-footer-github-logo">
+                <Link to="https://github.com/Team-Parrot-Project/Parrot" className="hero-footer-github-logo">
                   <img src={github} className="hero-footer-github-logo" alt="Github logo" />
-                </a>
-                <a href="https://www.linkedin.com/in/roderick-mendoza-9133b7b5/" className="hero-footer-linkedin-logo">
+                </Link>
+                <Link to="https://www.linkedin.com/in/roderick-mendoza-9133b7b5/" className="hero-footer-linkedin-logo">
                   <img src={linkedin} className="hero-footer-linkedin-logo" alt="LinkedIn logo" />
-                </a>
+                </Link>
               </div>
             </div>
 
             <div className="hero-footer-team-member">
               <p>Ryder Aguilera</p>
               <div className="hero-footer-social-links">
-                <a href="https://github.com/Team-Parrot-Project/Parrot" className="hero-footer-github-logo">
+                <Link to="https://github.com/Team-Parrot-Project/Parrot" className="hero-footer-github-logo">
                   <img src={github} className="hero-footer-github-logo" alt="Github logo" />
-                </a>
-                <a href="https://www.linkedin.com/in/raguilera994/" className="hero-footer-linkedin-logo">
+                </Link>
+                <Link to="https://www.linkedin.com/in/raguilera994/" className="hero-footer-linkedin-logo">
                   <img src={linkedin} className="hero-footer-linkedin-logo" alt="LinkedIn logo" />
-                </a>
+                </Link>
               </div>
             </div>
           </div>
