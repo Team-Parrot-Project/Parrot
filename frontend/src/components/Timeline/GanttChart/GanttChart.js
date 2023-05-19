@@ -25,8 +25,6 @@ export default function GanttChart() {
   // Grab the project from state
   const projectTasks = useSelector(state => state.projects);
 
-
-
   // Reformate the tasks data for the Gantt chart
   const formattedTasks = useMemo(() => {
     if (projectTasks[projectId]?.tasks) {
