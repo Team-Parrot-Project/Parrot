@@ -110,7 +110,7 @@ useEffect(() => {
       language: 'en', // or 'es', 'it', 'ru', 'ptBr', 'fr', 'tr', 'zh', 'de', 'hu'
       custom_popup_html: null,
       on_date_change: function (task, start, end) {
-        
+
         // debugger;
         console.log("on_date_change", task);
         const updatedTask = { ...task, _id: task.id, startDate: start, endDate: end }
@@ -122,7 +122,7 @@ useEffect(() => {
         })
 
         debouncedTaskChange();
-      }, 
+      },
       on_progress_change: function (task, progress) {
         console.log("on_progress_change");
 
