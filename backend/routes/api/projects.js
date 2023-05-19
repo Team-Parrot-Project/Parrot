@@ -97,9 +97,11 @@ router.post('/:projectId/tasks', requireUser, async (req,res,next)=>{
                 res.statusCode = 404;
                 return res.json({message: "Can't find assignee"});
             } else if (!userOnProject(project, assigneeId)) {
+                console.log("here");
                 res.statusCode = 403;
                 return res.json({message: "assignee is not listed as a collaborator on the project"});
             } else if (!foundProject) {
+                console.log("there")
                 res.statusCode = 403;
                 return res.json({message: "assignee does not have this project on their list of projects"});
             }
