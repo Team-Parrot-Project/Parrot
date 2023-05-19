@@ -64,6 +64,7 @@ export default function GanttChart() {
 
   const debouncedProgressChange = useMemo(() => debounce(handleProgressChange, 250), [handleProgressChange])
 
+  // Live updates multiple dependencies
   const [updatedTasks, setUpdatedTasks] = useState({})
 
   useEffect(() => {
