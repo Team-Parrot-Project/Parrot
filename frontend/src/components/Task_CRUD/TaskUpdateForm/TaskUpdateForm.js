@@ -20,7 +20,12 @@ export default function TaskUpdateForm({ taskId, projectId, closeModal }) {
     const project = useSelector(getProject(projectId));
     const currentUser = useSelector(state => state.session.user);
     const statusOptions = ['not started','in progress', 'complete'];
-    const users = useSelector(state => state.users);
+    
+    const collaborators = useSelector(state => {
+        const currentProject = state.projects[projectId] || {};
+        const collaboratorIds = currentProject.collaborators || [];
+        return collaboratorIds.map(id => state.users[id]);
+      });
 
     useEffect(() => {
         if (currentTask) {
@@ -88,8 +93,8 @@ export default function TaskUpdateForm({ taskId, projectId, closeModal }) {
             <label htmlFor="assignee">Assignee:</label>
             <select id="assignee" value={assignee} onChange={(e) => setAssignee(e.target.value)}>
                 <option value="">Select an assignee</option>
-                {Object.values(users).map(user => (
-                <option key={user._id} value={user._id}>{user.username}</option>
+                {Object.values(collaborators).map(collaborator => (
+                <option key={collaborator._id} value={collaborator._id}>{collaborator.username}</option>
                 ))}
             </select>
       <label htmlFor="progress">Progress:</label>
