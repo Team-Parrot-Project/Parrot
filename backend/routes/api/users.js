@@ -4,12 +4,11 @@ const bcrypt = require('bcryptjs');
 const mongoose = require('mongoose');
 const passport = require('passport');
 const User = mongoose.model('User');
-const { loginUser, restoreUser } = require('../../config/passport');
+const { loginUser, restoreUser, requireUser } = require('../../config/passport');
 const { isProduction } = require('../../config/keys');
 const validateRegisterInput = require('../../validations/register');
 const validateLoginInput = require('../../validations/login');
 const app = require('../../app');
-
 
 router.get('/current', restoreUser, (req, res) => {
   if (!isProduction) {
@@ -94,5 +93,14 @@ router.post('/login', validateLoginInput, async (req, res, next) => {
   })(req, res, next);
 });
 
+router.get('/', requireUser, async(req, res, next) => {
+  console.log("I AM HERE");
+
+  const users = await User.find();
+
+  const userData = users.map(user => ({ username: user.username, _id: user._id }));
+
+  return res.json(userData);
+})
 
 module.exports = router;
