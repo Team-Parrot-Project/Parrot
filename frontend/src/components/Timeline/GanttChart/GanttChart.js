@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { updateTask } from '../../../store/task';
@@ -64,6 +64,25 @@ export default function GanttChart() {
 
   const debouncedProgressChange = useMemo(() => debounce(handleProgressChange, 250), [handleProgressChange])
 
+  const [updatedTasks, setUpdatedTasks] = useState({})
+
+  useEffect(() => {
+
+    if (formattedTasks) {
+      let newTasks = {};
+
+      formattedTasks.forEach((task) => {
+        newTasks[task.id] = task;
+      })
+      setUpdatedTasks(newTasks)
+    };
+
+  }, [formattedTasks, setUpdatedTasks]);
+
+
+// ------------------------------------------------------------------------------------------------------------------
+
+
   // Generate the Gantt chart
   useEffect(() => {
     console.log("HIT THE CHART")
@@ -82,7 +101,7 @@ export default function GanttChart() {
         language: 'en', // or 'es', 'it', 'ru', 'ptBr', 'fr', 'tr', 'zh', 'de', 'hu'
         custom_popup_html: null,
         on_date_change: function (task, start, end) {
-          console.log("on_date_change");
+          console.log("on_date_change",task);
           const updatedTask = {...task, _id: task.id, startDate: start, endDate: end}
           debouncedDateChange(updatedTask)
         },
@@ -100,7 +119,6 @@ export default function GanttChart() {
     <>
       <svg id="gantt" className="gantt" ref={ganttRef}></svg>
     </>
-
 
   )
 
