@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import CurrentDate from './Date/Date';
 import UserGreeting from './UserGreeting/UserGreeting';
 import './Dashboard.css';
@@ -9,12 +9,16 @@ import TableRow from '../../TableRow/TableRow';
 // import { AiOutlinePlusCircle } from 'react-icons/ai';
 import { Modal } from '../../../context/Modal';
 import ProjectCreateModal from '../../Project_CRUD/ProjectCreateForm/index';
+import { fetchUsers } from '../../../store/user';
 
 export default function Dashboard() {
-
+  const dispatch = useDispatch();
   const [showModal, setShowModal] = useState(false);
   const closeModal = () => setShowModal(false);
 
+  useEffect(() => {
+    dispatch(fetchUsers());
+  }, [dispatch]);
 
   // grabs all the project collaborators from state
   const projects = useSelector(state => state.projects);
@@ -34,16 +38,7 @@ export default function Dashboard() {
     return count;
   }, 0);
 
-
-
-  function createProject() {
-    console.log("This is happening");
-    setShowModal(true);
-  }
-
   return (
-
-
     <>
     <div className='create-project-button'>
     </div>

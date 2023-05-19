@@ -5,7 +5,7 @@ import { createTask } from '../../../store/task';
 import { formatDate } from '../../../store/util';
 import './TaskCreateForm.css';
 
-const TaskCreateForm = ({ users, taskTitle = '' }) => {
+const TaskCreateForm = ({ taskTitle = '' }) => {
   const dispatch = useDispatch();
   const [title, setTitle] = useState(taskTitle);
   const [description, setDescription] = useState('');
@@ -16,6 +16,7 @@ const TaskCreateForm = ({ users, taskTitle = '' }) => {
   const [progress, setProgress] = useState(0);
   const currentUser = useSelector(state => state.session.user);
   const {projectId} = useParams();
+  const users = useSelector(state => state.users);
 
   const statusOptions = ['not started','in progress', 'complete']
 
@@ -68,10 +69,9 @@ const TaskCreateForm = ({ users, taskTitle = '' }) => {
       <label htmlFor="assignee">Assignee:</label>
       <select id="assignee" value={assignee} onChange={(e) => setAssignee(e.target.value)}>
         <option value="">Select an assignee</option>
-        {users?.map(user => (
-          <option key={user._id} value={user._id}>{user.name}</option>
+        {Object.values(users).map(user => (
+          <option key={user._id} value={user._id}>{user.username}</option>
         ))}
-        <option value={currentUser._id}>{currentUser.username}</option>
       </select>
       <label htmlFor="progress">Progress:</label>
       <input type="integer" id="progress" min={0} max={100} value={progress} onChange={(e) => setProgress(e.target.value)}/>
