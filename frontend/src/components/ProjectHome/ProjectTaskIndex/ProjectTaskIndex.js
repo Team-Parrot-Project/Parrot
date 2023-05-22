@@ -12,13 +12,13 @@ import { getProject } from '../../../store/project';
 function ProjectTaskIndex() {
   const {projectId} = useParams();
   // const [allTasks,setAllTasks] = useState([]);
-  
+
   const dispatch = useDispatch();
-  
+
   useEffect(() => {
     dispatch(fetchProject(projectId))
   }, [dispatch, projectId])
-  
+
   const project = useSelector(projectActions.getProject(projectId));
   const allTasks = useSelector(projectActions.getProjectTasks(projectId));
 
@@ -34,14 +34,14 @@ function ProjectTaskIndex() {
   //     let allTasks = project.tasks;
   //     return (
   //       <>
-        
+
   //     </>)
   //   }
   // }
 
   return (
     <div className="user-project-index">
-      <table className="task-table">
+      <table className="project-show-task-table">
         <thead>
           <tr>
             <th>Task Title</th>
