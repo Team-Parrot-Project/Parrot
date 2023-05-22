@@ -1,4 +1,5 @@
 import jwtFetch from "./jwt";
+import { ADD_TASK, REMOVE_TASK } from "./task";
 
 export const ADD_PROJECT = 'project/addProject';
 export const ADD_PROJECTS = 'project/addProjects'
@@ -27,6 +28,10 @@ export const removeProject = (projectId)=>{
 
 export const projectReducer = (state = {},action) =>{
     const newState = {...state};
+    let projectId;
+    let taskArray;
+    let existingIdx;
+
     switch(action.type){
         case ADD_PROJECT:
             return {...state, [action.project._id]: action.project}
@@ -38,7 +43,36 @@ export const projectReducer = (state = {},action) =>{
             return newState
         case REMOVE_PROJECT:
             delete newState[action.projectId]
-            return newState
+            return newState;
+        case REMOVE_TASK:
+            taskArray = newState[action.payload.projectId].tasks;
+            existingIdx = taskArray.findIndex((ele) => {
+                // debugger;
+                return ele._id === action.payload.taskId
+            })
+
+            if(existingIdx >= 0) {
+                taskArray.splice(existingIdx, 1);
+                newState[action.payload.projectId].tasks = taskArray;
+            }
+            // debugger;
+            return newState;
+        case ADD_TASK:
+            projectId = action.task.projectId;
+            taskArray = newState[projectId].tasks;
+
+            existingIdx = taskArray.findIndex((ele) => {
+                return ele._id === action.task._id
+            })
+
+            if (existingIdx < 0) {
+                taskArray.push(action.task)
+            } else {
+                taskArray[existingIdx] = action.task;
+            }
+            
+            newState[projectId].tasks = taskArray;
+            return newState;
         default:
             return state;
     }
@@ -58,6 +92,14 @@ export const getProjects = (state)=>{
     if(state.projects){
         return Object.values(state.projects)
     }else{
+        return [];
+    }
+}
+
+export const getProjectTasks = (projectId) => (state) => {
+    if (state.projects && state.projects[projectId]) {
+        return Object.values(state.projects[projectId].tasks)
+    } else {
         return [];
     }
 }

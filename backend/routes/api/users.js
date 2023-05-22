@@ -4,12 +4,11 @@ const bcrypt = require('bcryptjs');
 const mongoose = require('mongoose');
 const passport = require('passport');
 const User = mongoose.model('User');
-const { loginUser, restoreUser } = require('../../config/passport');
+const { loginUser, restoreUser, requireUser } = require('../../config/passport');
 const { isProduction } = require('../../config/keys');
 const validateRegisterInput = require('../../validations/register');
 const validateLoginInput = require('../../validations/login');
 const app = require('../../app');
-
 
 router.get('/current', restoreUser, (req, res) => {
   if (!isProduction) {
@@ -32,9 +31,6 @@ router.get('/:userid', async (req, res, next)=>{
   const userId = req.params.userid 
   console.log(userId,'userId')
   const user = await User.findOne({"_id":`${userId}`}).populate("projects")
-  //Users show needs full populate on tasks, projects, and needs to hide password 
-  //Might need to delete the password hash in memory or select subset
-  // req.io.to(userId).emit("message",{message:"Hit /userid"})
   return res.json(user)
 });
 
@@ -57,16 +53,13 @@ router.post('/register', validateRegisterInput, async (req, res, next) => {
     if (user.email === req.body.email) {
       errors.email = "A user has already registered with this email";
     }
-    // if (user.username === req.body.username) {
-    //   errors.username = "A user has already registered with this username";
-    // }
+
     err.errors = errors;
     return next(err);
   }
 
   // Otherwise create a new user
   const newUser = new User({
-    // username: req.body.username,
     email: req.body.email,
     username: req.body.username
   });
@@ -100,5 +93,14 @@ router.post('/login', validateLoginInput, async (req, res, next) => {
   })(req, res, next);
 });
 
+router.get('/', requireUser, async(req, res, next) => {
+  console.log("I AM HERE");
+
+  const users = await User.find();
+
+  const userData = users.map(user => ({ username: user.username, _id: user._id }));
+
+  return res.json(userData);
+})
 
 module.exports = router;

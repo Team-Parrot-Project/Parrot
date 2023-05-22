@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getProject, updateProject } from '../../../store/project';
 import { useParams } from 'react-router-dom/cjs/react-router-dom.min';
-import './ProjectUpdateForm.css';
 import { formatDate } from '../../../store/util';
+import './ProjectUpdateForm.css';
 
 export default function ProjectUpdateForm() {
   const dispatch = useDispatch();
@@ -13,6 +13,8 @@ export default function ProjectUpdateForm() {
   const [description, setDescription] = useState('');
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
+  const [collaborators, setCollaborators] = useState([]);
+  const users = useSelector((state) => state.users);
 
   useEffect(() => {
     // This effect hook will run only when the project state variable is set
@@ -21,6 +23,7 @@ export default function ProjectUpdateForm() {
       setDescription(project.description);
       setStartDate(formatDate(project.startDate));
       setEndDate(formatDate(project.endDate));
+      setCollaborators(project.collaborators);
     }
   }, [project]);
 
@@ -38,10 +41,11 @@ export default function ProjectUpdateForm() {
       description: description,
       startDate: startDate,
       endDate: endDate,
+      collaborators: collaborators
     };
     try {
       dispatch(updateProject(updatedProject));
-      alert('Project updated successfully!');
+      window.location.reload();
     } catch (err) {
       alert('Failed to update project. Please try again later.');
     }
@@ -76,6 +80,14 @@ export default function ProjectUpdateForm() {
         value={endDate}
         onChange={(e) => setEndDate(e.target.value)}
       />
+      <select id="collaborators" value={collaborators} onChange={(e) => 
+        setCollaborators(Array.from(e.target.selectedOptions, (option) => option.value))} multiple>
+      {Object.values(users).map((user) => (
+          <option key={user._id} value={user._id}>
+            {user.username}
+          </option>
+        ))}
+      </select>
       <button type="submit">Update Project</button>
     </form>
   );

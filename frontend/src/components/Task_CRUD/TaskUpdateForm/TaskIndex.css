@@ -1,0 +1,9 @@
+.update-task-button{
+  cursor: pointer;
+  overflow: hidden;
+  fill: #a2a0a2;
+  transition: transform 250ms ease-out;
+  height: 24px;
+  width: 35px;
+  background-color: transparent;
+}

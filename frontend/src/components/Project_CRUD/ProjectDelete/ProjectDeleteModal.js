@@ -15,6 +15,7 @@ export default function DeleteProjectModal() {
         setIsDeleting(true);
         await dispatch(projectActions.deleteProject(projectId));
         setShowModal(false);
+        window.location.reload();
     };
 
     return (

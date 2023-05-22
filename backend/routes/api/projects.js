@@ -6,27 +6,15 @@ const User = mongoose.model('User');
 const Notification = mongoose.model('Notification');
 const { isProduction } = require('../../config/keys');
 const { requireUser } = require('../../config/passport');
-const { userOnProject, projectParams, taskProtector, stringifyCompare, blockingTaskCheck, arrayDiff } = require('../../config/util');
+const { userOnProject, taskProtector, stringifyCompare, blockingTaskCheck, arrayDiff } = require('../../config/util');
 const jbuilder = require('jbuilder');
 const { Task } = require('../../models/Project');
 
 router.get('/:projectid', requireUser, async (req,res,next)=>{
     const projectId = req.params.projectid
-    // req.io.emit("message",{message:"Hit /project"})
-    // req.io.to(projectId).emit("message",{message:"To ProjectId"})
-    // console.log(req.user._id, "THIS IS THE LOGGED IN USER")
 
     // get the project
     const project = await Project.findOne({"_id":`${projectId}`})
-    // console.log("I AM HERE!!");
-    //Probably needs task populate, not collaborator populate
-
-    // console.log(userOnProject(project, req.user._id), "USERONPROJECT?")
-    // console.log(project, "PROJECT!!");
-    // const allP = await Project.find()
-
-    // console.log(returnedProject, "RPRP");
-    // return res.json(allP);
 
     // need to make sure the currently logged in user is either a collaborator or an admin of the project
     if (project && userOnProject(project, req.user._id)) {
@@ -47,21 +35,11 @@ router.get('/:projectid', requireUser, async (req,res,next)=>{
         let nestedProject = Object.fromEntries([
             [project._id, baseProject]
         ])
-        // const newNotification = new Notification({
-        //     message: `Project test by ${req.user.username}`,
-        //     target: "project",
-        //     task: null,
-        //     project: projectId,
-        //     admin: project.admin,
-        // })
-        // if(newNotification.save()){
-        //     // req.io.emit("message",newNotification)
-        // }else{
-        //     req.io.to(projectId).emit("message",{message:"Issue with Notification"})
-        // }
+
         return res.json(nestedProject);
     } else {
-        return res.json({message: "Nothing was found"});
+        res.statusCode = 404;
+        return res.json({message: "No Project Found"});
     }
 });
 
@@ -81,8 +59,6 @@ router.post('/:projectId/tasks', requireUser, async (req,res,next)=>{
     let fetchedAssignee;
     let project;
 
-    // find the project
-
     try {
         project = await Project.findOne({"_id":`${projectId}`})
         console.log(project, "project\n****\n");
@@ -92,10 +68,12 @@ router.post('/:projectId/tasks', requireUser, async (req,res,next)=>{
 
     // baseline checks - all of these fields must be present in post request, so they will be validated
     if (!project) {
+        res.statusCode = 404;
         return res.json({message: "no project found"});
     }
     // the logged in user must always be present and on the task
     else if (!userOnProject(project, req.user._id)) {
+        res.statusCode = 403;
         return res.json({message: "logged in user is not a collaborator or admin of the project"});
     }
 
@@ -116,10 +94,15 @@ router.post('/:projectId/tasks', requireUser, async (req,res,next)=>{
 
 
             if(!fetchedAssignee) {
+                res.statusCode = 404;
                 return res.json({message: "Can't find assignee"});
             } else if (!userOnProject(project, assigneeId)) {
+                console.log("here");
+                res.statusCode = 403;
                 return res.json({message: "assignee is not listed as a collaborator on the project"});
             } else if (!foundProject) {
+                console.log("there")
+                res.statusCode = 403;
                 return res.json({message: "assignee does not have this project on their list of projects"});
             }
 
@@ -127,7 +110,6 @@ router.post('/:projectId/tasks', requireUser, async (req,res,next)=>{
             return res.json(error);
         }
     }
-
 
     // perform other validation, ultimately attempting a save
     const newTask = new Task (req.body);
@@ -141,6 +123,7 @@ router.post('/:projectId/tasks', requireUser, async (req,res,next)=>{
         // nesting so I can get the console log above in
         if(!blockCheck) {
             console.log("Stopping POST due to invalue blocking task");
+            res.statusCode = 404;
             return res.json({message: "invalid blocking tasks, retry with updated dates or blocking tasks"});
         }
     }
@@ -167,8 +150,6 @@ router.post('/:projectId/tasks', requireUser, async (req,res,next)=>{
 
         const returnedTask = savedProject.tasks.id(newTask._id);
         console.log(returnedTask, "returnedTask\n****\n");
-
-
 
         if(assigneeId) {
             fetchedAssignee.assignedTasks.push(returnedTask._id)
@@ -298,7 +279,6 @@ router.patch('/:projectId/tasks/:taskId', requireUser, async (req,res,next)=>{
 
         }
 
-
         // the special version to be sent to the back end if the next check passes
         const updatedTask = {
             ...task.toObject(),
@@ -315,8 +295,6 @@ router.patch('/:projectId/tasks/:taskId', requireUser, async (req,res,next)=>{
             })
 
             // perform a compare of the two arrays utilizing this mongoose method which provides an array containing what was added vs removed between the two
-
-            // console.log(req.body, "REQ BODY PRIOR TO DIFF")
             const {added, removed} = arrayDiff(priorBlockingTaskStrings, incomingBlockingTasks);
 
             console.log(added, "added to blocking tasks \n****\n")
@@ -344,7 +322,7 @@ router.patch('/:projectId/tasks/:taskId', requireUser, async (req,res,next)=>{
         //
 
         // saving the project, which will save the task
-        await project.save();
+        // await project.save();
         const newNotification = new Notification({
             message: `Task updated by ${req.user.username}`,
             target: "task",
@@ -444,23 +422,15 @@ router.post('/', async (req,res,next) =>{
 });
 
 router.patch('/:projectId', requireUser, async (req,res,next) =>{
-    //This is where new collaborators will probably go
-
+    
     console.log("in PATCH /:projectId\n****\n");
-
     const projectId = req.params.projectId
-
-    // console.log(req.body, "REQUEST BOD")
-    // console.log(req.body.project, "REQUEST PROJ")
-
     const project = await Project.findOne({"_id":`${projectId}`})
 
     // error handling
     if(!project) {
-        return res.json({message:"Project Not Found"})
-        // const err = new Error('Project Not Found');
-        // err.statusCode = 404;
-        // next(err);
+        res.statusCode = 400;
+        return res.json({message:"Project Not Found"});
     }
 
     if(!userOnProject(project, req.user._id)) {
@@ -482,11 +452,7 @@ router.patch('/:projectId', requireUser, async (req,res,next) =>{
         console.log(priorCollaborators, "Prior\n****\n");
         console.log(incomingCollaborators, "Incoming\n****\n");
 
-        // console.log(JSON.stringify(priorCollaborators) === JSON.stringify(incomingCollaborators), "Comparison");
-
         const sameCollaborators = stringifyCompare(priorCollaborators, incomingCollaborators);
-
-        // console.log(differentCollaborators);
 
         if(!sameCollaborators) {
             const removedCollaborators = priorCollaborators.filter(c => !incomingCollaborators.includes(c));
@@ -504,18 +470,33 @@ router.patch('/:projectId', requireUser, async (req,res,next) =>{
         }
     }
 
-    // const new
+    // debugger
+    const previousTasks = project.tasks;
+    const newTasks = req.body.tasks;
 
-    // console.log(priorCollaborators);
+    if (newTasks) {
+        newTasks.forEach((t) => {
+            console.log(t, "entered task")
+            const taskToUpdate = previousTasks.find((checkTask) => {return (checkTask._id.toString() === t._id)})
 
-    // const strongProj = projectParams(req.body.project);
-    // console.log(strongProj, "Strong Proj");
+            console.log(taskToUpdate, "FOUND TASK");
 
-    const updatedProject = await Project.findOneAndUpdate(
-        { _id: projectId },
-        { $set: req.body },
-        { new: true }
-    );
+            if(taskToUpdate) {
+                Object.assign(taskToUpdate, t);
+            }
+        })
+    }
+
+    // console.log(previousTasks, "PREV!!");
+
+    const updatedProject = await project.save();
+    console.log(updatedProject, "Updated Project!!")
+
+    // const updatedProject = await Project.findOneAndUpdate(
+    //     { _id: projectId },
+    //     { $set: req.body },
+    //     { new: true }
+    // );
 
     if(updatedProject) {
         const newNotification = new Notification({
@@ -532,6 +513,7 @@ router.patch('/:projectId', requireUser, async (req,res,next) =>{
         }
         return res.json(updatedProject);
     } else {
+        res.statusCode = 500;
         return res.json({message:"Problem with project update"})
         // const err = new Error('Problem with project update');
         // err.statusCode = 422;
@@ -552,9 +534,11 @@ router.delete('/:projectId', requireUser, async (req,res,next) =>{
     // console.log(req.user._id, "loged in as")
 
     if(!project) {
+        res.statusCode = 404;
         return res.json({message:"No project found"});
     }
     if(!userOnProject(project, req.user._id)) {
+        res.statusCode = 403;
         return res.json({message:"User not allowed to modify this project"});
     }
 
@@ -579,8 +563,10 @@ router.delete('/:projectId', requireUser, async (req,res,next) =>{
     console.log(deleteResult, "result of removing the project");
 
     if(deleteResult.deletedCount === 1) {
+        res.statusCode = 200;
         return res.json({message: "Successful Delete"});
     } else {
+        res.statusCode = 500;
         return res.json({message:"Issue with Delete"});
     }
 });

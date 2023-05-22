@@ -6,7 +6,7 @@ const User = mongoose.model('User');
 const Notification = mongoose.model('Notification')
 const { isProduction } = require('../../config/keys');
 const { requireUser } = require('../../config/passport');
-const { userOnProject, projectParams, taskProtector, stringifyCompare } = require('../../config/util');
+const { userOnProject, taskProtector, stringifyCompare } = require('../../config/util');
 const { Task } = require('../../models/Project');
 
 

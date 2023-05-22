@@ -1,16 +1,24 @@
-.task-table {
+.project-show-task-table {
     border-collapse: collapse;
     margin-bottom: 10px;
     table-layout: fixed;
+    display: flex;
+    flex-direction: column;
+    padding: 2px;
+    border-radius: .375rem;
+    background-color: #2a2b2d;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.task-table thead {
+.project-show-task-table thead {
     display: flex;
     justify-content: space-between;
     width: 87%;
+    background-color: #333333;
+    color: #FFFFFF;
 }
 
-.task-table th {
+.project-show-task-table th {
     font-weight: bold;
     text-align: left;
     padding: 8px;
@@ -18,19 +26,94 @@
     text-decoration: underline;
 }
 
-.task-table td {
+.project-show-task-table td {
     padding: 8px;
     border-bottom: 1px solid #ddd;
     width: 24vw;
     text-align: left;
 }
 
-.task-table tbody tr {
+.project-show-task-table tbody tr {
     display: flex;
     justify-content: space-between;
+    transition: background-color 0.3s;
 }
 
-.task-table tbody tr:hover {
+.project-show-task-table tbody tr:hover {
     background-color: rgba(255, 255, 255, 0.5);
     cursor: pointer;
+}
+
+.project-task-table-header {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    margin-top: 2px;
+    margin-bottom: 2px;
+    background-color: #2E2E30;
+    border-radius: .375rem;
+    text-decoration: underline;
+}
+
+.project-task-index {
+    /* width: 100vw; */
+    padding-top: 50px;
+    padding-left: 5%;
+    padding-right: 5%;
+    padding-bottom: 50px;
+}
+
+.project-task-table-row {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    margin-top: 2px;
+    margin-bottom: 2px;
+    padding-top: 2px;
+    padding-bottom: 2px;
+    background-color: #2E2E30;
+    /* border-radius: .375rem; */
+    border-bottom: 1px solid white;
+    align-items: center;
+}
+
+.project-task-table-row:hover {
+    background-color: rgba(255, 255, 255, 0.5);
+    cursor: pointer;
+}
+
+.no-hover:hover {
+    cursor:unset;
+    background-color: #2E2E30;
+}
+
+.project-task-cell {
+    padding: 2px;
+    text-align: left;
+    overflow: hidden;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    /* margin-top: 2px;
+    margin-bottom: 2px; */
+    /* display: flex; */
+}
+
+.pjt-wide {
+    width: 25%;
+}
+
+.pjt-narrow {
+    width: 20%;
+}
+
+.pjt-last {
+    width: 10%;
+    max-width: 100px;
+    padding-right: 10px;
+    text-overflow: unset;
+}
+
+.pjt-icons {
+    text-align: right;
 }

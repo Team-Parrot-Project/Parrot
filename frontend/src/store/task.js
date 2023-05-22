@@ -1,9 +1,9 @@
 import jwtFetch from "./jwt";
 import { ADD_PROJECT, ADD_PROJECTS } from "./project";
 
-const ADD_TASK = 'Task/addTask';
+export const ADD_TASK = 'Task/addTask';
 const ADD_TASKS = 'Task/addTasks'
-const REMOVE_TASK = 'Task/removeTask';
+export const REMOVE_TASK = 'Task/removeTask';
 const PURGE_TASKS = 'Task/purgeTasks';
 
 
@@ -21,10 +21,10 @@ export const addTasks = (tasks)=>{
     }
 }
 
-export const removeTask = (taskId)=>{
+export const removeTask = (payload)=>{
     return {
         type: REMOVE_TASK,
-        taskId: taskId
+        payload
     }
 }
 
@@ -43,7 +43,7 @@ export const taskReducer = (state = defaultState,action) =>{
         case ADD_TASKS:
             return {...action.tasks}
         case REMOVE_TASK:
-            delete newState[action.taskId]
+            delete newState[action.payload.taskId]
             return newState
         case ADD_PROJECT:
             const taskArray = action.project.tasks;
@@ -127,6 +127,9 @@ export const deleteTask = (projectId,taskId)=>async dispatch =>{
         method: "DELETE",
     })
     if(res.ok){
-        dispatch(removeTask(taskId));
+        dispatch(removeTask({
+            projectId,
+            taskId
+        }));
     }
 }
