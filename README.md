@@ -1,5 +1,5 @@
 <div style="display: flex; justify-content: center;">
-  <a href="https://parrot.herokuapp.com/" style="text-align: center;">
+  <a href="https://www.parrotpm.com/" style="text-align: center;">
     <img src="./frontend/src/assets/logo_text_version.png" alt="Parrot PM">
   </a>
 </div>
@@ -8,6 +8,8 @@
 # Parrot Project Management
 
 Parrot is a collaborative project management suite founded by a team of four individuals. It empowers teams to effectively ideate, develop, and execute complex projects by utilizing AI-generated project plans, interactive data visualizations, and automated reporting. The inclusion of Gantt charts within Parrot facilitates seamless project scheduling, resource allocation, progress tracking, and communication among team members.
+
+[Live Website](https://www.parrotpm.com/)
 
 -----------------
 
@@ -88,7 +90,7 @@ Our backend is built on the combination of [MongoDB](https://www.mongodb.com/) a
 ### Hosting / Domain
 
 * Heroku
-* Redis
+* Upstash for Redis
 * Google Domains
 
 -----------------
