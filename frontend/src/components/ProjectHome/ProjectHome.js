@@ -10,6 +10,7 @@ import { useEffect, useState } from 'react';
 import * as taskActions from '../../store/task';
 import TaskRecommendation from '../UserHome/TaskRecommendation/TaskRecommendation';
 import TaskCreateForm from '../Task_CRUD/TaskCreateForm/TaskCreateForm';
+import TaskCreateModal from '../Task_CRUD/TaskCreateForm/';
 import ProjectUpdateModal from '../Project_CRUD/ProjectUpdateForm/';
 import DeleteProjectModal from '../Project_CRUD/ProjectDelete/ProjectDeleteModal';
 import { formatDate } from '../../store/util';
@@ -38,6 +39,7 @@ export default function ProjectHome () {
         <h3 className="project-home-table-title">End Date: {formatDate(project?.endDate)}</h3>
 
         <ProjectUpdateModal />
+        <TaskCreateModal />
         <ProjectTaskIndex/>
         <DeleteProjectModal />
         <TaskRecommendation project={project} recommendedTasks={recommendedTasks} setRecommendedTasks={setRecommendedTasks}/>
@@ -45,7 +47,6 @@ export default function ProjectHome () {
           {recommendedTasks.length > 0 && recommendedTasks.map((taskTitle) => (
             <TaskCreateForm key={taskTitle} taskTitle={taskTitle} />
           ))}
-          <TaskCreateForm />
         </div>
       </div>
       </div>
