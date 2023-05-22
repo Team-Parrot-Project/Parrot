@@ -2,7 +2,7 @@ import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { updateTask } from '../../../store/task';
-import { fetchProject } from '../../../store/project';
+import { fetchProject, updateProject } from '../../../store/project';
 import { fetchUser } from '../../../store/user';
 import { formatDate } from '../../../store/util';
 import { debounce } from 'lodash';
@@ -24,8 +24,6 @@ export default function GanttChart() {
 
   // Grab the project from state
   const projectTasks = useSelector(state => state.projects);
-
-
 
   // Reformate the tasks data for the Gantt chart
   const formattedTasks = useMemo(() => {
@@ -140,42 +138,37 @@ useEffect(() => {
 }, [ganttRef, formattedTasks, formattedTime, tasksProcessing])
 
 // this use effect fires when the component unmounts to ensure their changes are saved
-useEffect(() => {
-  return () => {
-    console.log("updating tasks!!!!!");
-    // debugger;
-    Object.values(updatedTasks).forEach((t) => {
-      // debugger;
-      dispatch(updateTask(projectId, t)).then(() => {
-        setTasksProcessing(prev => (prev-1));
-      })
-      setTasksProcessing(prev => (prev + 1));
-    })
-  };
-}, [])
+// useEffect(() => {
+//   return patchTaskChanges;
+// }, [])
 
 
 function patchTaskChanges () {
-  Object.values(updatedTasks).forEach((t) => {
-  // debugger;
-  dispatch(updateTask(projectId, t)).then(() => {
-    setTasksProcessing(prev => (prev-1));
-  })
-  setTasksProcessing(prev => (prev + 1));
-})}
+
+  const updatedProject = {
+    id: projectId,
+    tasks: Object.values(updatedTasks)
+  }
+  dispatch(updateProject(updatedProject));
+}
 
 // this use effect fires when the user refreshes the page to ensure their changes are saved
 useEffect(() => {
+  let unloaded = false;
   const handleBeforeUnload = (e) => {
     e.preventDefault();
     // e.returnValue = '';
     patchTaskChanges();
+    unloaded = true;
   }
 
   window.addEventListener('beforeunload', handleBeforeUnload);
 
   return () => {
     window.removeEventListener('beforeunload', handleBeforeUnload)
+    if(!unloaded) {
+      patchTaskChanges ()
+    }
   }
 }, [])
 
