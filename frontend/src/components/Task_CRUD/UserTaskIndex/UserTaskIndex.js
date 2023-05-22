@@ -26,11 +26,14 @@ function UserTaskIndex() {
     <div className="user-project-index">
       {/* <h2>Your Tasks</h2> */}
       <div className='task-table'>
-      <TableRow row={["Title", "Status","End Date"]} rowClass={"task-table-header"}/>
+      <TableRow row={["Title", "Status","End Date"]} rowClass={"task-table-header"}
+      />
       {userTasks.map((t, ix) => {
         const formattedDate = formatDate(t.endDate);
         return (
-          <TableRow key={ix} row={[t.title, t.status, formattedDate]}/>
+          <TableRow key={ix} row={[t.title, t.status, formattedDate]}
+          rowClass={"default-row-class no-hover"}
+          />
         )
       })}
       </div>

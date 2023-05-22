@@ -1,6 +1,6 @@
 import './TableRow.css'
 
-export default function TableRow({ handleClick, cellClass, rowClass, row, rowElement }) {
+export default function TableRow({ handleClick, cellClass, rowClass, row, rowElement, cellClasses }) {
 
 
   cellClass = cellClass || "defaulf-cell-class";
@@ -21,8 +21,10 @@ export default function TableRow({ handleClick, cellClass, rowClass, row, rowEle
           return (
             <div key={ix}
               onClick={(e) => { localClick(e) }}
-              className={cellClass}>
+              className={(cellClasses && cellClasses[ix]) ? cellClasses[ix] : cellClass}
+              >
               {cellContent}
+              
             </div>
           )
         })}

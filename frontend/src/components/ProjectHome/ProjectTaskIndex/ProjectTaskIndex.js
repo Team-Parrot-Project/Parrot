@@ -8,12 +8,18 @@ import DeleteTaskModal from '../../Task_CRUD/TaskDelete/TaskDelete';
 import './ProjectTaskIndex.css';
 import { fetchProject } from '../../../store/project';
 import { getProject } from '../../../store/project';
+import TableRow from '../../TableRow/TableRow';
+import { Modal } from '../../../context/Modal';
+import TaskUpdateForm from '../../Task_CRUD/TaskUpdateForm/TaskUpdateForm';
 
 function ProjectTaskIndex() {
   const {projectId} = useParams();
   // const [allTasks,setAllTasks] = useState([]);
 
   const dispatch = useDispatch();
+
+  const [showModal, setShowModal] = useState(false);
+  const [modalTaskId, setModalTaskId] = useState();
 
   useEffect(() => {
     dispatch(fetchProject(projectId))
@@ -39,31 +45,88 @@ function ProjectTaskIndex() {
   //   }
   // }
 
+  function taskClick(e, taskId) {
+    // console.log("HERE!!!!!");
+    // debugger;
+    // setModalTaskId(taskId);
+    // setShowModal(true);
+  }
+
+
   return (
-    <div className="user-project-index">
-      <table className="project-show-task-table">
-        <thead>
-          <tr>
-            <th>Task Title</th>
-            <th>Task Description</th>
-            <th>Start Date</th>
-            <th>End Date</th>
+
+    <>
+    {showModal &&
+      <Modal onClose={() => setShowModal(false)}>
+      <TaskUpdateForm taskId={modalTaskId} projectId={projectId} closeModal={() => setShowModal(false)} />
+  </Modal>
+    }
+      <div className="project-task-index">
+
+        <TableRow row={["Title",
+                      "Description",
+                      "Start",
+                      "End",
+                      ""]} 
+                  rowClass={"project-task-table-header"}
+                  cellClasses={[
+                    "defaulf-cell-class pjt-narrow",
+                    "defaulf-cell-class pjt-wide",
+                    "defaulf-cell-class pjt-narrow",
+                    "defaulf-cell-class pjt-narrow",
+                    "defaulf-cell-class pjt-last",
+                  ]}/>
+
+        {allTasks.map((task) => {
+          return <TableRow 
+          rowClass={"project-task-table-row no-hover"}
+          rowElement={task._id}
+          row={[
+            task.title,
+            task.description,
+            formatDate(task.startDate),
+            formatDate(task.endDate),
+            <>
+                <TaskUpdateModal taskId={task._id} projectId={project._id} />
+                <DeleteTaskModal  taskId={task._id} projectId={project._id} />
+                </>,
+          ]}
+          cellClasses={
+            [
+              "project-task-cell pjt-narrow",
+              "project-task-cell pjt-wide",
+              "project-task-cell pjt-narrow",
+              "project-task-cell pjt-narrow",
+              "project-task-cell pjt-narrow pjt-last",
+            ]
+          }
+          />
+        })}
+
+        {/* <table className="project-show-task-table">
+          <thead>
+            <tr>
+              <th>Task Title</th>
+              <th>Task Description</th>
+              <th>Start Date</th>
+              <th>End Date</th>
+            </tr>
+          </thead>
+          <tbody>
+          {allTasks.map((task) => (
+          <tr key={task._id}>
+            <td>{task.title}</td>
+            <td>{task.description}</td>
+            <td>{formatDate(task.startDate)}</td>
+            <td>{formatDate(task.endDate)}</td>
+            <TaskUpdateModal taskId={task._id} projectId={project._id} />
+            <DeleteTaskModal  taskId={task._id} projectId={project._id} />
           </tr>
-        </thead>
-        <tbody>
-        {allTasks.map((task) => (
-        <tr key={task._id}>
-          <td>{task.title}</td>
-          <td>{task.description}</td>
-          <td>{formatDate(task.startDate)}</td>
-          <td>{formatDate(task.endDate)}</td>
-          <TaskUpdateModal taskId={task._id} projectId={project._id} />
-          <DeleteTaskModal  taskId={task._id} projectId={project._id} />
-        </tr>
-      ))}
-        </tbody>
-      </table>
-    </div>
+        ))}
+          </tbody>
+        </table> */}
+      </div>
+    </>
   );
 }
 
