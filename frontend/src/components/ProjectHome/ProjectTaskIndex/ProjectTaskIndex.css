@@ -8,38 +8,38 @@
     border-radius: .375rem;
     background-color: #2a2b2d;
     box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
-  }
+}
 
-  .project-show-task-table thead {
+.project-show-task-table thead {
     display: flex;
     justify-content: space-between;
     width: 87%;
     background-color: #333333;
     color: #FFFFFF;
-  }
+}
 
-  .project-show-task-table th {
+.project-show-task-table th {
     font-weight: bold;
     text-align: left;
     padding: 8px;
     width: 24vw;
     text-decoration: underline;
-  }
+}
 
-  .project-show-task-table td {
+.project-show-task-table td {
     padding: 8px;
     border-bottom: 1px solid #ddd;
     width: 24vw;
     text-align: left;
-  }
+}
 
-  .project-show-task-table tbody tr {
+.project-show-task-table tbody tr {
     display: flex;
     justify-content: space-between;
     transition: background-color 0.3s;
-  }
+}
 
-  .project-show-task-table tbody tr:hover {
+.project-show-task-table tbody tr:hover {
     background-color: rgba(255, 255, 255, 0.5);
     cursor: pointer;
-  }
+}
