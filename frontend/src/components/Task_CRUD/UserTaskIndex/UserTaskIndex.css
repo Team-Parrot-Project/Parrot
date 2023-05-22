@@ -15,3 +15,8 @@
     border-radius: .375rem;
     text-decoration: underline;
 }
+
+.no-hover:hover {
+    cursor:unset;
+    background-color: #2A2B2D;
+}

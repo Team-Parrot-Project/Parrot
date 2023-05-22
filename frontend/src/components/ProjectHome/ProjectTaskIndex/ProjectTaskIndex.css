@@ -43,3 +43,77 @@
     background-color: rgba(255, 255, 255, 0.5);
     cursor: pointer;
 }
+
+.project-task-table-header {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    margin-top: 2px;
+    margin-bottom: 2px;
+    background-color: #2E2E30;
+    border-radius: .375rem;
+    text-decoration: underline;
+}
+
+.project-task-index {
+    /* width: 100vw; */
+    padding-top: 50px;
+    padding-left: 5%;
+    padding-right: 5%;
+    padding-bottom: 50px;
+}
+
+.project-task-table-row {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    margin-top: 2px;
+    margin-bottom: 2px;
+    padding-top: 2px;
+    padding-bottom: 2px;
+    background-color: #2E2E30;
+    /* border-radius: .375rem; */
+    border-bottom: 1px solid white;
+    align-items: center;
+}
+
+.project-task-table-row:hover {
+    background-color: rgba(255, 255, 255, 0.5);
+    cursor: pointer;
+}
+
+.no-hover:hover {
+    cursor:unset;
+    background-color: #2E2E30;
+}
+
+.project-task-cell {
+    padding: 2px;
+    text-align: left;
+    overflow: hidden;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    /* margin-top: 2px;
+    margin-bottom: 2px; */
+    /* display: flex; */
+}
+
+.pjt-wide {
+    width: 25%;
+}
+
+.pjt-narrow {
+    width: 20%;
+}
+
+.pjt-last {
+    width: 10%;
+    max-width: 100px;
+    padding-right: 10px;
+    text-overflow: unset;
+}
+
+.pjt-icons {
+    text-align: right;
+}

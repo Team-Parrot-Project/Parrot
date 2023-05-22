@@ -13,7 +13,7 @@
 
 .defaulf-cell-class {
     width: 30%;
-    /* padding: 2px; */
+    padding: 2px;
     text-align: left;
     overflow: hidden;
     white-space: nowrap;
