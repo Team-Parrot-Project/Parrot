@@ -67,7 +67,7 @@ function ProjectTaskIndex() {
                       "Description",
                       "Start",
                       "End",
-                      ""]} 
+                      ""]}
                   rowClass={"project-task-table-header"}
                   cellClasses={[
                     "defaulf-cell-class pjt-narrow",
@@ -78,9 +78,10 @@ function ProjectTaskIndex() {
                   ]}/>
 
         {allTasks.map((task) => {
-          return <TableRow 
+          return <TableRow
           rowClass={"project-task-table-row no-hover"}
           rowElement={task._id}
+          key={task._id}
           row={[
             task.title,
             task.description,

@@ -31,7 +31,7 @@ export default function GanttChart() {
   // Reformate the tasks data for the Gantt chart
   const formattedTasks = useMemo(() => {
     if (projectTasks[projectId]?.tasks) {
-      
+
       return projectTasks[projectId].tasks.map((task, index) => {
         const sDate = task.startDate ? formatDate(task.startDate) : '';
         const eDate = task.endDate ? formatDate(task.endDate) : '';
