@@ -86,8 +86,8 @@
 }
 
 .no-hover:hover {
-    border-color: #ff5263;
-    box-shadow: 0 0 5px 1px #ff5263;
+    border-color: #F0FFF0;
+    box-shadow: 0 0 5px 1px #F0FFF0;
     cursor: pointer;
 }
 

@@ -1,7 +1,7 @@
 .delete-task-modal-button {
     cursor: pointer;
     overflow: hidden;
-    fill: #a2a0a2;
+    fill: #FF4D4D;
     transition: transform 250ms ease-out;
     height: 24px;
     width: 35px;

@@ -1,1 +1,27 @@
+.delete-project-button {
+  display: inline-block;
+  padding: 8px 16px;
+  font-size: 14px;
+  font-weight: bold;
+  text-align: center;
+  text-decoration: none;
+  border: none;
+  border-radius: 4px;
+  background-color: #FF4D4D;
+  color: #FFFFFF;
+  cursor: pointer;
+  transition: background-color 250ms ease;
+}
 
+.delete-project-button:hover {
+  background-color: #FF3333;
+}
+
+.delete-project-button:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px #FFFFFF, 0 0 0 4px #FF4D4D;
+}
+
+.delete-project-button:active {
+  background-color: #FF1A1A;
+}
