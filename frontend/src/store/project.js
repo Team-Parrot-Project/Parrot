@@ -5,39 +5,39 @@ export const ADD_PROJECT = 'project/addProject';
 export const ADD_PROJECTS = 'project/addProjects'
 const REMOVE_PROJECT = 'project/removeProject';
 
-export const addProject = (project)=>{
+export const addProject = (project) => {
     return {
         type: ADD_PROJECT,
         project: project
     }
 }
 
-export const addProjects = (projects)=>{
+export const addProjects = (projects) => {
     return {
         type: ADD_PROJECTS,
         projects: projects
     }
 }
 
-export const removeProject = (projectId)=>{
+export const removeProject = (projectId) => {
     return {
         type: REMOVE_PROJECT,
         projectId: projectId
     }
 }
 
-export const projectReducer = (state = {},action) =>{
-    const newState = {...state};
+export const projectReducer = (state = {}, action) => {
+    const newState = { ...state };
     let projectId;
     let taskArray;
     let existingIdx;
 
-    switch(action.type){
+    switch (action.type) {
         case ADD_PROJECT:
-            return {...state, [action.project._id]: action.project}
+            return { ...state, [action.project._id]: action.project }
         case ADD_PROJECTS:
             const projects = action.projects;
-            projects.forEach(project =>{
+            projects.forEach(project => {
                 newState[project._id] = project
             })
             return newState
@@ -51,7 +51,7 @@ export const projectReducer = (state = {},action) =>{
                 return ele._id === action.payload.taskId
             })
 
-            if(existingIdx >= 0) {
+            if (existingIdx >= 0) {
                 taskArray.splice(existingIdx, 1);
                 newState[action.payload.projectId].tasks = taskArray;
             }
@@ -80,18 +80,18 @@ export const projectReducer = (state = {},action) =>{
 
 export default projectReducer;
 
-export const getProject = (projectId) => (state)=>{
-    if(state.projects){
+export const getProject = (projectId) => (state) => {
+    if (state.projects) {
         return state.projects[projectId]
-    }else{
+    } else {
         return null;
     }
 }
 
-export const getProjects = (state)=>{
-    if(state.projects){
+export const getProjects = (state) => {
+    if (state.projects) {
         return Object.values(state.projects)
-    }else{
+    } else {
         return [];
     }
 }
@@ -104,56 +104,54 @@ export const getProjectTasks = (projectId) => (state) => {
     }
 }
 
-export const fetchProject = (projectId) => async dispatch=>{
+export const fetchProject = (projectId) => async dispatch => {
     let res = await jwtFetch(`/api/projects/${projectId}`)
-    if(res.ok){
+    if (res.ok) {
         let data = await res.json();
-        console.log(data[projectId],"project before Add Project");
+        console.log(data[projectId], "project before Add Project");
         dispatch(addProject(data[projectId]));
     }
 }
 
-export const createProject = (project)=>async dispatch =>{
-    let res = await jwtFetch(`/api/projects/`,{
+export const createProject = (project) => async dispatch => {
+    let res = await jwtFetch(`/api/projects/`, {
         method: "POST",
         body: JSON.stringify(project),
         headers: {
-            'Content-Type':'application/json'
+            'Content-Type': 'application/json'
         }
     })
-    if(res.ok){
+    if (res.ok) {
         let data = await res.json();
         dispatch(addProject(data));
     }
 }
 
-export const updateProject = (project)=> dispatch =>{
-    jwtFetch(`/api/projects/${project.id}`,{
-        method: "PATCH",
-        body: JSON.stringify(project),
-        headers: {
-            'Content-Type':'application/json'
-        }
-    }).then((res) => {
-        return res.json()
-    }).then((data) => {
-        dispatch(addProject(data))
-    }).catch((error)=> {
-        let jwtToken = localStorage.getItem('jwtToken');
-		if (jwtToken) {
-			throw new Error('Token already exists in local storage');
-		}
-    })
+export const updateProject = (project) => dispatch => {
+
+    if (localStorage.getItem('jwtToken')) {
+        jwtFetch(`/api/projects/${project.id}`, {
+            method: "PATCH",
+            body: JSON.stringify(project),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }).then((res) => {
+            return res.json()
+        }).then((data) => {
+            dispatch(addProject(data))
+        })
+    }
 }
 
-export const deleteProject = (projectId)=>async dispatch =>{
-    let res = await jwtFetch(`/api/projects/${projectId}`,{
+export const deleteProject = (projectId) => async dispatch => {
+    let res = await jwtFetch(`/api/projects/${projectId}`, {
         method: "DELETE",
         headers: {
-            'Content-Type':'application/json'
+            'Content-Type': 'application/json'
         }
     })
-    if(res.ok){
+    if (res.ok) {
         dispatch(removeProject(projectId));
     }
 }

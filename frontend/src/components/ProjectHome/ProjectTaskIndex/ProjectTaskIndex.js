@@ -11,6 +11,7 @@ import { getProject } from '../../../store/project';
 import TableRow from '../../TableRow/TableRow';
 import { Modal } from '../../../context/Modal';
 import TaskUpdateForm from '../../Task_CRUD/TaskUpdateForm/TaskUpdateForm';
+import { selectUsers } from '../../../store/user';
 
 function ProjectTaskIndex() {
   const {projectId} = useParams();
@@ -20,6 +21,7 @@ function ProjectTaskIndex() {
 
   const [showModal, setShowModal] = useState(false);
   const [modalTaskId, setModalTaskId] = useState();
+  const allUsers = useSelector(selectUsers);
 
   useEffect(() => {
     dispatch(fetchProject(projectId))
@@ -52,7 +54,6 @@ function ProjectTaskIndex() {
     // setShowModal(true);
   }
 
-
   return (
 
     <>
@@ -65,6 +66,7 @@ function ProjectTaskIndex() {
 
         <TableRow row={["Title",
                       "Description",
+                      "Assignee",
                       "Start",
                       "End",
                       ""]}
@@ -72,6 +74,7 @@ function ProjectTaskIndex() {
                   cellClasses={[
                     "defaulf-cell-class pjt-narrow",
                     "defaulf-cell-class pjt-wide",
+                    "defaulf-cell-class pjt-narrow",
                     "defaulf-cell-class pjt-narrow",
                     "defaulf-cell-class pjt-narrow",
                     "defaulf-cell-class pjt-last",
@@ -85,6 +88,7 @@ function ProjectTaskIndex() {
           row={[
             task.title,
             task.description,
+            allUsers[task.assignee]?.username,
             formatDate(task.startDate),
             formatDate(task.endDate),
             <>
@@ -98,34 +102,12 @@ function ProjectTaskIndex() {
               "project-task-cell pjt-wide",
               "project-task-cell pjt-narrow",
               "project-task-cell pjt-narrow",
+              "project-task-cell pjt-narrow",
               "project-task-cell pjt-narrow pjt-last",
             ]
           }
           />
         })}
-
-        {/* <table className="project-show-task-table">
-          <thead>
-            <tr>
-              <th>Task Title</th>
-              <th>Task Description</th>
-              <th>Start Date</th>
-              <th>End Date</th>
-            </tr>
-          </thead>
-          <tbody>
-          {allTasks.map((task) => (
-          <tr key={task._id}>
-            <td>{task.title}</td>
-            <td>{task.description}</td>
-            <td>{formatDate(task.startDate)}</td>
-            <td>{formatDate(task.endDate)}</td>
-            <TaskUpdateModal taskId={task._id} projectId={project._id} />
-            <DeleteTaskModal  taskId={task._id} projectId={project._id} />
-          </tr>
-        ))}
-          </tbody>
-        </table> */}
       </div>
     </>
   );
