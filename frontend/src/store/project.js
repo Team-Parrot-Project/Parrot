@@ -128,20 +128,17 @@ export const createProject = (project) => async dispatch => {
 }
 
 export const updateProject = (project) => dispatch => {
-
-    if (localStorage.getItem('jwtToken')) {
-        jwtFetch(`/api/projects/${project.id}`, {
-            method: "PATCH",
-            body: JSON.stringify(project),
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        }).then((res) => {
-            return res.json()
-        }).then((data) => {
-            dispatch(addProject(data))
-        })
-    }
+    jwtFetch(`/api/projects/${project.id}`, {
+        method: "PATCH",
+        body: JSON.stringify(project),
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    }).then((res) => {
+        return res.json()
+    }).then((data) => {
+        dispatch(addProject(data))
+    })
 }
 
 export const deleteProject = (projectId) => async dispatch => {

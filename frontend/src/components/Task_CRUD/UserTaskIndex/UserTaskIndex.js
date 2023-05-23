@@ -24,7 +24,6 @@ function UserTaskIndex() {
 
   return (
     <div className="user-project-index">
-      {/* <h2>Your Tasks</h2> */}
       <div className='task-table'>
       <TableRow row={["Title", "Status","End Date"]} rowClass={"task-table-header"}
       />
@@ -32,23 +31,11 @@ function UserTaskIndex() {
         const formattedDate = formatDate(t.endDate);
         return (
           <TableRow key={ix} row={[t.title, t.status, formattedDate]}
-          rowClass={"default-row-class no-hover"}
+          rowClass={"default-row-class no-hover-ut"}
           />
         )
       })}
       </div>
-      {/* <ul>
-        {userTasks.map((task) => (
-          <li key={task._id}>
-            <h3>Task Title: {task.title}</h3>
-            <p>Task Description: {task.description}</p>
-            <p>
-              Start Date: {task.startDate} | End Date: {task.endDate}
-            </p>
-          </li>
-        ))}
-      </ul> */}
-      {/* <TaskCreateModal/> */}
     </div>
   );
 }

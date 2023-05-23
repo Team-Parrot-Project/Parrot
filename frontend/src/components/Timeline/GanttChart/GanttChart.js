@@ -7,7 +7,7 @@ import { formatDate } from '../../../store/util';
 import Gantt from 'frappe-gantt';
 import './GanttChart.css';
 
-export default function GanttChart({ updatedTasks, setUpdatedTasks, patchTaskChanges }) {
+export default function GanttChart({ updatedTasks, setUpdatedTasks }) {
 
   // Live updates multiple dependencies
 
@@ -58,6 +58,14 @@ export default function GanttChart({ updatedTasks, setUpdatedTasks, patchTaskCha
 
   }, [dispatch, projectId, userId]);
 
+  // useEffect(() => {
+  //   console.log("EFFECT FIRES")
+
+  //   return (() => {
+  //     console.log("CLEANUP FIRES")
+  //   })
+  // }, [])
+
   // ----------------------------------------------------------------------------------------------------------
 
   // Generate the Gantt chart
@@ -96,23 +104,23 @@ export default function GanttChart({ updatedTasks, setUpdatedTasks, patchTaskCha
   }, [ganttRef, formattedTasks, formattedTime])
 
   // this use effect fires when the user refreshes the page to ensure their changes are saved
-  useEffect(() => {
-    let unloaded = false;
-    const handleBeforeUnload = (e) => {
-      e.preventDefault();
-      patchTaskChanges();
-      unloaded = true;
-    }
+  // useEffect(() => {
+  //   let unloaded = false;
+  //   const handleBeforeUnload = (e) => {
+  //     e.preventDefault();
+  //     patchTaskChanges();
+  //     unloaded = true;
+  //   }
 
-    window.addEventListener('beforeunload', handleBeforeUnload);
+  //   window.addEventListener('beforeunload', handleBeforeUnload);
 
-    return () => {
-      window.removeEventListener('beforeunload', handleBeforeUnload)
-      if (!unloaded) {
-        patchTaskChanges();
-      }
-    }
-  }, [])
+  //   return () => {
+  //     window.removeEventListener('beforeunload', handleBeforeUnload)
+  //     if (!unloaded) {
+  //       patchTaskChanges();
+  //     }
+  //   }
+  // }, [])
 
   return (
 
