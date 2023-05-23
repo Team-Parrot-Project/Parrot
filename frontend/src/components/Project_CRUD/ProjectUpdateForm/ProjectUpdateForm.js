@@ -5,7 +5,7 @@ import { useParams } from 'react-router-dom/cjs/react-router-dom.min';
 import { formatDate } from '../../../store/util';
 import './ProjectUpdateForm.css';
 
-export default function ProjectUpdateForm() {
+export default function ProjectUpdateForm({closeModal}) {
   const dispatch = useDispatch();
   const {projectId} = useParams();
   const project = useSelector(getProject(projectId));
@@ -45,7 +45,7 @@ export default function ProjectUpdateForm() {
     };
     try {
       dispatch(updateProject(updatedProject));
-      window.location.reload();
+      closeModal();
     } catch (err) {
       alert('Failed to update project. Please try again later.');
     }
