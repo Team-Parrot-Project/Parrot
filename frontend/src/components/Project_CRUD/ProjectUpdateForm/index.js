@@ -11,7 +11,7 @@ export default function ProjectUpdateModal() {
             <button className='update-project-button' onClick={() => setShowModal(true)}>Update Project</button>
             {showModal && (
                 <Modal onClose={() => setShowModal(false)}>
-                    <ProjectUpdateForm onSubmit={closeModal}/>
+                    <ProjectUpdateForm onSubmit={closeModal} closeModal={closeModal}/>
                 </Modal>
             )}
         </>

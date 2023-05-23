@@ -498,6 +498,8 @@ router.patch('/:projectId', requireUser, async (req,res,next) =>{
 
     // console.log(previousTasks, "PREV!!");
 
+
+    Object.assign(project, req.body);
     const updatedProject = await project.save();
     console.log(updatedProject, "Updated Project!!")
 
