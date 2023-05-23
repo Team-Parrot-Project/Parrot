@@ -40,7 +40,7 @@
 .generate-reccomended-tasks-button {
     display: inline-block;
     padding: 8px 16px;
-    font-size: 14px;
+    font-size: 18px;
     font-weight: bold;
     text-align: center;
     text-decoration: none;
@@ -64,4 +64,9 @@
 
 .generate-reccomended-tasks-button:active {
     background-color: #222224;
+}
+
+.generate-reccomended-tasks-title {
+    font-size: 20px;
+    color: #FFFFFF;
 }

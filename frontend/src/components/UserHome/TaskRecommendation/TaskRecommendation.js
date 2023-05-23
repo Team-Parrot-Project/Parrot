@@ -43,8 +43,7 @@ const TaskRecommendation = ({ project, recommendedTasks, setRecommendedTasks }) 
     <div>
       {!buttonClicked && (
         <div>
-          <p>Click below to generate recommended tasks based on the project title and description utilizing the Open AI API: </p>
-          <button className="generate-reccomended-tasks-button" onClick={generateRecommendedTasks}>Generate Recommended Tasks</button>
+          <button className="generate-reccomended-tasks-button" onClick={generateRecommendedTasks}>Generate Recommended Tasks with AI</button>
         </div>
       )}
       {recommendedTasks.length > 0 && <div className="recommended-tasks">The recommended tasks are rendered in the Task Create forms below: {displayTasks}</div>}

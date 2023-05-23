@@ -69,8 +69,8 @@ export default function ProjectHome() {
           <ProjectUpdateModal />
           <TaskCreateModal />
           <DeleteProjectModal />
-          <ProjectTaskIndex />
           <TaskRecommendation project={project} recommendedTasks={recommendedTasks} setRecommendedTasks={setRecommendedTasks} />
+          <ProjectTaskIndex />
           <div className="task-create-forms">
             {recommendedTasks.length > 0 && recommendedTasks.map((taskTitle) => (
               <TaskCreateForm key={taskTitle} taskTitle={taskTitle} />
