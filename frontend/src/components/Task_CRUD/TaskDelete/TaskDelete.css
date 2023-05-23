@@ -6,4 +6,8 @@
     height: 24px;
     width: 35px;
     background-color: transparent;
+    border: none; /* Remove border */
+    padding: 0; /* Remove padding */
+    outline: none; /* Remove outline */
+    appearance: none; /* Remove default button appearance */
 }

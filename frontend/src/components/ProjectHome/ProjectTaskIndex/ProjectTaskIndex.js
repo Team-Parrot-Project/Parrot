@@ -64,12 +64,13 @@ function ProjectTaskIndex() {
     }
       <div className="project-task-index">
 
+        <div className="project-show-table-container">
         <TableRow row={["Title",
                       "Description",
                       "Assignee",
                       "Start",
                       "End",
-                      ""]}
+                      "Modify"]}
                   rowClass={"project-task-table-header"}
                   cellClasses={[
                     "defaulf-cell-class pjt-narrow",
@@ -108,6 +109,7 @@ function ProjectTaskIndex() {
           }
           />
         })}
+        </div>
       </div>
     </>
   );

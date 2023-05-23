@@ -21,6 +21,10 @@
   cursor: pointer;
 } */
 
+.centered-container {
+  background-color: #1e1f21;
+}
+
 .project-home-wrapper button:hover {
   background-color: #6c9da9;
 }
