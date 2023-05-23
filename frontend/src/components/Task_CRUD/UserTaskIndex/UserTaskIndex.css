@@ -16,7 +16,7 @@
     text-decoration: underline;
 }
 
-.no-hover:hover {
+.no-hover-ut:hover {
     cursor:unset;
     background-color: #2A2B2D;
 }

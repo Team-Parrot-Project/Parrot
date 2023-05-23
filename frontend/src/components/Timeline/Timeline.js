@@ -18,9 +18,28 @@ export default function Timeline() {
   const [taskUpdateRuns, setTaskUpdateRuns] = useState(0);
   const { projectId } = useParams()
 
+  function handleBeforeUnload(e) {
+    e.preventDefault();
+    patchTaskChanges();
+  }
+
+  useEffect(() => {
+
+    window.addEventListener('beforeunload', handleBeforeUnload);
+
+    return () => {
+      window.removeEventListener('beforeunload', handleBeforeUnload)
+      patchTaskChanges();
+    }
+  }, [])
+
   function timelineLogOut(e) {
     e.preventDefault();
-    patchTaskChanges().then(() => { dispatch(logout()) })
+    patchTaskChanges()
+      .then(() => {
+        return window.removeEventListener('beforeunload', handleBeforeUnload);
+      })
+      .then(() => { return dispatch(logout()) })
   }
 
   async function patchTaskChanges() {
