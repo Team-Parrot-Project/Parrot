@@ -17,24 +17,41 @@ export default function Timeline() {
   const [taskUpdatesProcessed, setTaskUpatesProcessed] = useState(false);
   const [taskUpdateRuns, setTaskUpdateRuns] = useState(0);
   const { projectId } = useParams()
+  const [firstRun, setFirstRun] = useState(true);
 
   function handleBeforeUnload(e) {
     e.preventDefault();
+    console.log("HERE!!! LINE 24")
+    // debugger;
     patchTaskChanges();
   }
+
+  // useEffect(() => {
+  //   console.log("EFFECT FIRES")
+
+  //   return (() => {
+  //     console.log("CLEANUP FIRES")
+  //   })
+  // }, [])
 
   useEffect(() => {
 
     window.addEventListener('beforeunload', handleBeforeUnload);
+    let isMounted = true; // Flag variable to track mount state
+
 
     return () => {
       window.removeEventListener('beforeunload', handleBeforeUnload)
+      // debugger;
+      console.log("HERE!!! LINE 35")
       patchTaskChanges();
     }
   }, [])
 
   function timelineLogOut(e) {
     e.preventDefault();
+    console.log("HERE!!! LINE 42")
+    // debugger;
     patchTaskChanges()
       .then(() => {
         return window.removeEventListener('beforeunload', handleBeforeUnload);
@@ -42,12 +59,23 @@ export default function Timeline() {
       .then(() => { return dispatch(logout()) })
   }
 
+  // this will only check for start and end date
   async function patchTaskChanges() {
-    const updatedTasksFromTimeline = {
-      id: projectId,
-      tasks: Object.values(updatedTasks)
+
+    // only run if the user is logged in
+    if (localStorage.getItem('jwtToken')) {
+      const allTasks = Object.values(updatedTasks);
+
+      // only run if  there are actually tasks to be updated
+      // debugger;
+      if (allTasks.length > 0) {
+        const updatedTasksFromTimeline = {
+          id: projectId,
+          tasks: allTasks
+        }
+        dispatch(updateProject(updatedTasksFromTimeline))
+      }
     }
-    dispatch(updateProject(updatedTasksFromTimeline))
   }
 
   return (
@@ -57,7 +85,6 @@ export default function Timeline() {
         <div className="gantt-chart-wrapper">
           <FilterBar />
           <GanttChart updatedTasks={updatedTasks} setUpdatedTasks={setUpdatedTasks}
-            patchTaskChanges={patchTaskChanges}
             setTaskUpdateRuns={setTaskUpdateRuns}
           />
         </div>

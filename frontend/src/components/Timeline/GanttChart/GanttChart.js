@@ -7,7 +7,7 @@ import { formatDate } from '../../../store/util';
 import Gantt from 'frappe-gantt';
 import './GanttChart.css';
 
-export default function GanttChart({ updatedTasks, setUpdatedTasks, patchTaskChanges }) {
+export default function GanttChart({ updatedTasks, setUpdatedTasks }) {
 
   // Live updates multiple dependencies
 
@@ -57,6 +57,14 @@ export default function GanttChart({ updatedTasks, setUpdatedTasks, patchTaskCha
     dispatch(fetchUser(userId))
 
   }, [dispatch, projectId, userId]);
+
+  // useEffect(() => {
+  //   console.log("EFFECT FIRES")
+
+  //   return (() => {
+  //     console.log("CLEANUP FIRES")
+  //   })
+  // }, [])
 
   // ----------------------------------------------------------------------------------------------------------
 
