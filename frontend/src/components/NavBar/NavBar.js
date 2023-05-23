@@ -7,8 +7,8 @@ import './NavBar.css';
 import Notifications from "../Notifications/Notifications";
 import {useState} from 'react';
 
+export default function NavBar({ timelineLogOut }) {
 
-export default function NavBar() {
   const [toggleNav,setToggleNav] = useState(false);
 
   const { projectId } = useParams()
@@ -16,10 +16,10 @@ export default function NavBar() {
   const location = useLocation();
   const userName = useSelector(state => state.session.user.username);
 
-  const hanldeLogout = (e) => {
+  const hanldeLogout = timelineLogOut || ((e) => {
     e.preventDefault();
     dispatch(sessionActions.logout())
-  };
+  });
 
   const isProjectTimelinePage = location.pathname === `/projects/${projectId}/timeline`;
 

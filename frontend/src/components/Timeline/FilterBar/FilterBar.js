@@ -29,9 +29,9 @@ export default function FilterBar() {
         <h1 className="timeline-project-title">{project?.title}</h1>
         <div className="gantt-filter-group">
           <label className="gantt-filter-group-title">Project:</label>
-          <select onChange={handleProjectIdChange} defaultValue={projectId}>
+          <select onChange={handleProjectIdChange} value={projectId}>
             {Object.values(projects).map((project) => (
-              <option key={project._id} value={project._id} selected={(projectId === project._id)}>
+              <option key={project._id} value={project._id}>
                 {`${project.title}`}
               </option>
             ))}

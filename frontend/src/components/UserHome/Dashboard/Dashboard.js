@@ -1,20 +1,15 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import CurrentDate from './Date/Date';
 import UserGreeting from './UserGreeting/UserGreeting';
 import './Dashboard.css';
 import UserProjectIndex from '../../Project_CRUD/UserProjectIndex/UserProjectIndex';
 import UserTaskIndex from '../../Task_CRUD/UserTaskIndex/UserTaskIndex';
-import TableRow from '../../TableRow/TableRow';
-// import { AiOutlinePlusCircle } from 'react-icons/ai';
-import { Modal } from '../../../context/Modal';
 import ProjectCreateModal from '../../Project_CRUD/ProjectCreateForm/index';
 import { fetchUsers } from '../../../store/user';
 
 export default function Dashboard() {
   const dispatch = useDispatch();
-  const [showModal, setShowModal] = useState(false);
-  const closeModal = () => setShowModal(false);
 
   useEffect(() => {
     dispatch(fetchUsers());
@@ -40,8 +35,8 @@ export default function Dashboard() {
 
   return (
     <>
-    <div className='create-project-button'>
-    </div>
+      <div className='create-project-button'>
+      </div>
       <div className="user-dashboard-wrapper">
         <div className="user-dashboard-main-content">
 
@@ -51,8 +46,6 @@ export default function Dashboard() {
               <h1 className="user-dashboard-greeting"><UserGreeting /></h1>
             </div>
           </header>
-
-
 
           <div className="dropdown-container">
 
@@ -106,16 +99,7 @@ export default function Dashboard() {
               </div>
             </div>
 
-
-
-
-
           </div>
-
-          {/* <div className="user-dashboard-project-quick-stats">
-              <p className="user-dashboard-project-quick-stats-title">Tasks completed: <span>5</span></p>
-              <p className="user-dashboard-project-quick-stats-title">Collaborators: <span>3</span></p>
-            </div> */}
 
         </div>
 
@@ -124,10 +108,7 @@ export default function Dashboard() {
             <h2 className="user-dashboard-project-task-container-title-x">Your Tasks</h2>
 
             <div className="task-selection">
-              <UserTaskIndex/>
-              {/* <h3 className="task-status" >Upcoming</h3>
-              <h3 className="task-status" >Overdue</h3>
-              <h3 className="task-status" >Completed</h3> */}
+              <UserTaskIndex />
             </div>
 
             <div className="task-list">
@@ -137,18 +118,16 @@ export default function Dashboard() {
           <div className="user-dashboard-projects-container">
             <div className='project-plus-button'>
               <ProjectCreateModal />
-
             </div>
             <h2 className="user-dashboard-project-task-container-title-x">Projects</h2>
-                <div className='project-list'>
-                    <UserProjectIndex/>
-                </div>
+            <div className='project-list'>
+              <UserProjectIndex />
+            </div>
           </div>
         </div>
       </div >
 
     </>
-
 
   )
 }

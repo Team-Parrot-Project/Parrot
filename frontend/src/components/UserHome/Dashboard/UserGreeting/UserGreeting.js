@@ -5,7 +5,6 @@ export default function UserGreeting(  ) {
   const [greeting, setGreeting] = useState('');
   const userName = useSelector(state => state.session.user.username);
 
-
   useEffect(() => {
     const getGreeting = () => {
       const currentDate = new Date();
