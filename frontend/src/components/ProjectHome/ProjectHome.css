@@ -1,25 +1,12 @@
 .project-home-wrapper {
   display: flex;
   min-height: 100vh;
-  background-color: #2e2e30;
+  background-color: #1e1f21;
   color: white;
   grid-column: auto;
   text-align: center;
   font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Helvetica,Arial,sans-serif;
 }
-
-/* .centered-container button {
-  margin: 10px;
-  background-color: #1e90ec;
-  color: #fff;
-  padding: 10px;
-  border: none;
-  border-radius: 5px;
-  font-size: 16px;
-  text-align: center;
-  text-decoration: none;
-  cursor: pointer;
-} */
 
 .centered-container {
   background-color: #1e1f21;
@@ -48,7 +35,6 @@
 h1.project-home-table-title {
   margin: 10px;
   font-size: 30px;
-  text-decoration: underline;
 }
 
 h2.project-home-table-title {
@@ -96,14 +82,14 @@ h2.project-home-table-title {
   position: absolute;
   left: 0;
   top: 0;
-  margin-top: 5px;
+  margin-top: 10px;
 }
 
 .end-date {
   position: absolute;
   right: 0;
   top: 0;
-  margin-top: 5px;
+  margin-top: 10px;
 }
 
 .today {

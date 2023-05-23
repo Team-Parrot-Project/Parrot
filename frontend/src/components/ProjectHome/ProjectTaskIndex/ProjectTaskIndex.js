@@ -11,6 +11,7 @@ import TableRow from '../../TableRow/TableRow';
 import { Modal } from '../../../context/Modal';
 import TaskUpdateForm from '../../Task_CRUD/TaskUpdateForm/TaskUpdateForm';
 import { selectUsers } from '../../../store/user';
+import { Tooltip } from 'react-tooltip'
 
 export default function ProjectTaskIndex() {
   const { projectId } = useParams();
@@ -19,6 +20,7 @@ export default function ProjectTaskIndex() {
 
   const [showModal, setShowModal] = useState(false);
   const [modalTaskId, setModalTaskId] = useState();
+  const [taskDetailId, setTaskDetailId] = useState(null);
   const allUsers = useSelector(selectUsers);
 
   useEffect(() => {
@@ -29,22 +31,27 @@ export default function ProjectTaskIndex() {
   const allTasks = useSelector(projectActions.getProjectTasks(projectId));
 
   return (
-
     <>
-      {showModal &&
+      {showModal && (
         <Modal onClose={() => setShowModal(false)}>
-          <TaskUpdateForm taskId={modalTaskId} projectId={projectId} closeModal={() => setShowModal(false)} />
+          <TaskUpdateForm
+            taskId={modalTaskId}
+            projectId={projectId}
+            closeModal={() => setShowModal(false)}
+          />
         </Modal>
-      }
+      )}
       <div className="project-task-index">
-
-        <div className="project-show-table-container">
-          <TableRow row={["Title",
-            "Description",
-            "Assignee",
-            "Start",
-            "End",
-            "Modify"]}
+        <div className="project-show-table-container" data-tooltip-id="clickForTaskDetails">
+          <TableRow
+            row={[
+              "Title",
+              "Description",
+              "Assignee",
+              "Start",
+              "End",
+              "Modify",
+            ]}
             rowClass={"project-task-table-header"}
             cellClasses={[
               "defaulf-cell-class pjt-narrow",
@@ -53,38 +60,58 @@ export default function ProjectTaskIndex() {
               "defaulf-cell-class pjt-narrow",
               "defaulf-cell-class pjt-narrow",
               "defaulf-cell-class pjt-last",
-            ]} />
+            ]}
+          />
 
-          {allTasks.map((task) => {
-            return <TableRow
-              rowClass={"project-task-table-row no-hover"}
-              rowElement={task._id}
-              key={task._id}
-              row={[
-                task.title,
-                task.description,
-                allUsers[task.assignee]?.username,
-                formatDate(task.startDate),
-                formatDate(task.endDate),
-                <>
-                  <TaskUpdateModal taskId={task._id} projectId={project._id} />
-                  <DeleteTaskModal taskId={task._id} projectId={project._id} />
-                </>,
-              ]}
-              cellClasses={
-                [
-                  "project-task-cell pjt-narrow",
-                  "project-task-cell pjt-wide",
-                  "project-task-cell pjt-narrow",
-                  "project-task-cell pjt-narrow",
-                  "project-task-cell pjt-narrow",
-                  "project-task-cell pjt-narrow pjt-last",
-                ]
-              }
-            />
-          })}
+          {allTasks.map((task) => (
+            <>
+              <div onClick={() =>
+                setTaskDetailId(taskDetailId === task._id ? null : task._id)
+              }>
+                <TableRow
+                  rowClass={"project-task-table-row no-hover"}
+                  rowElement={task._id}
+                  key={task._id}
+                  row={[
+                    task.title,
+                    task.description,
+                    allUsers[task.assignee]?.username,
+                    formatDate(task.startDate),
+                    formatDate(task.endDate),
+                    <>
+                      <TaskUpdateModal taskId={task._id} projectId={project._id} />
+                      <DeleteTaskModal taskId={task._id} projectId={project._id} />
+                    </>,
+                  ]}
+                  cellClasses={[
+                    "project-task-cell pjt-narrow",
+                    "project-task-cell pjt-wide",
+                    "project-task-cell pjt-narrow",
+                    "project-task-cell pjt-narrow",
+                    "project-task-cell pjt-narrow",
+                    "project-task-cell pjt-narrow pjt-last",
+                  ]}
+                />
+              </div>
+              {taskDetailId === task._id && (
+                <div className="project-show-task-detail-dropdown">
+                  <p><strong>Title:</strong> {task.title}</p>
+                  <p><strong>Description:</strong> {task.description}</p>
+                  <p><strong>Assignee:</strong> {allUsers[task.assignee]?.username}</p>
+                  <p><strong>Start Date:</strong> {formatDate(task.startDate)}</p>
+                  <p><strong>End Date:</strong> {formatDate(task.endDate)}</p>
+                  <p><strong>Progress:</strong> {task.progress}</p>
+                  <p><strong>Dependent Tasks:</strong> {task.blockingTasks}</p>
+                </div>
+              )}
+            </>
+          ))}
         </div>
+        <Tooltip id="clickForTaskDetails" effect="solid" place="top">
+          Click on a task to view more details
+        </Tooltip>
       </div>
     </>
   );
+
 }

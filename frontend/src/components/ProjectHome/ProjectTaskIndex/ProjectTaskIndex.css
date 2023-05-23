@@ -85,10 +85,11 @@
     font-size: 15px;
 }
 
-/* .no-hover:hover {
-    border-color: #4573d2;
-    box-shadow: 0 0 5px 1px #4573d2;
-} */
+.no-hover:hover {
+    border-color: #ff5263;
+    box-shadow: 0 0 5px 1px #ff5263;
+    cursor: pointer;
+}
 
 .project-task-cell {
     padding: 2px;
@@ -119,4 +120,8 @@
 
 .pjt-icons {
     text-align: right;
+}
+
+.project-show-task-detail-dropdown {
+
 }
