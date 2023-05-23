@@ -68,7 +68,6 @@
   font-size: 12px;
   height: 28px;
   line-height: 28px;
-  cursor: pointer;
   transition: color 200ms ease-in-out,fill 200ms ease-in-out;
   min-width: 1px;
   align-items: center;
@@ -142,6 +141,8 @@
   font-size: 1.1rem;
   color: #ffffff;
   margin-bottom: 20px;
+  padding-bottom: 5px;
+  border-bottom: 2px solid rgba(255, 255, 255, 0.2);
 }
 
 .user-dashboard-project-quick-stats {

@@ -2,6 +2,7 @@
     background-color: #2E2E30;
     padding: 10px;
     border-radius: 10px;
+    border: 1px solid #424244;
 }
 
 .project-show-table-container:hover {
@@ -75,7 +76,6 @@
     display: flex;
     width: calc(100% - 20px);
     justify-content: space-between;
-
     padding-top: 2px;
     padding-bottom: 2px;
     padding: 10px;
