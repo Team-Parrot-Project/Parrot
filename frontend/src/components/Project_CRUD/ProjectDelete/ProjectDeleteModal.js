@@ -21,7 +21,7 @@ export default function DeleteProjectModal() {
 
     return (
         <>
-            <button onClick={() => setShowModal(true)}>Delete Project</button>
+            <button className="delete-project-button" onClick={() => setShowModal(true)}>Delete Project</button>
             {showModal && (
                 <Modal onClose={() => setShowModal(false)}>
                 <div className="delete-project-modal">

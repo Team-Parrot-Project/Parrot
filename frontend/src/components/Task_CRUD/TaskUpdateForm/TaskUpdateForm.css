@@ -28,7 +28,7 @@
 
 .task-update-form textarea {
     resize: vertical;
-  }
+}
 
 .task-update-form select {
     padding-top: 5px;
@@ -37,15 +37,15 @@
 
 .task-update-form button[type="submit"] {
     margin: 10px;
-  background-color: #1e90ec;
-  color: #fff;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 5px;
-  font-size: 16px;
-  text-align: center;
-  text-decoration: none;
-  cursor: pointer;
+    background-color: #1e90ec;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
 }
 
 .task-update-form button[type="submit"]:hover {

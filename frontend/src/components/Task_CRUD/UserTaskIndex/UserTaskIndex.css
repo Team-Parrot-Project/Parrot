@@ -12,8 +12,8 @@
     margin-top: 2px;
     margin-bottom: 2px;
     background-color: #2A2B2D;
-    border-radius: .375rem;
-    text-decoration: underline;
+    font-weight: bold;
+    border-bottom: 3px solid rgba(255, 255, 255, 0.2);
 }
 
 .no-hover-ut:hover {

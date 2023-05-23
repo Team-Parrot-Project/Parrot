@@ -6,6 +6,7 @@ import './Dashboard.css';
 import UserProjectIndex from '../../Project_CRUD/UserProjectIndex/UserProjectIndex';
 import UserTaskIndex from '../../Task_CRUD/UserTaskIndex/UserTaskIndex';
 import ProjectCreateModal from '../../Project_CRUD/ProjectCreateForm/index';
+import { Tooltip } from 'react-tooltip'
 import { fetchUsers } from '../../../store/user';
 
 export default function Dashboard() {
@@ -115,7 +116,7 @@ export default function Dashboard() {
 
             </div>
           </div>
-          <div className="user-dashboard-projects-container">
+          <div className="user-dashboard-projects-container" data-tooltip-id="clickAProjectToView">
             <div className='project-plus-button'>
               <ProjectCreateModal />
             </div>
@@ -124,6 +125,9 @@ export default function Dashboard() {
               <UserProjectIndex />
             </div>
           </div>
+          <Tooltip id="clickAProjectToView" effect="solid" place="top">
+                Click on a project to view more details
+          </Tooltip>
         </div>
       </div >
 

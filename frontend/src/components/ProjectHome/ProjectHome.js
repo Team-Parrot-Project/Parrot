@@ -16,40 +16,68 @@ import DeleteProjectModal from '../Project_CRUD/ProjectDelete/ProjectDeleteModal
 import { formatDate } from '../../store/util';
 import { fetchUsers } from '../../store/user';
 
-export default function ProjectHome () {
+
+export default function ProjectHome() {
   const dispatch = useDispatch();
-  const {projectId} = useParams();
+  const { projectId } = useParams();
   const [recommendedTasks, setRecommendedTasks] = useState([]);
   const project = useSelector((state) => state.projects[projectId]);
 
   useEffect(() => {
-      dispatch(taskActions.purgeTasks());
-      dispatch(projectActions.fetchProject(projectId));
-      dispatch(fetchUsers())
+    dispatch(taskActions.purgeTasks());
+    dispatch(projectActions.fetchProject(projectId));
+    dispatch(fetchUsers())
   }, [projectId, dispatch]);
 
-    return (
-      <>
-      <div className="project-home-wrapper">
-        <NavBar/>
-      <div className="centered-container">
-        <h1 className="project-home-table-title">Project: {project?.title}</h1>
-        <h2 className="project-home-table-title">Description: {project?.description}</h2>
-        <h3 className="project-home-table-title">Start Date: {formatDate(project?.startDate)}</h3>
-        <h3 className="project-home-table-title">End Date: {formatDate(project?.endDate)}</h3>
+  function calculateDotPosition(startDate, endDate) {
+    const today = new Date();
+    if (!startDate || !endDate) {
+      return "0px"; // Return a default position if either startDate or endDate is undefined
+    }
+    const startDateObj = new Date(startDate);
+    const endDateObj = new Date(endDate);
+    const totalDuration = endDateObj.getTime() - startDateObj.getTime();
+    const progress = (today.getTime() - startDateObj.getTime()) / totalDuration;
+    const container = document.querySelector(".date-line-container");
+    const containerWidth = container ? container.clientWidth : 0;
+    const dotPosition = progress * containerWidth;
+    return `${dotPosition}px`;
+  }
 
-        <ProjectUpdateModal />
-        <TaskCreateModal />
-        <ProjectTaskIndex/>
-        <DeleteProjectModal />
-        <TaskRecommendation project={project} recommendedTasks={recommendedTasks} setRecommendedTasks={setRecommendedTasks}/>
-        <div className="task-create-forms">
-          {recommendedTasks.length > 0 && recommendedTasks.map((taskTitle) => (
-            <TaskCreateForm key={taskTitle} taskTitle={taskTitle} />
-          ))}
+  return (
+    <>
+      <div className="project-home-wrapper">
+        <NavBar />
+        <div className="centered-container">
+          <h1 className="project-home-table-title">{project?.title}</h1>
+          <h2 className="project-home-table-title">  {project?.description && (
+            <span>{project.description.charAt(0).toUpperCase() + project.description.slice(1)}</span>
+          )}
+          </h2>
+          <div className="date-line-container">
+            <div className="date-line"></div>
+            <div className="date-dot" style={{ left: calculateDotPosition(project?.startDate, project?.endDate) }}></div>
+            <div className="date-label start-date">{formatDate(project?.startDate)}</div>
+            <div className="date-label end-date">{formatDate(project?.endDate)}</div>
+            {project?.startDate && project?.endDate && (
+              <div className="date-label today" style={{ left: calculateDotPosition(project?.startDate, project?.endDate) }}>
+                Today
+              </div>
+            )}
+          </div>
+
+          <ProjectUpdateModal />
+          <TaskCreateModal />
+          <DeleteProjectModal />
+          <TaskRecommendation project={project} recommendedTasks={recommendedTasks} setRecommendedTasks={setRecommendedTasks} />
+          <ProjectTaskIndex />
+          <div className="task-create-forms">
+            {recommendedTasks.length > 0 && recommendedTasks.map((taskTitle) => (
+              <TaskCreateForm key={taskTitle} taskTitle={taskTitle} />
+            ))}
+          </div>
         </div>
       </div>
-      </div>
-      </>
-    );
+    </>
+  );
 }

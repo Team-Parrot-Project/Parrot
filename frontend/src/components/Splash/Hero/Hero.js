@@ -62,48 +62,48 @@ export default function Hero() {
             <div className="hero-footer-team-member">
               <p>Christopher Banas</p>
               <div className="hero-footer-social-links">
-                <Link to="https://github.com/Team-Parrot-Project/Parrot" className="hero-footer-github-logo">
+                <a href="https://github.com/Team-Parrot-Project/Parrot" className="hero-footer-github-logo">
                   <img src={github} className="hero-footer-github-logo" alt="Github logo" />
-                </Link>
-                <Link to="https://www.linkedin.com/in/christopher-banas/" className="hero-footer-linkedin-logo">
+                </a>
+                <a href="https://www.linkedin.com/in/christopher-banas/" className="hero-footer-linkedin-logo">
                   <img src={linkedin} className="hero-footer-linkedin-logo" alt="LinkedIn logo" />
-                </Link>
+                </a>
               </div>
             </div>
 
             <div className="hero-footer-team-member">
               <p>Michael Bird</p>
               <div className="hero-footer-social-links">
-                <Link to="https://github.com/Team-Parrot-Project/Parrot" className="hero-footer-github-logo">
+                <a href="https://github.com/Team-Parrot-Project/Parrot" className="hero-footer-github-logo">
                   <img src={github} className="hero-footer-github-logo" alt="Github logo" />
-                </Link>
-                <Link to="https://www.linkedin.com/in/mibird/" className="hero-footer-linkedin-logo">
+                </a>
+                <a href="https://www.linkedin.com/in/mibird/" className="hero-footer-linkedin-logo">
                   <img src={linkedin} className="hero-footer-linkedin-logo" alt="LinkedIn logo" />
-                </Link>
+                </a>
               </div>
             </div>
 
             <div className="hero-footer-team-member">
               <p>Roderick Mendoza</p>
               <div className="hero-footer-social-links">
-                <Link to="https://github.com/Team-Parrot-Project/Parrot" className="hero-footer-github-logo">
+                <a href="https://github.com/Team-Parrot-Project/Parrot" className="hero-footer-github-logo">
                   <img src={github} className="hero-footer-github-logo" alt="Github logo" />
-                </Link>
-                <Link to="https://www.linkedin.com/in/roderick-mendoza-9133b7b5/" className="hero-footer-linkedin-logo">
+                </a>
+                <a href="https://www.linkedin.com/in/roderick-mendoza-9133b7b5/" className="hero-footer-linkedin-logo">
                   <img src={linkedin} className="hero-footer-linkedin-logo" alt="LinkedIn logo" />
-                </Link>
+                </a>
               </div>
             </div>
 
             <div className="hero-footer-team-member">
               <p>Ryder Aguilera</p>
               <div className="hero-footer-social-links">
-                <Link to="https://github.com/Team-Parrot-Project/Parrot" className="hero-footer-github-logo">
+                <a href="https://github.com/Team-Parrot-Project/Parrot" className="hero-footer-github-logo">
                   <img src={github} className="hero-footer-github-logo" alt="Github logo" />
-                </Link>
-                <Link to="https://www.linkedin.com/in/raguilera994/" className="hero-footer-linkedin-logo">
+                </a>
+                <a href="https://www.linkedin.com/in/raguilera994/" className="hero-footer-linkedin-logo">
                   <img src={linkedin} className="hero-footer-linkedin-logo" alt="LinkedIn logo" />
-                </Link>
+                </a>
               </div>
             </div>
           </div>

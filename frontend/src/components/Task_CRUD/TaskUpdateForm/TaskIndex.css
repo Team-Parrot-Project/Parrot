@@ -1,9 +1,21 @@
-.update-task-button{
+.update-task-button {
   cursor: pointer;
   overflow: hidden;
   fill: #a2a0a2;
   transition: transform 250ms ease-out;
   height: 24px;
   width: 35px;
-  background-color: transparent;
+  background-color: transparent !important;
+  border: none; /* Remove border */
+  padding: 0; /* Remove padding */
+  outline: none; /* Remove outline */
+  appearance: none; /* Remove default button appearance */
+}
+
+.update-task-button svg {
+  transition: transform 250ms ease-out;
+}
+
+.update-task-button:hover svg {
+  transform: scale(1.2); /* Change this to your desired scale */
 }
