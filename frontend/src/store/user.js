@@ -11,6 +11,15 @@ export function addUsers(users) {
     }
 }
 
+export function selectUsers(state) {
+    if (state.users) {
+            return state.users
+        }
+        else {
+            return [];
+        }
+}
+
 export const fetchUser = (userId) => async dispatch =>{
     let res = await jwtFetch(`/api/users/${userId}`)
     if(res.ok){

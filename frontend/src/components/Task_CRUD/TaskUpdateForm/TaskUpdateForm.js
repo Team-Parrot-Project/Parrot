@@ -4,6 +4,7 @@ import { getTask, updateTask } from "../../../store/task";
 import { fetchProject, getProject } from "../../../store/project";
 import { formatDate } from "../../../store/util";
 import './TaskUpdateForm.css';
+import { selectUsers } from "../../../store/user";
 
 export default function TaskUpdateForm({ taskId, projectId, closeModal }) {
     const dispatch = useDispatch();
@@ -29,14 +30,7 @@ export default function TaskUpdateForm({ taskId, projectId, closeModal }) {
         return collaboratorIds.map(id => state.users[id]);
     });
 
-    const allUsers = useSelector((state) => {
-        if (state.users) {
-            return state.users
-        }
-        else {
-            return [];
-        }
-    })
+    const allUsers = useSelector(selectUsers);
 
     // console.log(allUsers["646c13bb28bef1e6639eafa3"], "ALL USERS");
 
@@ -64,9 +58,7 @@ export default function TaskUpdateForm({ taskId, projectId, closeModal }) {
     const handleSubmit = (event) => {
         event.preventDefault();
         const updatedTask = { ...currentTask, title, description, startDate, endDate: dueDate, blockingTasks, assignee: assigneeId, progress };
-        // console.log(currentTask, "current task unspread");
-        // console.log(...currentTask, "current task spread");
-        console.log(updatedTask, "updateTask!!!!!");
+        
         try {
             dispatch(updateTask(projectId, updatedTask));
 
