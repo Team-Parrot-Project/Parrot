@@ -489,17 +489,17 @@ router.patch('/:projectId', requireUser, async (req,res,next) =>{
             const taskToUpdate = previousTasks.find((checkTask) => {return (checkTask._id.toString() === t._id)})
 
             console.log(taskToUpdate, "FOUND TASK");
+            console.log(t, "t");
 
             if(taskToUpdate) {
                 Object.assign(taskToUpdate, t);
+                console.log(taskToUpdate, "Task Post Update");
             }
         })
     }
-
-    // console.log(previousTasks, "PREV!!");
-
-
-    Object.assign(project, req.body);
+    
+    Object.assign(project, {...req.body, tasks: previousTasks});
+    console.log(project, "Project attempting a save");
     const updatedProject = await project.save();
     console.log(updatedProject, "Updated Project!!")
 
