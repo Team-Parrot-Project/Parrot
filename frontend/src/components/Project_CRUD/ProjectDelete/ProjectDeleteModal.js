@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Modal } from '../../../context/Modal';
 import { useDispatch } from "react-redux";
 import * as projectActions from "../../../store/project";
-import { useParams } from "react-router-dom/cjs/react-router-dom.min";
+import { useHistory, useParams } from "react-router-dom/cjs/react-router-dom.min";
 import './ProjectDelete.css';
 
 export default function DeleteProjectModal() {
@@ -10,12 +10,13 @@ export default function DeleteProjectModal() {
     const [showModal, setShowModal] = useState(false);
     const [isDeleting, setIsDeleting] = useState(false);
     const {projectId} = useParams();
+    const history = useHistory();
 
     const handleDelete = async () => {
         setIsDeleting(true);
         await dispatch(projectActions.deleteProject(projectId));
         setShowModal(false);
-        window.location.reload();
+        history.push('/');
     };
 
     return (
