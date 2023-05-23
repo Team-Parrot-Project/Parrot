@@ -395,25 +395,35 @@ router.delete('/:projectId/tasks/:taskId', requireUser, async (req,res,next)=>{
 });
 
 router.post('/', async (req,res,next) =>{
-    //This is probably done
+
+    console.log(req.body, "REQ BODY");
+
     const adminId = req.body.adminId;
     const newProject = new Project({
         title: req.body.title,
         description: req.body.description,
         adminId: req.body.adminId,
-        collaborators: [req.body.adminId],
+        collaborators: req.body.collaborators,
         tasks: [],
         startDate: req.body.startDate,
         endDate: req.body.endDate
     });
 
-    console.log(adminId,"adminId\n****\n")
-    const owner = await User.findOne({"_id":`${adminId}`})
+    // console.log(adminId,"adminId\n****\n")
+    // const owner = await User.findOne({"_id":`${adminId}`})
+
+    // console.log(newProject, "NEW PROJECT");
 
     if(await newProject.save()){
-        owner.projects.push(newProject)
-        await owner.save();
-        console.log(newProject._id,"Project _id\n****\n")
+        // owner.projects.push(newProject)
+        // await owner.save();
+        // console.log(newProject._id,"Project _id\n****\n")
+
+        await User.updateMany(
+            { _id: { $in: [req.body.adminId].concat(req.body.collaborators) } }, // Match users with the given user IDs
+            { $push: { projects: newProject._id } } // Add the project ID to the 'projects' array of each matched user
+          )
+
         return res.json(newProject);
     }else{
         return res.json({message:"Error"})

@@ -11,7 +11,7 @@ export default function ProjectCreateModal() {
             <button className='create-project-button' onClick={() => setShowModal(true)}>Create Project</button>
             {showModal && (
                 <Modal onClose={() => setShowModal(false)}>
-                    <ProjectCreateForm onSubmit={closeModal}/>
+                    <ProjectCreateForm onSubmit={closeModal} closeModal={closeModal}/>
                 </Modal>
             )}
         </>
