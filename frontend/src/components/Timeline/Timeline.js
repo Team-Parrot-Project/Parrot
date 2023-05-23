@@ -17,11 +17,10 @@ export default function Timeline() {
   const [taskUpdatesProcessed, setTaskUpatesProcessed] = useState(false);
   const [taskUpdateRuns, setTaskUpdateRuns] = useState(0);
   const { projectId } = useParams()
-  const [firstRun, setFirstRun] = useState(true);
 
   function handleBeforeUnload(e) {
     e.preventDefault();
-    console.log("HERE!!! LINE 24")
+    // console.log("HERE!!! LINE 24")
     // debugger;
     patchTaskChanges();
   }
@@ -37,20 +36,18 @@ export default function Timeline() {
   useEffect(() => {
 
     window.addEventListener('beforeunload', handleBeforeUnload);
-    let isMounted = true; // Flag variable to track mount state
-
-
+    
     return () => {
       window.removeEventListener('beforeunload', handleBeforeUnload)
       // debugger;
-      console.log("HERE!!! LINE 35")
+      // console.log("HERE!!! LINE 35")
       patchTaskChanges();
     }
   }, [])
 
   function timelineLogOut(e) {
     e.preventDefault();
-    console.log("HERE!!! LINE 42")
+    // console.log("HERE!!! LINE 42")
     // debugger;
     patchTaskChanges()
       .then(() => {
