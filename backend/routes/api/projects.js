@@ -137,8 +137,7 @@ router.post('/:projectId/tasks', requireUser, async (req,res,next)=>{
         project: projectId,
         admin: project.admin,
     })
-    if(newNotification.save()){
-        console.log("Made it")
+    if(newNotification){
         req.io.emit("message",newNotification)
     }else{
         req.io.to(project.admin).emit("message","Issue with Notification")
@@ -330,7 +329,7 @@ router.patch('/:projectId/tasks/:taskId', requireUser, async (req,res,next)=>{
             project: projectId,
             admin: project.admin,
         })
-        if(newNotification.save()){
+        if(newNotification){
             req.io.to(project.admin).emit("message",newNotification);
             req.io.to(updatedTask.assignee).emit("message",newNotification)
         }else{
@@ -498,7 +497,7 @@ router.patch('/:projectId', requireUser, async (req,res,next) =>{
     //     { new: true }
     // );
 
-    if(updatedProject) {
+    if(updatedProject) { 
         const newNotification = new Notification({
             message: `Project Updated by ${req.user.username}`,
             target: "project",
@@ -506,7 +505,8 @@ router.patch('/:projectId', requireUser, async (req,res,next) =>{
             project: projectId,
             admin: updatedProject.admin,
         })
-        if(newNotification.save()){
+        console.log(newNotification,"Notification in Project Patch")
+        if(newNotification){
             req.io.to(projectId).emit("message",newNotification)
         }else{
             req.io.to(projectId).emit("message",{message:"Issue with Notification"})
