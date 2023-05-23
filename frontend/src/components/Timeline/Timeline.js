@@ -20,17 +20,8 @@ export default function Timeline() {
 
   function timelineLogOut(e) {
     e.preventDefault();
-    setTaskUpdateRuns((prev) => { return -10 });
+    patchTaskChanges().then(() => { dispatch(logout()) })
   }
-
-  useEffect(() => {
-    debugger;
-    if (taskUpdateRuns === 1) {
-      patchTaskChanges()
-    } else if (taskUpdateRuns === -10) {
-      patchTaskChanges().then(() => { dispatch(logout()) })
-    }
-  }, [taskUpdateRuns])
 
   async function patchTaskChanges() {
     const updatedTasksFromTimeline = {
