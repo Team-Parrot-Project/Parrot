@@ -28,15 +28,42 @@ export default function ProjectHome() {
     dispatch(fetchUsers())
   }, [projectId, dispatch]);
 
+  function calculateDotPosition(startDate, endDate) {
+    const today = new Date();
+    if (!startDate || !endDate) {
+      return "0px"; // Return a default position if either startDate or endDate is undefined
+    }
+    const startDateObj = new Date(startDate);
+    const endDateObj = new Date(endDate);
+    const totalDuration = endDateObj.getTime() - startDateObj.getTime();
+    const progress = (today.getTime() - startDateObj.getTime()) / totalDuration;
+    const container = document.querySelector(".date-line-container");
+    const containerWidth = container ? container.clientWidth : 0;
+    const dotPosition = progress * containerWidth;
+    return `${dotPosition}px`;
+  }
+
   return (
     <>
       <div className="project-home-wrapper">
         <NavBar />
         <div className="centered-container">
           <h1 className="project-home-table-title">{project?.title}</h1>
-          <h2 className="project-home-table-title">{project?.description}</h2>
-          <h3 className="project-home-table-title">Start: {formatDate(project?.startDate)}</h3>
-          <h3 className="project-home-table-title">End: {formatDate(project?.endDate)}</h3>
+          <h2 className="project-home-table-title">  {project?.description && (
+            <span>{project.description.charAt(0).toUpperCase() + project.description.slice(1)}</span>
+          )}
+          </h2>
+          <div className="date-line-container">
+            <div className="date-line"></div>
+            <div className="date-dot" style={{ left: calculateDotPosition(project?.startDate, project?.endDate) }}></div>
+            <div className="date-label start-date">{formatDate(project?.startDate)}</div>
+            <div className="date-label end-date">{formatDate(project?.endDate)}</div>
+            {project?.startDate && project?.endDate && (
+              <div className="date-label today" style={{ left: calculateDotPosition(project?.startDate, project?.endDate) }}>
+                Today
+              </div>
+            )}
+          </div>
 
           <ProjectUpdateModal />
           <TaskCreateModal />

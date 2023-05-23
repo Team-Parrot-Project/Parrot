@@ -59,3 +59,57 @@ h2.project-home-table-title {
 .centered-container {
   width: 80vw;
 }
+
+.date-line-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto; /* Center the date line container horizontally */
+  position: relative;
+  width: 30%;
+  margin-bottom: 40px;
+  margin-top: 40px;
+}
+
+.date-line {
+  flex-grow: 1;
+  height: 4px;
+  background-color:rgba(255, 255, 255, 0.2);
+}
+
+.date-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background-color: #00aeef;
+  position: absolute;
+  top: -3;
+  left: 50%; /* Set the dot to the middle of the container */
+  transform: translateX(-50%);
+}
+
+.date-label {
+  font-size: 16px;
+}
+
+.start-date {
+  position: absolute;
+  left: 0;
+  top: 0;
+  margin-top: 5px;
+}
+
+.end-date {
+  position: absolute;
+  right: 0;
+  top: 0;
+  margin-top: 5px;
+}
+
+.today {
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  margin-bottom: 10px;
+  transform: translateX(-50%);
+}
