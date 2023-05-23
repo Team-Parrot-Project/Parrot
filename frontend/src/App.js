@@ -7,11 +7,9 @@ import Splash from './components/Splash/Splash';
 import LoginForm from './components/Login/LoginForm';
 import UserHome from './components/UserHome/UserHome';
 import Timeline from './components/Timeline/Timeline';
-import TestPage from './components/TestComponentsPage/TestIndex';
 import ProjectHome from './components/ProjectHome/ProjectHome';
 
 export default function App() {
-
 
   const [loaded, setLoaded] = useState(false);
   const dispatch = useDispatch();
@@ -23,14 +21,12 @@ export default function App() {
     <>
       <Switch>
 
-
         <AuthRoute exact path="/" component={Splash} />
         <AuthRoute exact path="/login" component={LoginForm} />
 
         <ProtectedRoute exact path="/home" component={UserHome} />
         <ProtectedRoute exact path="/projects/:projectId/timeline" component={Timeline} />
         <ProtectedRoute exact path="/projects/:projectId" component={ProjectHome} />
-        <ProtectedRoute exact path='/test' component={TestPage} />
 
       </Switch>
     </>
