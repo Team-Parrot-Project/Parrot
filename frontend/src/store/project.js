@@ -70,7 +70,7 @@ export const projectReducer = (state = {},action) =>{
             } else {
                 taskArray[existingIdx] = action.task;
             }
-            
+
             newState[projectId].tasks = taskArray;
             return newState;
         default:
@@ -127,18 +127,23 @@ export const createProject = (project)=>async dispatch =>{
     }
 }
 
-export const updateProject = (project)=> async dispatch =>{
-    let res = await jwtFetch(`/api/projects/${project.id}`,{
+export const updateProject = (project)=> dispatch =>{
+    jwtFetch(`/api/projects/${project.id}`,{
         method: "PATCH",
         body: JSON.stringify(project),
         headers: {
             'Content-Type':'application/json'
         }
-    });
-    if(res.ok){
-        let data = await res.json();
-        dispatch(addProject(data));
-    }
+    }).then((res) => {
+        return res.json()
+    }).then((data) => {
+        dispatch(addProject(data))
+    }).catch((error)=> {
+        let jwtToken = localStorage.getItem('jwtToken');
+		if (jwtToken) {
+			throw new Error('Token already exists in local storage');
+		}
+    })
 }
 
 export const deleteProject = (projectId)=>async dispatch =>{

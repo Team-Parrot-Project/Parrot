@@ -6,17 +6,17 @@ import logo from "../../assets/logo_text_version.png"
 import './NavBar.css';
 import Notifications from "../Notifications/Notifications";
 
-export default function NavBar() {
+export default function NavBar({ timelineLogOut }) {
 
   const { projectId } = useParams()
   const dispatch = useDispatch();
   const location = useLocation();
   const userName = useSelector(state => state.session.user.username);
 
-  const hanldeLogout = (e) => {
+  const hanldeLogout = timelineLogOut || ((e) => {
     e.preventDefault();
     dispatch(sessionActions.logout())
-  };
+  });
 
   const isProjectTimelinePage = location.pathname === `/projects/${projectId}/timeline`;
 

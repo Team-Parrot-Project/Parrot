@@ -7,12 +7,12 @@ import { formatDate } from '../../../store/util';
 import Gantt from 'frappe-gantt';
 import './GanttChart.css';
 
-export default function GanttChart() {
+export default function GanttChart({ updatedTasks, setUpdatedTasks, patchTaskChanges }) {
 
   // Live updates multiple dependencies
 
-  const [updatedTasks, setUpdatedTasks] = useState({})
-  const [tasksProcessing, setTasksProcessing] = useState(0);
+  // const [updatedTasks, setUpdatedTasks] = useState({})
+  const [tasksUpdated, setTasksUpdated] = useState(false);
 
   // The useRef and useMemo are needed otherwise the chart would not render properly on first load and or would cause inifinte rerenders.
 
@@ -63,7 +63,7 @@ export default function GanttChart() {
   // Generate the Gantt chart
   useEffect(() => {
 
-    if (ganttRef.current && formattedTasks.length && formattedTime && tasksProcessing === 0) {
+    if (ganttRef.current && formattedTasks.length && formattedTime) {
       new Gantt("#gantt", formattedTasks, {
         header_height: 50,
         column_width: 30,
@@ -93,16 +93,7 @@ export default function GanttChart() {
         }
       });
     }
-  }, [ganttRef, formattedTasks, formattedTime, tasksProcessing])
-
-  function patchTaskChanges() {
-
-    const updatedProject = {
-      id: projectId,
-      tasks: Object.values(updatedTasks)
-    }
-    dispatch(updateProject(updatedProject));
-  }
+  }, [ganttRef, formattedTasks, formattedTime])
 
   // this use effect fires when the user refreshes the page to ensure their changes are saved
   useEffect(() => {
@@ -118,7 +109,7 @@ export default function GanttChart() {
     return () => {
       window.removeEventListener('beforeunload', handleBeforeUnload)
       if (!unloaded) {
-        patchTaskChanges()
+        patchTaskChanges();
       }
     }
   }, [])
