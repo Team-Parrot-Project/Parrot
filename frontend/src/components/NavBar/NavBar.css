@@ -102,3 +102,7 @@
 .nav-bar-notifications {
 
 }
+
+.nav-wrapper:hover {
+  cursor: pointer;
+}
