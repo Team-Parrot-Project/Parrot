@@ -70,7 +70,7 @@ const TaskCreateForm = ({ taskTitle = '', closeModal }) => {
       <label htmlFor="startDate">Start Date:</label>
       <input type="date" id="startDate" value={startDate} required onChange={(e) => setStartDate(e.target.value)}/>
       <label htmlFor="dueDate">Due Date:</label>
-      <input type="date" id="dueDate" min={startDate || ""} required value={dueDate} onChange={(e) => setDueDate(e.target.value)}/>
+      <input type="date" id="dueDate" min={addDaysToDate(startDate, 1) || ""} required value={dueDate} onChange={(e) => setDueDate(e.target.value)}/>
       <label htmlFor="assignee">Assignee:</label>
       <select id="assignee" value={assignee} onChange={(e) => setAssignee(e.target.value)}>
         <option value="">Select an assignee</option>

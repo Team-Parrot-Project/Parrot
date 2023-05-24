@@ -67,7 +67,7 @@ export default function ProjectCreateForm({ closeModal }) {
         </div>
         <div>
           <label htmlFor="endDate" className="project-create-form-end-date-label">End Date:</label>
-          <input type="date" required id="endDate" value={endDate} onChange={(e) => setEndDate(e.target.value)} />
+          <input type="date" min={addDaysToDate(startDate, 1) } required id="endDate" value={endDate} onChange={(e) => setEndDate(e.target.value)} />
         </div>
       </div>
       <div className="project-create-form-add-collaborators-wrapper">
