@@ -29,7 +29,6 @@ export default function TaskUpdateForm({ taskId, projectId, closeModal }) {
 
   useEffect(() => {
     if (currentTask) {
-      console.log("I am here");
       setTitle(currentTask.title);
       setDescription(currentTask.description);
       setStartDate(formatDate(currentTask.startDate));

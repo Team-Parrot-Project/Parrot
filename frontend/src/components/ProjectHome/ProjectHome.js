@@ -49,7 +49,10 @@ export default function ProjectHome() {
       <div className="project-home-wrapper">
         <NavBar />
         <div className="centered-container">
-          <h1 className="project-home-table-title">{project?.title}</h1>
+          <h1 className="project-home-table-title">  {project?.title
+            .split(' ')
+            .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+            .join(' ')}</h1>
           <h2 className="project-home-table-title">  {project?.description && (
             <span>{project.description.charAt(0).toUpperCase() + project.description.slice(1)}</span>
           )}
