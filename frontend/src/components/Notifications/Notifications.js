@@ -79,6 +79,7 @@ function Notifications () {
         e.preventDefault();
         if(toggleNav){
             setToggleNav(false)
+            dispatch(notificationActions.purgeNotifications())
         }else{
             setToggleNav(true)
         }
