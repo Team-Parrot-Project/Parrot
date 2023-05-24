@@ -29,7 +29,6 @@ export default function ProjectHome() {
     dispatch(fetchUsers())
   }, [projectId, dispatch]);
 
-
   // caluclates the positon of the dot to be at a accurate point on the line
   function calculateDotPosition(startDate, endDate) {
     const today = new Date();
@@ -89,4 +88,5 @@ export default function ProjectHome() {
       </div>
     </>
   );
+
 }
