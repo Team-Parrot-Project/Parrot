@@ -4,7 +4,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import * as sessionActions from '../../../store/session';
 import './ProjectCreateForm.css'
 
-
 export default function ProjectCreateForm({ closeModal }) {
   const dispatch = useDispatch();
   const [projectName, setProjectName] = useState('');
