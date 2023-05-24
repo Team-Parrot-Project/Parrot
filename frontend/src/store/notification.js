@@ -3,7 +3,7 @@ import jwtFetch from "./jwt";
 const ADD_NOTIFICATIONS = 'Notification/addNotifications'
 const ADD_NOTIFICATION = 'Notification/addNotification'
 const REMOVE_NOTIFICATION = 'Notification/removeNotification'
-
+const PURGE_NOTIFICATIONS = 'Notification/purgeNotifications'
 export const addNotification = (notification) => {
     return {
         type: ADD_NOTIFICATION,
@@ -25,6 +25,12 @@ export const removeNotification = (notificationId) => {
     }
 }
 
+export const purgeNotifications = () =>{
+    return {
+        type: PURGE_NOTIFICATIONS
+    }
+}
+
 export const notificationReducer = (state = {}, action) => {
     const newState = {...state};
 
@@ -39,6 +45,8 @@ export const notificationReducer = (state = {}, action) => {
         case REMOVE_NOTIFICATION:
             delete newState[action.notificationId]
             return newState;
+        case PURGE_NOTIFICATIONS:
+            return {};
         default:
             return state;
         }
