@@ -46,6 +46,11 @@
     cursor: pointer;
 }
 
+
+.notificationMessage:hover {
+    cursor: pointer;
+}
+
 .notification-count {
     display: flex;
     color: white;
