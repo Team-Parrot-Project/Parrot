@@ -1,12 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { createProject } from '../../../store/project';
 import { useDispatch, useSelector } from 'react-redux';
 import * as sessionActions from '../../../store/session';
-import { fetchUsers } from '../../../store/user';
 import './ProjectCreateForm.css'
 
 
-const ProjectCreateForm = ({closeModal}) => {
+export default function ProjectCreateForm({ closeModal }) {
   const dispatch = useDispatch();
   const [projectName, setProjectName] = useState('');
   const [description, setDescription] = useState('');
@@ -37,8 +36,6 @@ const ProjectCreateForm = ({closeModal}) => {
 
     try {
       // Send a POST request to the server to save the new project
-      // debugger;
-      console.log(newProject, "CREATING NEW PROJ");
       const response = dispatch(createProject(newProject));
 
       // Update the UI to indicate that the project has been created
@@ -67,8 +64,7 @@ const ProjectCreateForm = ({closeModal}) => {
       <select id="collaborators" value={collaborators} onChange={(e) =>
         setCollaborators(Array.from(e.target.selectedOptions, (option) => option.value))} multiple>
         {Object.values(users).map((user) => {
-
-          if(adminId === user._id){
+          if (adminId === user._id) {
             return "";
           } else {
             return (<option key={user._id} value={user._id}>
@@ -81,5 +77,3 @@ const ProjectCreateForm = ({closeModal}) => {
     </form>
   );
 };
-
-export default ProjectCreateForm;

@@ -3,17 +3,18 @@ import { Modal } from '../../../context/Modal';
 import ProjectCreateForm from './ProjectCreateForm';
 
 export default function ProjectCreateModal() {
-    const [showModal, setShowModal] = useState(false);
-    const closeModal = () => setShowModal(false);
+  const [showModal, setShowModal] = useState(false);
+  const closeModal = () => setShowModal(false);
 
-    return (
-        <>
-            <button className='create-project-button' onClick={() => setShowModal(true)}>Create Project</button>
-            {showModal && (
-                <Modal onClose={() => setShowModal(false)}>
-                    <ProjectCreateForm onSubmit={closeModal} closeModal={closeModal}/>
-                </Modal>
-            )}
-        </>
-    );
+  return (
+    <>
+      <button className='create-project-button' onClick={() => setShowModal(true)}>Create Project</button>
+      {showModal && (
+        <Modal onClose={() => setShowModal(false)}>
+          <ProjectCreateForm onSubmit={closeModal} closeModal={closeModal} />
+        </Modal>
+      )}
+    </>
+  );
+
 }
