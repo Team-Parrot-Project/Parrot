@@ -5,9 +5,9 @@ import { useParams } from 'react-router-dom/cjs/react-router-dom.min';
 import { addDaysToDate, formatDate } from '../../../store/util';
 import './ProjectUpdateForm.css';
 
-export default function ProjectUpdateForm({closeModal}) {
+export default function ProjectUpdateForm({ closeModal }) {
   const dispatch = useDispatch();
-  const {projectId} = useParams();
+  const { projectId } = useParams();
   const project = useSelector(getProject(projectId));
   const [projectName, setProjectName] = useState('');
   const [description, setDescription] = useState('');
@@ -53,27 +53,29 @@ export default function ProjectUpdateForm({closeModal}) {
 
   return (
     <form onSubmit={handleSubmit} className="project-update-form">
-      <label htmlFor="projectName">Project Name:</label>
+      <p className="project-update-form-title">Please fill out to update a project</p>
+      <button type="submit">Update</button>
+      <label htmlFor="projectName">Project Name</label>
       <input
         type="text"
         id="projectName"
         value={projectName}
         onChange={(e) => setProjectName(e.target.value)}
       />
-      <label htmlFor="description">Description:</label>
+      <label htmlFor="description">Description</label>
       <textarea
         id="description"
         value={description}
         onChange={(e) => setDescription(e.target.value)}
       />
-      <label htmlFor="startDate">Start Date:</label>
+      <label htmlFor="startDate">Start Date</label>
       <input
         type="date"
         id="startDate"
         value={startDate}
         onChange={(e) => setStartDate(e.target.value)}
       />
-      <label htmlFor="endDate">End Date:</label>
+      <label htmlFor="endDate">End Date</label>
       <input
         type="date"
         id="endDate"
@@ -81,15 +83,15 @@ export default function ProjectUpdateForm({closeModal}) {
         min={addDaysToDate(startDate, 1)}
         onChange={(e) => setEndDate(e.target.value)}
       />
-      <select id="collaborators" value={collaborators} onChange={(e) => 
+      <select id="collaborators" value={collaborators} onChange={(e) =>
         setCollaborators(Array.from(e.target.selectedOptions, (option) => option.value))} multiple>
-      {Object.values(users).map((user) => (
+        {Object.values(users).map((user) => (
           <option key={user._id} value={user._id}>
             {user.username}
           </option>
         ))}
       </select>
-      <button type="submit">Update Project</button>
+
     </form>
   );
 }

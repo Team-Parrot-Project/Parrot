@@ -4,6 +4,7 @@
   align-items: left;
   padding-right: 30px;
   background-color: #2a2b2d;
+  width: 500px;
 }
 
 .project-update-form label {
@@ -24,23 +25,32 @@
   color: black;
 }
 
+/* this is the button on the project update modal */
+
 .project-update-form button {
-  margin: 10px;
-  background-color: #1e90ec;
-  color: #fff;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 5px;
-  font-size: 16px;
+  display: inline-block;
+  padding: 6px 12px;
+  font-size: 14px;
+  font-weight: bold;
   text-align: center;
   text-decoration: none;
+  border: none;
+  border-radius: 4px;
+  background-color: #4c4c52;
+  color: #FFFFFF;
   cursor: pointer;
+  transition: background-color 250ms ease;
+  margin-top: 20px;
+  width: fit-content;
+  border: 1px solid #69696b;
+  margin-left: auto;
 }
 
 .project-update-form button:hover {
-  background-color: #0069d9;
+  background-color: #47664a;
 }
 
+/* this is the button on the project show page */
 .update-project-button {
   display: inline-block;
   padding: 8px 16px;
@@ -67,4 +77,10 @@
 
 .update-project-button:active {
   background-color: #222224;
+}
+
+.project-update-form-title {
+  font-size: 20px;
+  padding-bottom: 5px;
+  border-bottom: 2px solid rgba(255, 255, 255, 0.2);
 }
