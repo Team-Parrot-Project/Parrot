@@ -131,7 +131,7 @@ export default function TaskUpdateForm({ taskId, projectId, closeModal }) {
         </div>
       </div>
       <label className="task-update-progress-label" htmlFor="progress">Progress: {progress}</label>
-      <input id="progress" type="range" min="0" max="100" step={10} value={progress} onChange={(e) => setProgress(e.target.value)} />
+      <input className="task-update-progress-input-bar" id="progress" type="range" min="0" max="100" step={1} value={progress} onChange={(e) => setProgress(e.target.value)} />
       <label className="task-update-form-blocking-tasks-label" htmlFor="blockingTasks">Blocking Tasks</label>
       <select className="task-update-form-blocking-tasks-input" id="blockingTasks" data-tooltip-id="clickCtrlMultipe" value={blockingTasks} onChange={(event) =>
         setBlockingTasks(Array.from(event.target.selectedOptions, (option) => option.value))} multiple>
