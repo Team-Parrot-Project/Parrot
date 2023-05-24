@@ -20,8 +20,6 @@ export function formatDate(dateString) {
 }
 
 export function addDaysToDate(dateString, daysToAdd) {
-  
-  debugger;
 
   const dateComponents = dateString.split("-");
   const year = parseInt(dateComponents[0], 10);

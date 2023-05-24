@@ -16,8 +16,6 @@ export default function ProjectUpdateForm({closeModal}) {
   const [collaborators, setCollaborators] = useState([]);
   const users = useSelector((state) => state.users);
 
-  console.log(startDate, "START DATE");
-
   useEffect(() => {
     // This effect hook will run only when the project state variable is set
     if (project) {
