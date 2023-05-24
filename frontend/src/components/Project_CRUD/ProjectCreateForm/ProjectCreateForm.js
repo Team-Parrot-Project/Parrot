@@ -3,6 +3,7 @@ import { createProject } from '../../../store/project';
 import { useDispatch, useSelector } from 'react-redux';
 import * as sessionActions from '../../../store/session';
 import './ProjectCreateForm.css'
+import { Tooltip } from 'react-tooltip'
 
 
 export default function ProjectCreateForm({ closeModal }) {
@@ -52,28 +53,45 @@ export default function ProjectCreateForm({ closeModal }) {
 
   return (
     <form onSubmit={handleSubmit} className="project-create-form">
+      <p className="project-create-form-title">Please fill out to create a project</p>
+      <button type="submit" className="project-create-form-submit-button" >Create Project</button>
       <label htmlFor="projectName">Project Name:</label>
-      <input type="text" id="projectName" value={projectName} onChange={(e) => setProjectName(e.target.value)} />
+      <input type="text" required id="projectName" value={projectName} onChange={(e) => setProjectName(e.target.value)} />
       <label htmlFor="description">Description:</label>
-      <textarea id="description" value={description} onChange={(e) => setDescription(e.target.value)} />
-      <label htmlFor="startDate">Start Date:</label>
-      <input type="date" id="startDate" value={startDate} onChange={(e) => setStartDate(e.target.value)} />
-      <label htmlFor="endDate">End Date:</label>
-      <input type="date" id="endDate" value={endDate} onChange={(e) => setEndDate(e.target.value)} />
-      <label htmlFor="collaborators">Add collaborators:</label>
-      <select id="collaborators" value={collaborators} onChange={(e) =>
-        setCollaborators(Array.from(e.target.selectedOptions, (option) => option.value))} multiple>
-        {Object.values(users).map((user) => {
-          if (adminId === user._id) {
-            return "";
-          } else {
-            return (<option key={user._id} value={user._id}>
-              {user.username}
-            </option>)
-          }
-        })}
-      </select>
-      <button type="submit">Create Project</button>
+      <textarea required id="description" value={description} onChange={(e) => setDescription(e.target.value)} />
+      <div className="project-create-form-date-wrapper">
+        <div>
+          <label htmlFor="startDate" className="project-create-form-start-date-label" >Start Date:</label>
+          <input type="date" required id="startDate" className="project-create-form-start-date" value={startDate} onChange={(e) => setStartDate(e.target.value)} />
+        </div>
+        <div>
+          <label htmlFor="endDate" className="project-create-form-end-date-label">End Date:</label>
+          <input type="date" required id="endDate" value={endDate} onChange={(e) => setEndDate(e.target.value)} />
+        </div>
+      </div>
+      <div className="project-create-form-add-collaborators-wrapper">
+        <div>
+          <label htmlFor="collaborators" className="project-create-form-collaborators-label">Add Collaborators:</label>
+        </div>
+        <div>
+          <select id="collaborators" data-tooltip-id="selectCollaborators" value={collaborators} onChange={(e) =>
+            setCollaborators(Array.from(e.target.selectedOptions, (option) => option.value))} multiple>
+            {Object.values(users).map((user) => {
+              if (adminId === user._id) {
+                return "";
+              } else {
+                return (<option key={user._id} value={user._id}>
+                  {user.username}
+                </option>)
+              }
+            })}
+          </select>
+        </div>
+      </div>
+      <Tooltip id="selectCollaborators" effect="solid" place="top">
+        Hold control and click to select multiple collaborators
+      </Tooltip>
+
     </form>
   );
 };

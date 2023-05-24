@@ -1,7 +1,7 @@
+import React from 'react';
 import './TableRow.css'
 
 export default function TableRow({ handleClick, cellClass, rowClass, row, rowElement, cellClasses }) {
-
 
   cellClass = cellClass || "defaulf-cell-class";
   rowClass = rowClass || "default-row-class";
@@ -12,8 +12,6 @@ export default function TableRow({ handleClick, cellClass, rowClass, row, rowEle
     }
   }
 
-  // return (<div className='bird-test'></div>)
-
   return (
     <>
       <div className={rowClass}>
@@ -22,13 +20,14 @@ export default function TableRow({ handleClick, cellClass, rowClass, row, rowEle
             <div key={ix}
               onClick={(e) => { localClick(e) }}
               className={(cellClasses && cellClasses[ix]) ? cellClasses[ix] : cellClass}
-              >
+            >
               {cellContent}
-              
+
             </div>
           )
         })}
       </div>
     </>
   )
+  
 }

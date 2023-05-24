@@ -1,68 +1,112 @@
 .project-create-form {
-    display: flex;
-    flex-direction: column;
-    align-items: left;
-    padding: 20px;
-    background-color: #333;
-  }
+  display: flex;
+  flex-direction: column;
+  align-items: left;
+  background-color: #2a2b2d;
+  width: 500px;
+}
 
-  .project-create-form label {
-    font-size: 18px;
-    font-weight: bold;
-    margin-bottom: 10px;
-    color: #eee;
-  }
+.project-create-form label {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 10px;
+  color: #eee;
+}
 
-  .project-create-form input,
-  .project-create-form textarea {
-    width: 100%;
-    padding: 10px;
-    border-radius: 5px;
-    border: 2px solid #eee;
-    margin-bottom: 20px;
-    background-color: #ffffff;
-    color: black;
-  }
+.project-create-form input,
+.project-create-form textarea {
+  width: 100%;
+  padding: 10px;
+  border-radius: 5px;
+  border: 2px solid #eee;
+  margin-bottom: 20px;
+  background-color: #ffffff;
+  color: black;
+}
 
-  .project-create-form textarea {
-    resize: vertical;
-  }
+.project-create-form textarea {
+  resize: vertical;
+}
 
-  .project-create-form button {
-    padding: 10px 20px;
-    border-radius: 5px;
-    background-color: #007bff;
-    color: white;
-    font-size: 16px;
-    cursor: pointer;
-    transition: background-color 0.2s ease-in-out;
-    margin-top: 20px;
-  }
+.project-create-form button {
+  display: inline-block;
+  padding: 6px 12px;
+  font-size: 14px;
+  font-weight: bold;
+  text-align: center;
+  text-decoration: none;
+  border: none;
+  border-radius: 4px;
+  background-color: #4c4c52;
+  color: #FFFFFF;
+  cursor: pointer;
+  transition: background-color 250ms ease;
+  margin-top: 20px;
+  width: fit-content;
+  border: 1px solid #69696b;
+}
 
-  .project-create-form button:hover {
-    background-color: #0069d9;
-  }
-
-  @media (prefers-color-scheme: dark) {
-    .project-create-form {
-      border-color: #333;
-      background-color: #333;
-    }
-
-    .project-create-form label {
-      color: #eee;
-    }
-
-    .project-create-form input,
-    .project-create-form textarea {
-      border-color: #eee;
-      color: black;
-    }
-  }
+.project-create-form button:hover {
+  background-color: #47664a;
+}
 
 .project-create-form select {
   width: 100%;
 }
+
+.project-create-form #startDate {
+  width: 100px;
+}
+
+.project-create-form #endDate {
+  width: 100px;
+}
+
+.project-create-form #collaborators {
+  width: fit-content;
+  max-width: 100%;
+}
+
+.project-create-form #projectName {
+  width: auto;
+}
+
+.project-create-form #description {
+  width: auto;
+}
+
+.project-create-form-submit-button {
+  margin-left: auto;
+}
+
+.project-create-form-start-date-label {
+  margin-right: 5px;
+}
+
+.project-create-form-end-date-label {
+  margin-right: 5px;
+}
+
+.project-create-form-date-wrapper {
+  display: flex;
+  justify-content: space-between;
+}
+
+.project-create-form-add-collaborators-wrapper {
+  display: flex;
+}
+
+.project-create-form-collaborators-label {
+  margin-right: 5px;
+}
+
+.project-create-form-title {
+  font-size: 20px;
+  padding-bottom: 5px;
+  border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+}
+
+/* this is the button on the user home page */
 
 .create-project-button {
   display: inline-block;
