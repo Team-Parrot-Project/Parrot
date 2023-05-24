@@ -17,7 +17,6 @@ function Notifications () {
     const [messages,setMessages] = useState([])
     const projects = useSelector(projectActions.getProjects)
     const notifications = useSelector(notificationActions.getNotifications)
-    console.log("Re-Rendered")
     // const socket = io('http://localhost:5001');
     useEffect(()=>{
         dispatch(userActions.fetchUser(userId))

@@ -109,7 +109,7 @@ export default function NavBar({ timelineLogOut }) {
               </svg>
               <span className="nav-text">Notifications</span>
             </div>
-            <div className="nav-bar-notifications">{toggleNav && <Notifications/>}</div>
+            <div className="nav-bar-notifications"><Notifications/></div>
           </section>
         </div>
       </nav>
