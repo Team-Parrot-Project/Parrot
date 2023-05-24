@@ -36,8 +36,8 @@ export default function DeleteTaskModal(props) {
                 <Modal onClose={() => setShowModal(false)}>
                     <div className="delete-task-modal">
                         <p>Are you sure you want to delete this task?</p>
-                        <button onClick={handleDelete} disabled={isDeleting}>Yes, delete task</button>
-                        <button onClick={() => setShowModal(false)}>Cancel</button>
+                        <button className="yes-delete-task" onClick={handleDelete} disabled={isDeleting}>Yes</button>
+                        <button className="no-delete-task" onClick={() => setShowModal(false)}>No</button>
                     </div>
                 </Modal>
             )}

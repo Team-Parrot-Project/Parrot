@@ -26,8 +26,8 @@ export default function DeleteProjectModal() {
                 <Modal onClose={() => setShowModal(false)}>
                 <div className="delete-project-modal">
                 <p>Are you sure you want to delete this project?</p>
-                <button onClick={handleDelete} disabled={isDeleting}>Yes, delete project</button>
-                <button onClick={() => setShowModal(false)}>Cancel</button>
+                <button className="yes-delete-project" onClick={handleDelete} disabled={isDeleting}>Yes</button>
+                <button className="no-delete-project" onClick={() => setShowModal(false)}>No</button>
                 </div>
                 </Modal>
             )}

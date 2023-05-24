@@ -25,3 +25,31 @@
 .delete-project-button:active {
   background-color: #FF1A1A;
 }
+
+.delete-project-modal {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.yes-delete-project {
+  background-color: #FF4D4D;
+  color: white;
+  border: none;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 14px;
+  margin-left: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.yes-delete-project:hover {
+  background-color: #E43F3F;
+}
+
+.no-delete-project {
+  margin: 10px;
+  cursor: pointer;
+}
