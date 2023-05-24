@@ -46,7 +46,7 @@ export default function TaskUpdateForm({ taskId, projectId, closeModal }) {
             setBlockingTasks(currentTask.blockingTasks || []);
             setAssigneeId(currentTask.assignee);
             setProgress(currentTask.progress);
-            
+
             setLoadedTask(true);
         }
     }, [currentTask, setTitle, setDescription, setDueDate, setAssigneeId])
@@ -58,7 +58,7 @@ export default function TaskUpdateForm({ taskId, projectId, closeModal }) {
     const handleSubmit = (event) => {
         event.preventDefault();
         const updatedTask = { ...currentTask, title, description, startDate, endDate: dueDate, blockingTasks, assignee: assigneeId, progress };
-        
+
         try {
             dispatch(updateTask(projectId, updatedTask));
 
@@ -136,7 +136,7 @@ export default function TaskUpdateForm({ taskId, projectId, closeModal }) {
                         </option>
                     ))}
             </select>
-            <button type="submit">Update Task</button>
+            <button type="submit" onClick={(e) => e.stopPropagation()} >Update</button>
             {errors && errors.map((error) => <div key={error}>{error}</div>)}
         </form>
     )
