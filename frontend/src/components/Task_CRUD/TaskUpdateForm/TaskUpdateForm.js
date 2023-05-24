@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { getTask, updateTask } from "../../../store/task";
 import { fetchProject, getProject } from "../../../store/project";
-import { formatDate } from "../../../store/util";
+import { addDaysToDate, formatDate } from "../../../store/util";
 import './TaskUpdateForm.css';
 
 export default function TaskUpdateForm({ taskId, projectId, closeModal }) {
@@ -95,7 +95,7 @@ export default function TaskUpdateForm({ taskId, projectId, closeModal }) {
         <label htmlFor="dueDate">Due Date</label>
         <input id="dueDate"
           type="date"
-          min={startDate || ""}
+          min={addDaysToDate(startDate,1) || ""}
           required
           value={dueDate}
           onChange={(event) => setDueDate(event.target.value)} />
