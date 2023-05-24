@@ -11,7 +11,7 @@ export default function TaskCreateModal({taskId}) {
             <button className='create-task-button' onClick={() => setShowModal(true)}>Create Task</button>
             {showModal && (
                 <Modal onClose={() => setShowModal(false)}>
-                    <TaskCreateForm onSubmit={closeModal}/>
+                    <TaskCreateForm onSubmit={closeModal} closeModal={closeModal}/>
                 </Modal>
             )}
         </>

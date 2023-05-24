@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getProject, updateProject } from '../../../store/project';
 import { useParams } from 'react-router-dom/cjs/react-router-dom.min';
-import { formatDate } from '../../../store/util';
+import { addDaysToDate, formatDate } from '../../../store/util';
 import './ProjectUpdateForm.css';
 
 export default function ProjectUpdateForm({closeModal}) {
@@ -15,6 +15,8 @@ export default function ProjectUpdateForm({closeModal}) {
   const [endDate, setEndDate] = useState('');
   const [collaborators, setCollaborators] = useState([]);
   const users = useSelector((state) => state.users);
+
+  console.log(startDate, "START DATE");
 
   useEffect(() => {
     // This effect hook will run only when the project state variable is set
@@ -78,6 +80,7 @@ export default function ProjectUpdateForm({closeModal}) {
         type="date"
         id="endDate"
         value={endDate}
+        min={addDaysToDate(startDate, 1)}
         onChange={(e) => setEndDate(e.target.value)}
       />
       <select id="collaborators" value={collaborators} onChange={(e) => 

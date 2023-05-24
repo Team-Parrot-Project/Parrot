@@ -2,14 +2,14 @@ import React, { useEffect, useState } from 'react';
 import  { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom/cjs/react-router-dom';
 import { createTask } from '../../../store/task';
-import { formatDate } from '../../../store/util';
+import { addDaysToDate, formatDate } from '../../../store/util';
 import './TaskCreateForm.css';
 
-const TaskCreateForm = ({ taskTitle = '' }) => {
+const TaskCreateForm = ({ taskTitle = '', closeModal }) => {
   const [title, setTitle] = useState(taskTitle);
   const [description, setDescription] = useState('');
   const [startDate, setStartDate] = useState(formatDate(new Date()));
-  const [dueDate, setDueDate] = useState(formatDate(new Date()));
+  const [dueDate, setDueDate] = useState(addDaysToDate(formatDate(new Date()),1));
   const [assignee, setAssignee] = useState('');
   const [status, setStatus] = useState('in progress');
   const [progress, setProgress] = useState(0);
@@ -43,7 +43,7 @@ const TaskCreateForm = ({ taskTitle = '' }) => {
       dispatch(createTask(projectId, newTask));
 
       // Update the UI to indicate that the task has been created
-      alert('Task created successfully!');
+      closeModal();
       setTitle('');
       setDescription('');
       setDueDate('');

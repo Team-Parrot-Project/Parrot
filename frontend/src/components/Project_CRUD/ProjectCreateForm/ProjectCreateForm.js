@@ -3,16 +3,19 @@ import { createProject } from '../../../store/project';
 import { useDispatch, useSelector } from 'react-redux';
 import * as sessionActions from '../../../store/session';
 import './ProjectCreateForm.css'
+import { addDaysToDate, formatDate } from '../../../store/util';
 
 export default function ProjectCreateForm({ closeModal }) {
   const dispatch = useDispatch();
   const [projectName, setProjectName] = useState('');
   const [description, setDescription] = useState('');
-  const [startDate, setStartDate] = useState('');
+  const [startDate, setStartDate] = useState(formatDate(new Date()));
   const [collaborators, setCollaborators] = useState([]);
-  const [endDate, setEndDate] = useState('');
+  const [endDate, setEndDate] = useState(addDaysToDate(formatDate(new Date()),1));
   const adminId = useSelector(sessionActions.getUser);
   const users = useSelector((state) => state.users);
+
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
