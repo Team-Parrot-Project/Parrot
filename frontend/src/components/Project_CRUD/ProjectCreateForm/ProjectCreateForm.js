@@ -3,7 +3,6 @@ import { createProject } from '../../../store/project';
 import { useDispatch, useSelector } from 'react-redux';
 import * as sessionActions from '../../../store/session';
 import './ProjectCreateForm.css'
-import { Tooltip } from 'react-tooltip'
 
 
 export default function ProjectCreateForm({ closeModal }) {
@@ -54,7 +53,7 @@ export default function ProjectCreateForm({ closeModal }) {
   return (
     <form onSubmit={handleSubmit} className="project-create-form">
       <p className="project-create-form-title">Please fill out to create a project</p>
-      <button type="submit" className="project-create-form-submit-button" >Create Project</button>
+      <button type="submit" className="project-create-form-submit-button" >Create</button>
       <label htmlFor="projectName">Project Name:</label>
       <input type="text" required id="projectName" value={projectName} onChange={(e) => setProjectName(e.target.value)} />
       <label htmlFor="description">Description:</label>
@@ -73,24 +72,33 @@ export default function ProjectCreateForm({ closeModal }) {
         <div>
           <label htmlFor="collaborators" className="project-create-form-collaborators-label">Add Collaborators:</label>
         </div>
-        <div>
-          <select id="collaborators" data-tooltip-id="selectCollaborators" value={collaborators} onChange={(e) =>
-            setCollaborators(Array.from(e.target.selectedOptions, (option) => option.value))} multiple>
-            {Object.values(users).map((user) => {
-              if (adminId === user._id) {
-                return "";
-              } else {
-                return (<option key={user._id} value={user._id}>
-                  {user.username}
-                </option>)
-              }
-            })}
-          </select>
+        <div className="project-create-checkbox-container">
+          {Object.values(users).map((user) => {
+            if (adminId === user._id) {
+              return null;
+            } else {
+              return (
+                <div key={user._id} className="project-create-checkbox-item">
+                  <label className="project-create-checkbox-title" htmlFor={user._id}>{user.username}</label>
+                  <input
+                    type="checkbox"
+                    id={user._id}
+                    value={user._id}
+                    onChange={(e) => {
+                      if (e.target.checked) {
+                        setCollaborators(prevCollaborators => [...prevCollaborators, e.target.value]);
+                      } else {
+                        setCollaborators(prevCollaborators => prevCollaborators.filter(id => id !== e.target.value));
+                      }
+                    }}
+                  />
+
+                </div>
+              )
+            }
+          })}
         </div>
       </div>
-      <Tooltip id="selectCollaborators" effect="solid" place="top">
-        Hold control and click to select multiple collaborators
-      </Tooltip>
 
     </form>
   );
