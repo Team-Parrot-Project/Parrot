@@ -26,6 +26,7 @@
 
 .task-update-form textarea {
   resize: vertical;
+  max-height: 350px;
 }
 
 .task-update-form-submit-button {
@@ -53,10 +54,7 @@
 
 .task-update-progress-label {
   margin-top: 10px;
-}
-
-.task-update-form-title {
-
+  margin-bottom: 5px;
 }
 
 .task-update-form-title-input {
@@ -130,10 +128,7 @@
   justify-content: space-between;
 }
 
-.task-update-form-blocking-tasks-input {
-
-}
-
 .task-update-form-blocking-tasks-label {
   margin-top: 5px;
+  margin-bottom: 5px;
 }

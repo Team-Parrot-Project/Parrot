@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { getTask, updateTask } from "../../../store/task";
 import { fetchProject, getProject } from "../../../store/project";
 import { addDaysToDate, formatDate } from "../../../store/util";
+import { Tooltip } from 'react-tooltip'
 import './TaskUpdateForm.css';
 
 export default function TaskUpdateForm({ taskId, projectId, closeModal }) {
@@ -81,7 +82,7 @@ export default function TaskUpdateForm({ taskId, projectId, closeModal }) {
       <div className="sub-task-update-input-form-container">
         <div>
           <div>
-            <label htmlFor="status">Status:</label>
+            <label htmlFor="status">Status</label>
           </div>
           <div>
             <select className="task-update-form-status-input" id='status' value={status} onChange={(e) => setStatus(e.target.value)}>
@@ -131,8 +132,8 @@ export default function TaskUpdateForm({ taskId, projectId, closeModal }) {
       </div>
       <label className="task-update-progress-label" htmlFor="progress">Progress: {progress}</label>
       <input id="progress" type="range" min="0" max="100" step={10} value={progress} onChange={(e) => setProgress(e.target.value)} />
-      <label className="task-update-form-blocking-tasks-label" htmlFor="blockingTasks">Blocking Tasks</label> <br />
-      <select className="task-update-form-blocking-tasks-input" id="blockingTasks" value={blockingTasks} onChange={(event) =>
+      <label className="task-update-form-blocking-tasks-label" htmlFor="blockingTasks">Blocking Tasks</label>
+      <select className="task-update-form-blocking-tasks-input" id="blockingTasks" data-tooltip-id="clickCtrlMultipe" value={blockingTasks} onChange={(event) =>
         setBlockingTasks(Array.from(event.target.selectedOptions, (option) => option.value))} multiple>
         {project && project.tasks
           .filter((task) => task._id !== taskId && task.startDate < currentTask.startDate) // Apply the condition
@@ -142,7 +143,9 @@ export default function TaskUpdateForm({ taskId, projectId, closeModal }) {
             </option>
           ))}
       </select>
-
+      <Tooltip id="clickCtrlMultipe" effect="solid" place="bottom">
+        Hold ctrl & click to select multiple tasks
+      </Tooltip>
       {errors && errors.map((error) => <div key={error}>{error}</div>)}
     </form>
   )

@@ -16,7 +16,6 @@
 .project-create-form input,
 .project-create-form textarea {
   width: 100%;
-  padding: 10px;
   border-radius: 5px;
   border: 2px solid #eee;
   margin-bottom: 20px;
@@ -26,6 +25,7 @@
 
 .project-create-form textarea {
   resize: vertical;
+  max-height: 350px;
 }
 
 .project-create-form button {
@@ -69,11 +69,13 @@
 
 .project-create-form #projectName {
   width: auto;
+  padding: 10px;
   font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Helvetica,Arial,sans-serif;
 }
 
 .project-create-form #description {
   width: auto;
+  padding: 10px;
   font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Helvetica,Arial,sans-serif;
 }
 
@@ -91,10 +93,12 @@
 
 .project-create-form-start-date-input {
   font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Helvetica,Arial,sans-serif;
+  padding: 5px;
 }
 
 .project-create-form-end-date-input {
   font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Helvetica,Arial,sans-serif;
+  padding: 5px;
 }
 
 .project-create-form-date-wrapper {
