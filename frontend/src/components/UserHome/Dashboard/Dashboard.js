@@ -36,8 +36,6 @@ export default function Dashboard() {
 
   return (
     <>
-      <div className='create-project-button'>
-      </div>
       <div className="user-dashboard-wrapper">
         <div className="user-dashboard-main-content">
 

@@ -20,3 +20,31 @@
     transform: scale(1.2);
     /* Change this to your desired scale */
 }
+
+.delete-task-modal {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.yes-delete-task {
+    background-color: #FF4D4D;
+    color: white;
+    border: none;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 14px;
+    margin-left: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.yes-delete-task:hover {
+    background-color: #E43F3F;
+}
+
+.no-delete-task {
+    margin: 10px;
+    cursor: pointer;
+}

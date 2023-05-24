@@ -2,9 +2,8 @@
   display: flex;
   flex-direction: column;
   align-items: left;
-  padding: 20px;
   padding-right: 30px;
-  background-color: #333;
+  background-color: #2a2b2d;
 }
 
 .project-update-form label {
@@ -40,23 +39,6 @@
 
 .project-update-form button:hover {
   background-color: #0069d9;
-}
-
-@media (prefers-color-scheme: dark) {
-  .project-update-form {
-    border-color: #333;
-    background-color: #333;
-  }
-
-  .project-update-form label {
-    color: #eee;
-  }
-
-  .project-update-form input,
-  .project-update-form textarea {
-    border-color: #eee;
-    color: black;
-  }
 }
 
 .update-project-button {

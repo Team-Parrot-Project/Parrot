@@ -1,12 +1,12 @@
 #modal-content {
     position: absolute;
-    background: color #333;;
+    background: color #2a2b2d;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    background-color: #333;
+    background-color: #2a2b2d;
     padding: 20px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    border: 1px solid #424244;
     border-radius: 5px;
     margin: 20px;
     font-size: 18px;
@@ -19,5 +19,5 @@
     right: 0;
     left: 0;
     bottom: 0;
-    background-color: rgba(0, 0, 0, 0.7);
+    background-color: rgba(0, 0, 0, 0.5);
   }
