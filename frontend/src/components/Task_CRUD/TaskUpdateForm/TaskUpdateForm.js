@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { getTask, updateTask } from "../../../store/task";
 import { fetchProject, getProject } from "../../../store/project";
-import { formatDate } from "../../../store/util";
+import { addDaysToDate, formatDate } from "../../../store/util";
 import './TaskUpdateForm.css';
 
 export default function TaskUpdateForm({ taskId, projectId, closeModal }) {
@@ -68,47 +68,50 @@ export default function TaskUpdateForm({ taskId, projectId, closeModal }) {
 
   return (
     <form onSubmit={handleSubmit} onClick={(e) => e.stopPropagation()} className="task-update-form">
+      <p className="task-update-form-header" >Please fill out to edit this task</p>
+      <button className="task-update-form-submit-button" type="submit" onClick={(e) => e.stopPropagation()} >Update</button>
       <div>
-        <label htmlFor="title">Title</label>
-        <input id="title" type="text" required value={title} onChange={(event) => setTitle(event.target.value)} />
+        <label className="task-update-form-title" htmlFor="title">Title</label>
+        <input className="task-update-form-title-input" id="title" type="text" required value={title} onChange={(event) => setTitle(event.target.value)} />
       </div>
       <div>
         <label htmlFor="description">Description</label>
-        <textarea id="description" value={description} onChange={(event) => setDescription(event.target.value)} />
+        <textarea className="task-update-form-description-container" id="description" value={description} onChange={(event) => setDescription(event.target.value)} />
       </div>
       <label htmlFor="status">Status:</label>
-      <select id='status' value={status} onChange={(e) => setStatus(e.target.value)}>
+      <select className="task-update-form-status-input" id='status' value={status} onChange={(e) => setStatus(e.target.value)}>
         {statusOptions.map((o, ix) => {
           return (<option value={o} key={ix}>{o}</option>)
         })}
       </select>
-      <div>
+      <div className="task-update-form-start-date-input-container">
         <label htmlFor="startDate">Start Date</label>
         <input
           id="startDate"
           type="date"
+          className="task-update-form-start-date-input"
           required
           value={startDate}
           onChange={(event) => setStartDate(event.target.value)} />
       </div>
-      <div>
+      <div className="task-update-form-due-date-input-container">
         <label htmlFor="dueDate">Due Date</label>
         <input id="dueDate"
           type="date"
-          min={startDate || ""}
+          min={addDaysToDate(startDate,1) || ""}
           required
+          className="task-update-form-due-date-input"
           value={dueDate}
           onChange={(event) => setDueDate(event.target.value)} />
       </div>
       <label htmlFor="assignee">Assignee</label>
       <select id="assignee" value={assigneeId} onChange={(e) => handleAssigneeChange(e)}>
         {Object.values(collaborators).map(collaborator => {
-          // logIt(collaborator._id, assigneeId);
           return (<option key={collaborator._id} value={collaborator._id}
           >{collaborator.username}</option>)
         })}
       </select>
-      <label htmlFor="progress">Progress: {progress}</label>
+      <label className="task-update-progress-label" htmlFor="progress">Progress: {progress}</label>
       <input id="progress" type="range" min="0" max="100" step={10} value={progress} onChange={(e) => setProgress(e.target.value)} />
       <label htmlFor="blockingTasks">Blocking Tasks (ctrl + click to select/deselect multiple tasks)</label> <br />
       <select id="blockingTasks" value={blockingTasks} onChange={(event) =>
@@ -121,7 +124,7 @@ export default function TaskUpdateForm({ taskId, projectId, closeModal }) {
             </option>
           ))}
       </select>
-      <button type="submit" onClick={(e) => e.stopPropagation()} >Update</button>
+
       {errors && errors.map((error) => <div key={error}>{error}</div>)}
     </form>
   )
