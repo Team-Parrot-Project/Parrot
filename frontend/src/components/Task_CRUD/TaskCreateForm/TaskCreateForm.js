@@ -5,7 +5,7 @@ import { createTask } from '../../../store/task';
 import { addDaysToDate, formatDate } from '../../../store/util';
 import './TaskCreateForm.css';
 
-export default function TaskCreateForm({ taskTitle = '', closeModal }) {
+export default function TaskCreateForm({ taskTitle = '', onSubmit }) {
   const [title, setTitle] = useState(taskTitle);
   const [description, setDescription] = useState('');
   const [startDate, setStartDate] = useState(formatDate(new Date()));
@@ -43,7 +43,7 @@ export default function TaskCreateForm({ taskTitle = '', closeModal }) {
       dispatch(createTask(projectId, newTask));
 
       // Update the UI to indicate that the task has been created
-      closeModal();
+      onSubmit();
       setTitle('');
       setDescription('');
       setDueDate('');
