@@ -38,7 +38,7 @@ function Notifications () {
 
     useEffect(()=>{
         console.log("in socket")
-        let socket = io('http://localhost:5001');
+        let socket = io('http://localhost:5003');
         //Eventually refactor to join appropriate room channels
         socket.on('connect',()=>{
             console.log(socket.id,"connection")
