@@ -51,6 +51,8 @@
     cursor: pointer;
     transition: background-color 250ms ease;
     margin-top: 10px;
+    border: 1px solid transparent;
+    animation: rainbowBorder 5s linear infinite;
 }
 
 .generate-reccomended-tasks-button:hover {
@@ -70,3 +72,31 @@
     font-size: 20px;
     color: #FFFFFF;
 }
+
+
+  @keyframes rainbowBorder {
+    0% {
+      border-color: #ff0;
+    }
+    14% {
+      border-color: #ff0;
+    }
+    28% {
+      border-color: #0f0;
+    }
+    42% {
+      border-color: #0ff;
+    }
+    57% {
+      border-color: #00f;
+    }
+    71% {
+      border-color: #f0f;
+    }
+    85% {
+      border-color: #f00;
+    }
+    100% {
+      border-color: #ff0;
+    }
+  }
