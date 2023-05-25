@@ -21,6 +21,7 @@ function Notifications () {
     const [toggleNav,setToggleNav] = useState(false);
     const [toggleBadge,setToggleBadge] = useState(false);
     const history = useHistory();
+    const PORT = process.env.PORT || 5003;
 
     useEffect(()=>{
         if(messages.length > 0){
@@ -38,7 +39,7 @@ function Notifications () {
 
     useEffect(()=>{
         console.log("in socket")
-        let socket = io('http://localhost:5003');
+        let socket = io(`http://localhost:${PORT}`);
         //Eventually refactor to join appropriate room channels
         socket.on('connect',()=>{
             console.log(socket.id,"connection")
