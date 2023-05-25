@@ -18,14 +18,14 @@ const csrfRouter = require('./routes/api/csrf');
 const projectsRouter = require('./routes/api/projects');
 const notificationsRouter = require('./routes/api/notifications');
 var app = express();
+const PORT = process.env.PORT || 5001;
 const server = require('http').createServer(app);
-const { instrument } = require('@socket.io/admin-ui')
 const io = require('socket.io')(server, {
   cors: {
-    origin: ["http://localhost:3000", 'https://admin.socket.io']
+    origin: ["http://localhost:3000","https://www.parrotpm.com"]
   }
 });
-server.listen(5001);
+server.listen(PORT);
 
 io.on('connection', socket => {
   console.log(socket.id,'a user connected')
@@ -37,9 +37,6 @@ io.on('connection', socket => {
     console.log('disconnecting....')
   });
 });
-
-instrument(io,{auth: false})
-
 
 
 app.use(logger('dev'));
