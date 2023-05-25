@@ -125,3 +125,7 @@
 .project-show-task-detail-dropdown {
     border-bottom: 1px solid rgba(255, 255, 255, 0.2);
 }
+
+.project-show-task-detail-dropdown-label {
+    font-size: 20px;
+}
