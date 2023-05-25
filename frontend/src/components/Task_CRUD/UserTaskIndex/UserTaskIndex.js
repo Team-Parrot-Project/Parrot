@@ -8,6 +8,7 @@ import TaskCreateModal from '../TaskCreateForm/index'
 import TableRow from '../../TableRow/TableRow';
 import { formatDate, monthDayYear } from '../../../store/util';
 import { useHistory } from 'react-router-dom/cjs/react-router-dom';
+import { getProjectTasks } from '../../../store/project';
 
 function UserTaskIndex({projects}) {
   const dispatch = useDispatch();
@@ -33,8 +34,15 @@ function UserTaskIndex({projects}) {
       />
       {userTasks.map((t, ix) => {
         const formattedDate = monthDayYear(formatDate(t.endDate));
+
+        let projectTitle = "";
+
+        if(t.projectId) {
+          projectTitle = projects[t.projectId].title;
+        }
+        
         return (
-          <TableRow key={ix} row={[t.title, t.status, formattedDate, projects[t.projectId].title]}
+          <TableRow key={ix} row={[t.title, t.status, formattedDate, projectTitle]}
           rowClass={"default-row-class"}
           rowElement={t.projectId}
           handleClick={(e, rowElement) => {history.push(`/projects/${rowElement}`)}}
