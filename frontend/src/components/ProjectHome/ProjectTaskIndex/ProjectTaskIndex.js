@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import * as projectActions from '../../../store/project';
 import { useParams } from 'react-router-dom/cjs/react-router-dom';
-import { formatDate } from '../../../store/util';
+import { formatDate, monthDayYear } from '../../../store/util';
 import TaskUpdateModal from '../../Task_CRUD/TaskUpdateForm';
 import DeleteTaskModal from '../../Task_CRUD/TaskDelete/TaskDelete';
 import './ProjectTaskIndex.css';
@@ -49,7 +49,7 @@ export default function ProjectTaskIndex() {
               "Description",
               "Assignee",
               "Start",
-              "End",
+              "Due",
               "Modify",
             ]}
             rowClass={"project-task-table-header"}
@@ -76,8 +76,8 @@ export default function ProjectTaskIndex() {
                     task.title,
                     task.description,
                     allUsers[task.assignee]?.username,
-                    formatDate(task.startDate),
-                    formatDate(task.endDate),
+                    monthDayYear(formatDate(task.startDate)),
+                    monthDayYear(formatDate(task.endDate)),
                     <>
                       <TaskUpdateModal taskId={task._id} projectId={project._id} />
                       <DeleteTaskModal taskId={task._id} projectId={project._id} />

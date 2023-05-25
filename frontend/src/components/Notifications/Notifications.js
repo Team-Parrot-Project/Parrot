@@ -9,6 +9,7 @@ import * as projectActions from "../../store/project"
 // import socket from "./socket";
 import { IoIosCloseCircleOutline } from "react-icons/io";
 import "./Notifications.css";
+import { useHistory } from "react-router-dom/cjs/react-router-dom";
 
 
 function Notifications () {
@@ -19,6 +20,7 @@ function Notifications () {
     const notifications = useSelector(notificationActions.getNotifications)
     const [toggleNav,setToggleNav] = useState(false);
     const [toggleBadge,setToggleBadge] = useState(false);
+    const history = useHistory();
 
     useEffect(()=>{
         if(messages.length > 0){
@@ -75,10 +77,9 @@ function Notifications () {
 
     const handleToggle = (e)=>{
         e.preventDefault();
-        console.log(toggleNav,"ToggleNav")
-        console.log(messages,"messages")
         if(toggleNav){
             setToggleNav(false)
+            dispatch(notificationActions.purgeNotifications())
         }else{
             setToggleNav(true)
         }
@@ -103,7 +104,7 @@ function Notifications () {
                 {messages.map((message)=>{
                     return (
                     <div className="messageWrapper" key={message._id}>
-                    <div className="notificationMessage">{message.message}</div>
+                    <div className="notificationMessage" onClick={()=>{history.push(`/projects/${message.project}`)}}>{message.message}</div>
                     <div className="notificationX" onClick={(e)=>{handleDelete(e,message._id)}}><IoIosCloseCircleOutline size={15}/></div>
                     </div>)
                 })}

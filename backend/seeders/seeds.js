@@ -113,8 +113,8 @@ const seedDB = async () => {
               }
 
         ],
-        startDate: faker.date.past(),
-        endDate: faker.date.future()
+        startDate: getFutureDate(0),
+        endDate: getFutureDate(35)
     })
 
     
@@ -173,8 +173,8 @@ const seedDB = async () => {
         blockingTasks: []
     }
         ],
-        startDate: faker.date.past(),
-        endDate: faker.date.future()
+        startDate: getFutureDate(0),
+        endDate: getFutureDate(9)
     })
 
     userOne.projects.push(secondaryProject);
@@ -224,8 +224,8 @@ const seedDB = async () => {
       blockingTasks: []
   }
       ],
-      startDate: faker.date.past(),
-      endDate: faker.date.future()
+      startDate: getFutureDate(0),
+      endDate: getFutureDate(15)
   })
 
   userOne.projects.push(thirdProject);

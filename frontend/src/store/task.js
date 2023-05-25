@@ -57,6 +57,7 @@ export const taskReducer = (state = defaultState,action) =>{
                 const taskArray = project.tasks;
                 taskArray?.forEach(task =>{
                     newState[task._id] = task;
+                    newState[task._id].projectId = project._id;
                 })
             })
             return newState;

@@ -1,7 +1,6 @@
 import React from 'react';
 import NavBar from '../NavBar/NavBar';
 import './ProjectHome.css';
-import Notifications from '../Notifications/Notifications';
 import { useDispatch, useSelector } from 'react-redux';
 import ProjectTaskIndex from './ProjectTaskIndex/ProjectTaskIndex';
 import { useParams } from 'react-router-dom/cjs/react-router-dom';
@@ -26,12 +25,14 @@ export default function ProjectHome() {
   const [recommendedTasks, setRecommendedTasks] = useState([]);
   const project = useSelector((state) => state.projects[projectId]);
 
+
   useEffect(() => {
     dispatch(taskActions.purgeTasks());
     dispatch(projectActions.fetchProject(projectId));
     dispatch(fetchUsers())
   }, [projectId, dispatch]);
 
+  // caluclates the positon of the dot to be at a accurate point on the line
   function calculateDotPosition(startDate, endDate) {
     const today = new Date();
     if (!startDate || !endDate) {
@@ -45,6 +46,12 @@ export default function ProjectHome() {
     const containerWidth = container ? container.clientWidth : 0;
     const dotPosition = progress * containerWidth;
     return `${dotPosition}px`;
+  }
+
+  // Checks to make sure the date is in range so that it only shows up for today being in range
+  function isTodayInRange(startDate, endDate) {
+    const today = formatDate(new Date());
+    return today >= formatDate(startDate) && today <= formatDate(endDate);
   }
 
   return (
@@ -62,14 +69,12 @@ export default function ProjectHome() {
           </h2>
           <div className="date-line-container">
             <div className="date-line"></div>
-            <div className="date-dot" style={{ left: calculateDotPosition(project?.startDate, project?.endDate) }}></div>
+            {isTodayInRange(project?.startDate, project?.endDate) ? <div className="date-dot" style={{ left: calculateDotPosition(project?.startDate, project?.endDate) }}></div> : ""}
             <div className="date-label start-date">{formatDate(project?.startDate)}</div>
             <div className="date-label end-date">{formatDate(project?.endDate)}</div>
-            {project?.startDate && project?.endDate && (
-              <div className="date-label today" style={{ left: calculateDotPosition(project?.startDate, project?.endDate) }}>
-                Today
-              </div>
-            )}
+            {isTodayInRange(project?.startDate, project?.endDate) ? <div className="date-label today" style={{ left: calculateDotPosition(project?.startDate, project?.endDate) }}>
+              Today
+            </div> : ""}
           </div>
 
           <ProjectUpdateModal />
@@ -91,4 +96,5 @@ export default function ProjectHome() {
       </div>
     </>
   );
+
 }

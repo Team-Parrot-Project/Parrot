@@ -3,16 +3,19 @@ import { createProject } from '../../../store/project';
 import { useDispatch, useSelector } from 'react-redux';
 import * as sessionActions from '../../../store/session';
 import './ProjectCreateForm.css'
+import { addDaysToDate, formatDate } from '../../../store/util';
 
 export default function ProjectCreateForm({ closeModal }) {
   const dispatch = useDispatch();
   const [projectName, setProjectName] = useState('');
   const [description, setDescription] = useState('');
-  const [startDate, setStartDate] = useState('');
+  const [startDate, setStartDate] = useState(formatDate(new Date()));
   const [collaborators, setCollaborators] = useState([]);
-  const [endDate, setEndDate] = useState('');
+  const [endDate, setEndDate] = useState(addDaysToDate(formatDate(new Date()),1));
   const adminId = useSelector(sessionActions.getUser);
   const users = useSelector((state) => state.users);
+
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -53,23 +56,23 @@ export default function ProjectCreateForm({ closeModal }) {
     <form onSubmit={handleSubmit} className="project-create-form">
       <p className="project-create-form-title">Please fill out to create a project</p>
       <button type="submit" className="project-create-form-submit-button" >Create</button>
-      <label htmlFor="projectName">Project Name:</label>
-      <input type="text" required id="projectName" value={projectName} onChange={(e) => setProjectName(e.target.value)} />
-      <label htmlFor="description">Description:</label>
-      <textarea required id="description" value={description} onChange={(e) => setDescription(e.target.value)} />
+      <label htmlFor="projectName">Project Name</label>
+      <input className="project-create-form-name-input" type="text" required id="projectName" value={projectName} onChange={(e) => setProjectName(e.target.value)} />
+      <label htmlFor="description">Description</label>
+      <textarea className="project-create-form-description-input" required id="description" value={description} onChange={(e) => setDescription(e.target.value)} />
       <div className="project-create-form-date-wrapper">
         <div>
-          <label htmlFor="startDate" className="project-create-form-start-date-label" >Start Date:</label>
-          <input type="date" required id="startDate" className="project-create-form-start-date" value={startDate} onChange={(e) => setStartDate(e.target.value)} />
+          <label htmlFor="startDate" className="project-create-form-start-date-label" >Start Date</label>
+          <input type="date" required id="startDate" className="project-create-form-start-date-input" value={startDate} onChange={(e) => setStartDate(e.target.value)} />
         </div>
         <div>
-          <label htmlFor="endDate" className="project-create-form-end-date-label">End Date:</label>
-          <input type="date" required id="endDate" value={endDate} onChange={(e) => setEndDate(e.target.value)} />
+          <label htmlFor="endDate" className="project-create-form-end-date-label">End Date</label>
+          <input type="date" min={addDaysToDate(startDate, 1) } required id="endDate" className="project-create-form-end-date-input" value={endDate} onChange={(e) => setEndDate(e.target.value)} />
         </div>
       </div>
       <div className="project-create-form-add-collaborators-wrapper">
         <div>
-          <label htmlFor="collaborators" className="project-create-form-collaborators-label">Add Collaborators:</label>
+          <label htmlFor="collaborators" className="project-create-form-collaborators-label">Add Collaborators</label>
         </div>
         <div className="project-create-checkbox-container">
           {Object.values(users).map((user) => {

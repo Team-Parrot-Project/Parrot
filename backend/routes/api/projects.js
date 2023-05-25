@@ -138,7 +138,7 @@ router.post('/:projectId/tasks', requireUser, async (req,res,next)=>{
         admin: project.admin,
     })
     if(newNotification){
-        req.io.emit("message",newNotification)
+        req.io.to(projectId).emit("message",newNotification)
     }else{
         req.io.to(project.admin).emit("message","Issue with Notification")
         req.io.to(updatedTask.assignee).emit("message","Issue with Notification")
@@ -330,8 +330,7 @@ router.patch('/:projectId/tasks/:taskId', requireUser, async (req,res,next)=>{
             admin: project.admin,
         })
         if(newNotification){
-            req.io.to(project.admin).emit("message",newNotification);
-            req.io.to(updatedTask.assignee).emit("message",newNotification)
+            req.io.to(projectId).emit("message",newNotification)
         }else{
             req.io.to(project.admin).emit("message",{message:"Issue with Notification"})
         }

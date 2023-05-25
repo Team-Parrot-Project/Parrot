@@ -46,6 +46,8 @@ h2.project-home-table-title {
   width: 80vw;
 }
 
+/* This has to do with the date line */
+
 .date-line-container {
   display: flex;
   align-items: center;
