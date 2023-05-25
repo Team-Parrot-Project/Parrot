@@ -7,11 +7,13 @@ import * as userActions from '../../../store/user';
 import TaskCreateModal from '../TaskCreateForm/index'
 import TableRow from '../../TableRow/TableRow';
 import { formatDate } from '../../../store/util';
+import { useHistory } from 'react-router-dom/cjs/react-router-dom';
 
 function UserTaskIndex() {
   const dispatch = useDispatch();
   const allTasks = useSelector(taskActions.getTasks);
   const currentUser = useSelector(selectUser);
+  const history = useHistory();
 
   useEffect(() => {
 
@@ -31,7 +33,9 @@ function UserTaskIndex() {
         const formattedDate = formatDate(t.endDate);
         return (
           <TableRow key={ix} row={[t.title, t.status, formattedDate]}
-          rowClass={"default-row-class no-hover-ut"}
+          rowClass={"default-row-class"}
+          rowElement={t.projectId}
+          handleClick={(e, rowElement) => {history.push(`/projects/${rowElement}`)}}
           />
         )
       })}
