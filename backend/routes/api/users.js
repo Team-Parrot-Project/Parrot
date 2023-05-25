@@ -30,7 +30,7 @@ router.get('/current', restoreUser, (req, res) => {
 router.get('/:userid', async (req, res, next)=>{
   const userId = req.params.userid 
   console.log(userId,'userId')
-  const user = await User.findOne({"_id":`${userId}`}).populate("projects")
+  const user = await User.findOne({"_id":`${userId}`}).populate("projects") 
   return res.json(user)
 });
 

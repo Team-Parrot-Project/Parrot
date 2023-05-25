@@ -111,7 +111,7 @@ export default function Dashboard() {
             <h2 className="user-dashboard-project-task-container-title-x">Your Tasks</h2>
 
             <div className="task-selection">
-              <UserTaskIndex />
+              <UserTaskIndex projects={projects}/>
             </div>
 
             <div className="task-list">

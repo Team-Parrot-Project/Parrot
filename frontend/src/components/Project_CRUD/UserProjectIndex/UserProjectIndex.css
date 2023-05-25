@@ -23,3 +23,21 @@
     grid-gap: 0px; /* Gap between columns */
     max-width: 90%;
   }
+
+.task-timeline-link {
+    height: 14px;
+}
+
+.icon-button {
+    height: 14px;
+    background-color: transparent;
+    border:none;
+    width: 20px;
+    padding: unset;
+    transition: transform 250ms ease-out;
+}
+
+.icon-button:hover {
+    cursor: pointer;
+    transform: scale(1.4);
+}
