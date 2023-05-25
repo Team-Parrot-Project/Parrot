@@ -23,30 +23,61 @@
   color: black;
 }
 
-.task-create-form button {
-  margin: 10px;
-  background-color: #1e90ec;
-  color: #fff;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 5px;
-  font-size: 16px;
+.task-create-form-button {
+  display: inline-block;
+  padding: 6px 12px;
+  font-size: 14px;
+  font-weight: bold;
   text-align: center;
   text-decoration: none;
+  border: none;
+  border-radius: 4px;
+  background-color: #4c4c52;
+  color: #FFFFFF;
   cursor: pointer;
+  transition: background-color 250ms ease;
+  margin-top: 20px;
+  width: fit-content;
+  border: 1px solid #69696b;
+  margin-left: auto;
 }
 
-.task-create-form select {
-  width: 100%;
-}
-
-.task-create-form button:hover {
-  background-color: #0069d9;
+.task-create-form-button:hover {
+  background-color: #47664a;
 }
 
 .task-create-form textarea {
   resize: vertical;
+  max-height: 350px;
 }
+
+.task-create-form-header {
+  font-size: 20px;
+  padding-bottom: 5px;
+  border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+}
+
+.task-create-form-sub-container {
+  display: flex;
+  justify-content: space-between;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* This is the button on the acutal project show page */
 
 .create-task-button {
   display: inline-block;
@@ -76,10 +107,4 @@
 
 .create-task-button:active {
   background-color: #222224;
-}
-
-.task-create-form-header {
-  font-size: 20px;
-  padding-bottom: 5px;
-  border-bottom: 2px solid rgba(255, 255, 255, 0.2);
 }
