@@ -36,6 +36,16 @@ export function addDaysToDate(dateString, daysToAdd) {
   return `${updatedYear}-${updatedMonth}-${updatedDay}`;
 }
 
+export function monthDayYear(dateString) {
+  const dateComponents = dateString.split("-");
+
+  const year = dateComponents.shift().slice(2,4);
+  dateComponents.push(year);
+
+  return dateComponents.join("-");
+}
+
+// custom svgs
 export function getTimelineSvg(classes = "") {
   classes = classes + " nav-icon"
 
