@@ -15,7 +15,6 @@
 
 .task-create-form input,
 .task-create-form textarea {
-  padding: 10px;
   border-radius: 5px;
   border: 2px solid #eee;
   margin-bottom: 20px;
@@ -62,20 +61,73 @@
   justify-content: space-between;
 }
 
+.task-create-form-status-input {
+  margin-top: 5px;
+  font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Helvetica,Arial,sans-serif;
+  padding: 5px;
+  border-radius: 5px;
+  border: 1px solid #eee;
+  background-color: #ffffff;
+  color: black;
+  cursor: pointer;
+}
 
+.task-create-form-start-date-input {
+  margin-top: 5px;
+  font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Helvetica,Arial,sans-serif;
+  padding: 5px;
+  border-radius: 5px;
+  border: 1px solid #eee;
+  background-color: #ffffff;
+  color: black;
+  cursor: pointer;
+}
 
+.task-create-form-title-input {
+  font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Helvetica,Arial,sans-serif;
+  padding: 10px;
+}
 
+.task-create-form-description-input {
+  font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Helvetica,Arial,sans-serif;
+  padding: 10px;
+}
 
+.task-create-form-due-date-input {
+  margin-top: 5px;
+  font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Helvetica,Arial,sans-serif;
+  padding: 5px;
+  border-radius: 5px;
+  border: 1px solid #eee;
+  background-color: #ffffff;
+  color: black;
+  cursor: pointer;
+}
 
+.task-create-form-assignee-input {
+  margin-top: 5px;
+  font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Helvetica,Arial,sans-serif;
+  padding: 5px;
+  border-radius: 5px;
+  border: 1px solid #eee;
+  background-color: #ffffff;
+  color: black;
+  cursor: pointer;
+}
 
+.task-create-progress-input-bar {
+  cursor: pointer;
+}
 
-
-
-
-
-
-
-
+.task-create-form-title-input:hover,
+.task-create-form-description-input:hover,
+.task-create-form-status-input:hover,
+.task-create-form-start-date-input:hover,
+.task-create-form-due-date-input:hover,
+.task-create-form-assignee-input:hover {
+  border-color: #4573d2;
+  box-shadow: 0 0 5px 1px #4573d2;
+}
 
 /* This is the button on the acutal project show page */
 

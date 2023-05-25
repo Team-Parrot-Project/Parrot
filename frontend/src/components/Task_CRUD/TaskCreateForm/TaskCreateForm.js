@@ -60,16 +60,16 @@ export default function TaskCreateForm({ taskTitle = '', closeModal }) {
       <p className="task-create-form-header">Please fill out to create a task</p>
       <button className="task-create-form-button" type="submit">Create</button>
       <label htmlFor="title">Task Name</label>
-      <input type="text" id="title" value={title} onChange={(e) => setTitle(e.target.value)} required />
+      <input className="task-create-form-title-input" type="text" id="title" value={title} onChange={(e) => setTitle(e.target.value)} required />
       <label htmlFor="description">Description</label>
-      <textarea id="description" value={description} onChange={(e) => setDescription(e.target.value)} required />
+      <textarea className="task-create-form-description-input" id="description" value={description} onChange={(e) => setDescription(e.target.value)} required />
       <div className="task-create-form-sub-container">
         <div>
           <div>
             <label htmlFor="status">Status</label>
           </div>
           <div>
-            <select id='status' value={status} onChange={(e) => setStatus(e.target.value)}>
+            <select className="task-create-form-status-input" id='status' value={status} onChange={(e) => setStatus(e.target.value)}>
               {statusOptions.map((o, ix) => {
                 return (<option value={o} key={ix}>{o}</option>)
               })}
@@ -81,7 +81,7 @@ export default function TaskCreateForm({ taskTitle = '', closeModal }) {
             <label htmlFor="startDate">Start Date</label>
           </div>
           <div>
-            <input type="date" id="startDate" value={startDate} required onChange={(e) => setStartDate(e.target.value)} />
+            <input className="task-create-form-start-date-input" type="date" id="startDate" value={startDate} required onChange={(e) => setStartDate(e.target.value)} />
           </div>
         </div>
         <div>
@@ -89,7 +89,7 @@ export default function TaskCreateForm({ taskTitle = '', closeModal }) {
             <label htmlFor="dueDate">Due Date</label>
           </div>
           <div>
-            <input type="date" id="dueDate" min={addDaysToDate(startDate, 1) || ""} required value={dueDate} onChange={(e) => setDueDate(e.target.value)} />
+            <input className="task-create-form-due-date-input" type="date" id="dueDate" min={addDaysToDate(startDate, 1) || ""} required value={dueDate} onChange={(e) => setDueDate(e.target.value)} />
           </div>
         </div>
         <div>
@@ -97,7 +97,7 @@ export default function TaskCreateForm({ taskTitle = '', closeModal }) {
             <label htmlFor="assignee">Assignee</label>
           </div>
           <div>
-            <select id="assignee" value={assignee} onChange={(e) => setAssignee(e.target.value)}>
+            <select className="task-create-form-assignee-input" id="assignee" value={assignee} onChange={(e) => setAssignee(e.target.value)}>
               <option value="">Select assignee</option>
               {collaborators && Object.values(collaborators)
                 .filter(collaborator => collaborator && collaborator._id)
