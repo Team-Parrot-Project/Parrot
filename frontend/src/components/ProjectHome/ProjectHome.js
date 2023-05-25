@@ -80,8 +80,8 @@ export default function ProjectHome() {
           <ProjectUpdateModal />
           <TaskCreateModal />
           <DeleteProjectModal />
-          <TaskRecommendation project={project} recommendedTasks={recommendedTasks} setRecommendedTasks={setRecommendedTasks} />
           <ProjectTaskIndex />
+          <TaskRecommendation project={project} recommendedTasks={recommendedTasks} setRecommendedTasks={setRecommendedTasks}/>
           <div className="slider">
             <Slider>
               {recommendedTasks.length > 0 && recommendedTasks.map((taskTitle, idx) => (
