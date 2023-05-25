@@ -19,6 +19,8 @@ export default function Dashboard() {
   // grabs all the project collaborators from state
   const projects = useSelector(state => state.projects);
 
+
+  // count unique collaborators across all projects, stored in a set, which automatically removes duplicates
   const collaboratorsSet = Object.values(projects).reduce((collabSet, project) => {
     project.collaborators.forEach(collab => collabSet.add(collab));
     return collabSet;
