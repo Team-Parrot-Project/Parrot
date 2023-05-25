@@ -30,31 +30,7 @@ router.get('/current', restoreUser, (req, res) => {
 router.get('/:userid', async (req, res, next)=>{
   const userId = req.params.userid 
   console.log(userId,'userId')
-  const user = await User.findOne({"_id":`${userId}`}).populate("projects")
-  // console.log(user, "USER!")
-  // let newTask;
-  // let taskArray = []
-
-  // for (let i = 0; i < user.projects.length; i++) {
-  //   const project = user.projects[i];
-    
-  //   for (let j = 0; j < project.tasks.length; j++) {
-  //     const task = project.tasks[j];
-  //     newTask = {...task.toObject(), projectId: project._id};
-  //     taskArray.push(newTask);
-  //     console.log(newTask, "NEWTASK");
-  //     user.projects[i].tasks[j] = newTask;
-  //     console.log(user.projects[i].tasks[j], "user.projects[i].tasks[j]")
-  //   }
-
-  // }
-
-  // user.projects.forEach(p => {
-  //   p.tasks.forEach((t) => {
-  //     t = [];
-  //   })
-  // });
-
+  const user = await User.findOne({"_id":`${userId}`}).populate("projects") 
   return res.json(user)
 });
 
