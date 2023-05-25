@@ -24,7 +24,7 @@ const io = require('socket.io')(server, {
     origin: ["http://localhost:3000","https://www.parrotpm.com"]
   }
 });
-server.listen(5000);
+server.listen(5001);
 
 io.on('connection', socket => {
   console.log(socket.id,'a user connected')

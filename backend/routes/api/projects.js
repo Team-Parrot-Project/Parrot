@@ -384,6 +384,19 @@ router.delete('/:projectId/tasks/:taskId', requireUser, async (req,res,next)=>{
 
         await project.save();
 
+        const newNotification = new Notification({
+            message: `Task deleted by ${req.user.username}`,
+            target: "task",
+            task: taskId,
+            project: projectId,
+            admin: project.admin,
+        })
+        if(newNotification){
+            req.io.to(projectId).emit("message",newNotification)
+        }else{
+            req.io.to(project.admin).emit("message",{message:"Issue with Notification"})
+        }
+
         return res.json({message: "Deletion complete"});
     } else {
 
