@@ -18,14 +18,13 @@ const csrfRouter = require('./routes/api/csrf');
 const projectsRouter = require('./routes/api/projects');
 const notificationsRouter = require('./routes/api/notifications');
 var app = express();
-const PORT = process.env.PORT || 5003
 const server = require('http').createServer(app);
 const io = require('socket.io')(server, {
   cors: {
     origin: ["http://localhost:3000","https://www.parrotpm.com"]
   }
 });
-server.listen(PORT);
+server.listen(5000);
 
 io.on('connection', socket => {
   console.log(socket.id,'a user connected')
