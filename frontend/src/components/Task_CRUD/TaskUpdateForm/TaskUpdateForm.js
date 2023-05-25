@@ -121,7 +121,7 @@ export default function TaskUpdateForm({ taskId, projectId, closeModal }) {
             <label htmlFor="assignee">Assignee</label>
           </div>
           <div>
-            <select className="task-update-form-assignee-input" id="assignee" value={assigneeId} onChange={(e) => handleAssigneeChange(e)}>
+            <select className="task-update-form-assignee-input" id="assignee" value={assigneeId} onChange={(e) => handleAssigneeChange(e)} >
               {Object.values(collaborators).map(collaborator => {
                 return (<option key={collaborator._id} value={collaborator._id}
                 >{collaborator.username}</option>)

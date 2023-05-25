@@ -1,80 +1,162 @@
 .task-create-form {
-    display: flex;
-    flex-direction: column;
-    align-items: left;
-    padding-right: 30px;
-    background-color: #2a2b2d;
+  display: flex;
+  flex-direction: column;
+  align-items: left;
+  width: 500px;
+  background-color: #2a2b2d;
 }
 
 .task-create-form label {
-    font-size: 18px;
-    font-weight: bold;
-    margin-bottom: 10px;
-    color: #eee;
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 10px;
+  color: #eee;
 }
 
 .task-create-form input,
 .task-create-form textarea {
-    width: 90%;
-    padding: 10px;
-    border-radius: 5px;
-    border: 2px solid #eee;
-    margin-bottom: 20px;
-    background-color: #ffffff;
-    color: black;
+  border-radius: 5px;
+  border: 2px solid #eee;
+  margin-bottom: 20px;
+  background-color: #ffffff;
+  color: black;
 }
 
-.task-create-form button {
-    margin: 10px;
-    background-color: #1e90ec;
-    color: #fff;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    font-size: 16px;
-    text-align: center;
-    text-decoration: none;
-    cursor: pointer;
+.task-create-form-button {
+  display: inline-block;
+  padding: 6px 12px;
+  font-size: 14px;
+  font-weight: bold;
+  text-align: center;
+  text-decoration: none;
+  border: none;
+  border-radius: 4px;
+  background-color: #4c4c52;
+  color: #FFFFFF;
+  cursor: pointer;
+  transition: background-color 250ms ease;
+  margin-top: 20px;
+  width: fit-content;
+  border: 1px solid #69696b;
+  margin-left: auto;
 }
 
-.task-create-form select {
-    width: 100%;
-}
-
-.task-create-form button:hover {
-    background-color: #0069d9;
+.task-create-form-button:hover {
+  background-color: #47664a;
 }
 
 .task-create-form textarea {
-    resize: vertical;
+  resize: vertical;
+  max-height: 350px;
 }
 
+.task-create-form-header {
+  font-size: 20px;
+  padding-bottom: 5px;
+  border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+}
+
+.task-create-form-sub-container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.task-create-form-status-input {
+  margin-top: 5px;
+  font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Helvetica,Arial,sans-serif;
+  padding: 5px;
+  border-radius: 5px;
+  border: 1px solid #eee;
+  background-color: #ffffff;
+  color: black;
+  cursor: pointer;
+}
+
+.task-create-form-start-date-input {
+  margin-top: 5px;
+  font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Helvetica,Arial,sans-serif;
+  padding: 5px;
+  border-radius: 5px;
+  border: 1px solid #eee;
+  background-color: #ffffff;
+  color: black;
+  cursor: pointer;
+}
+
+.task-create-form-title-input {
+  font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Helvetica,Arial,sans-serif;
+  padding: 10px;
+}
+
+.task-create-form-description-input {
+  font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Helvetica,Arial,sans-serif;
+  padding: 10px;
+}
+
+.task-create-form-due-date-input {
+  margin-top: 5px;
+  font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Helvetica,Arial,sans-serif;
+  padding: 5px;
+  border-radius: 5px;
+  border: 1px solid #eee;
+  background-color: #ffffff;
+  color: black;
+  cursor: pointer;
+}
+
+.task-create-form-assignee-input {
+  margin-top: 5px;
+  font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Helvetica,Arial,sans-serif;
+  padding: 5px;
+  border-radius: 5px;
+  border: 1px solid #eee;
+  background-color: #ffffff;
+  color: black;
+  cursor: pointer;
+}
+
+.task-create-progress-input-bar {
+  cursor: pointer;
+}
+
+.task-create-form-title-input:hover,
+.task-create-form-description-input:hover,
+.task-create-form-status-input:hover,
+.task-create-form-start-date-input:hover,
+.task-create-form-due-date-input:hover,
+.task-create-form-assignee-input:hover {
+  border-color: #4573d2;
+  box-shadow: 0 0 5px 1px #4573d2;
+}
+
+/* This is the button on the acutal project show page */
+
 .create-task-button {
-    display: inline-block;
-    padding: 8px 16px;
-    font-size: 14px;
-    font-weight: bold;
-    text-align: center;
-    text-decoration: none;
-    border: none;
-    border-radius: 4px;
-    background-color: #2E2E30;
-    color: #FFFFFF;
-    cursor: pointer;
-    transition: background-color 250ms ease;
-    margin-left: 10px;
-    margin-right: 10px;
+  display: inline-block;
+  padding: 8px 16px;
+  font-size: 14px;
+  font-weight: bold;
+  text-align: center;
+  text-decoration: none;
+  border: none;
+  border-radius: 4px;
+  background-color: #2E2E30;
+  color: #FFFFFF;
+  cursor: pointer;
+  transition: background-color 250ms ease;
+  margin-left: 10px;
+  margin-right: 10px;
 }
 
 .create-task-button:hover {
-    background-color: #4C4C4E;
+  background-color: #4C4C4E;
 }
 
 .create-task-button:focus {
-    outline: none;
-    box-shadow: 0 0 0 2px #FFFFFF, 0 0 0 4px #2E2E30;
+  outline: none;
+  box-shadow: 0 0 0 2px #FFFFFF, 0 0 0 4px #2E2E30;
 }
 
 .create-task-button:active {
-    background-color: #222224;
+  background-color: #222224;
 }
