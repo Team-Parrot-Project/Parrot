@@ -1,7 +1,6 @@
 import React from 'react';
 import NavBar from '../NavBar/NavBar';
 import './ProjectHome.css';
-import Notifications from '../Notifications/Notifications';
 import { useDispatch, useSelector } from 'react-redux';
 import ProjectTaskIndex from './ProjectTaskIndex/ProjectTaskIndex';
 import { useParams } from 'react-router-dom/cjs/react-router-dom';
@@ -22,6 +21,7 @@ export default function ProjectHome() {
   const { projectId } = useParams();
   const [recommendedTasks, setRecommendedTasks] = useState([]);
   const project = useSelector((state) => state.projects[projectId]);
+
 
   useEffect(() => {
     dispatch(taskActions.purgeTasks());
