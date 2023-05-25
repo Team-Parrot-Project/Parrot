@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Modal } from '../../../context/Modal';
 import TaskCreateForm from './TaskCreateForm';
 
-export default function TaskCreateModal({taskId}) {
+export default function TaskCreateModal({taskTitle = ''}) {
     const [showModal, setShowModal] = useState(false);
     const closeModal = () => setShowModal(false);
 
@@ -11,7 +11,7 @@ export default function TaskCreateModal({taskId}) {
             <button className='create-task-button' onClick={() => setShowModal(true)}>Create Task</button>
             {showModal && (
                 <Modal onClose={() => setShowModal(false)}>
-                    <TaskCreateForm onSubmit={closeModal} closeModal={closeModal}/>
+                    <TaskCreateForm onSubmit={closeModal} taskTitle={taskTitle}/>
                 </Modal>
             )}
         </>

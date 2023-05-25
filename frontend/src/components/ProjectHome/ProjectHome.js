@@ -1,7 +1,6 @@
 import React from 'react';
 import NavBar from '../NavBar/NavBar';
 import './ProjectHome.css';
-import Notifications from '../Notifications/Notifications';
 import { useDispatch, useSelector } from 'react-redux';
 import ProjectTaskIndex from './ProjectTaskIndex/ProjectTaskIndex';
 import { useParams } from 'react-router-dom/cjs/react-router-dom';
@@ -15,6 +14,9 @@ import ProjectUpdateModal from '../Project_CRUD/ProjectUpdateForm/';
 import DeleteProjectModal from '../Project_CRUD/ProjectDelete/ProjectDeleteModal';
 import { formatDate } from '../../store/util';
 import { fetchUsers } from '../../store/user';
+import Slider from 'react-slick';
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
 
 
 export default function ProjectHome() {
@@ -22,6 +24,7 @@ export default function ProjectHome() {
   const { projectId } = useParams();
   const [recommendedTasks, setRecommendedTasks] = useState([]);
   const project = useSelector((state) => state.projects[projectId]);
+
 
   useEffect(() => {
     dispatch(taskActions.purgeTasks());
@@ -77,12 +80,17 @@ export default function ProjectHome() {
           <ProjectUpdateModal />
           <TaskCreateModal />
           <DeleteProjectModal />
-          <TaskRecommendation project={project} recommendedTasks={recommendedTasks} setRecommendedTasks={setRecommendedTasks} />
           <ProjectTaskIndex />
-          <div className="task-create-forms">
-            {recommendedTasks.length > 0 && recommendedTasks.map((taskTitle) => (
-              <TaskCreateForm key={taskTitle} taskTitle={taskTitle} />
-            ))}
+          <TaskRecommendation project={project} recommendedTasks={recommendedTasks} setRecommendedTasks={setRecommendedTasks}/>
+          <div className="slider">
+            <Slider>
+              {recommendedTasks.length > 0 && recommendedTasks.map((taskTitle, idx) => (
+                <>
+                <TaskCreateModal key={taskTitle} taskTitle={taskTitle} />
+                <p>{idx + 1}. {taskTitle}</p>
+                </>
+              ))}
+            </Slider>
           </div>
         </div>
       </div>
