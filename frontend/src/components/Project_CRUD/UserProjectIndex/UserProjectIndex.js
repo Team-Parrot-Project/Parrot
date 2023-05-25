@@ -4,12 +4,13 @@ import * as projectActions from '../../../store/project';
 import { useHistory } from 'react-router-dom/cjs/react-router-dom';
 import TableRow from '../../TableRow/TableRow';
 import { getTimelineSvg } from '../../../store/util';
+import { Tooltip } from 'react-tooltip';
 
 function UserProjectIndex() {
   const allProjects = useSelector(projectActions.getProjects);
   const history = useHistory();
 
-  const handleClick = (e,project)=>{
+  const handleClick = (e, project) => {
     history.push(`/projects/${project._id}`)
   }
 
@@ -23,17 +24,20 @@ function UserProjectIndex() {
 
   return (
     <div className="user-project-index" >
-      <TableRow row={["Title", "Collaborators","Tasks", "Timeline"]} rowClass={"task-table-header"}/>
+      <TableRow row={["Title", "Collaborators", "Tasks", "Timeline"]} rowClass={"task-table-header"} />
       {allProjects.map((p, ix) => {
         const collabCount = p.collaborators.length;
         const taskCount = p.tasks.length;
         return (
           <TableRow key={ix} handleClick={handleClick} rowElement={p} row={[
-            p.title, 
+            p.title,
             collabCount,
             taskCount,
-            <div onClick={(e) => {handleTimelineClick(e, p._id)}}>{timelineIcon}</div>
-          ]}/>
+            <>
+              <button className='icon-button' data-tooltip-id="toTimeline" onClick={(e) => { handleTimelineClick(e, p._id) }}>{timelineIcon}</button>
+              <Tooltip id="toTimeline" effect="solid" place="top">Go to Timeline</Tooltip>
+            </>
+          ]} />
         )
       })}
     </div>
