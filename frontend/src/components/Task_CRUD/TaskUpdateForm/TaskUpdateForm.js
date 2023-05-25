@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { getTask, updateTask } from "../../../store/task";
 import { fetchProject, getProject } from "../../../store/project";
 import { addDaysToDate, formatDate } from "../../../store/util";
+import { Tooltip } from 'react-tooltip'
 import './TaskUpdateForm.css';
 
 export default function TaskUpdateForm({ taskId, projectId, closeModal }) {
@@ -78,43 +79,61 @@ export default function TaskUpdateForm({ taskId, projectId, closeModal }) {
         <label htmlFor="description">Description</label>
         <textarea className="task-update-form-description-container" id="description" value={description} onChange={(event) => setDescription(event.target.value)} />
       </div>
-      <label htmlFor="status">Status:</label>
-      <select className="task-update-form-status-input" id='status' value={status} onChange={(e) => setStatus(e.target.value)}>
-        {statusOptions.map((o, ix) => {
-          return (<option value={o} key={ix}>{o}</option>)
-        })}
-      </select>
-      <div className="task-update-form-start-date-input-container">
-        <label htmlFor="startDate">Start Date</label>
-        <input
-          id="startDate"
-          type="date"
-          className="task-update-form-start-date-input"
-          required
-          value={startDate}
-          onChange={(event) => setStartDate(event.target.value)} />
+      <div className="sub-task-update-input-form-container">
+        <div>
+          <div>
+            <label htmlFor="status">Status</label>
+          </div>
+          <div>
+            <select className="task-update-form-status-input" id='status' value={status} onChange={(e) => setStatus(e.target.value)}>
+              {statusOptions.map((o, ix) => {
+                return (<option value={o} key={ix}>{o}</option>)
+              })}
+            </select>
+          </div>
+        </div>
+        <div className="task-update-form-start-date-input-container">
+          <div>
+            <label htmlFor="startDate">Start Date</label>
+          </div>
+          <input
+            id="startDate"
+            type="date"
+            className="task-update-form-start-date-input"
+            required
+            value={startDate}
+            onChange={(event) => setStartDate(event.target.value)} />
+        </div>
+        <div className="task-update-form-due-date-input-container">
+          <div>
+            <label htmlFor="dueDate">Due Date</label>
+          </div>
+          <input id="dueDate"
+            type="date"
+            min={addDaysToDate(startDate, 1) || ""}
+            required
+            className="task-update-form-due-date-input"
+            value={dueDate}
+            onChange={(event) => setDueDate(event.target.value)} />
+        </div>
+        <div>
+          <div>
+            <label htmlFor="assignee">Assignee</label>
+          </div>
+          <div>
+            <select className="task-update-form-assignee-input" id="assignee" value={assigneeId} onChange={(e) => handleAssigneeChange(e)}>
+              {Object.values(collaborators).map(collaborator => {
+                return (<option key={collaborator._id} value={collaborator._id}
+                >{collaborator.username}</option>)
+              })}
+            </select>
+          </div>
+        </div>
       </div>
-      <div className="task-update-form-due-date-input-container">
-        <label htmlFor="dueDate">Due Date</label>
-        <input id="dueDate"
-          type="date"
-          min={addDaysToDate(startDate,1) || ""}
-          required
-          className="task-update-form-due-date-input"
-          value={dueDate}
-          onChange={(event) => setDueDate(event.target.value)} />
-      </div>
-      <label htmlFor="assignee">Assignee</label>
-      <select id="assignee" value={assigneeId} onChange={(e) => handleAssigneeChange(e)}>
-        {Object.values(collaborators).map(collaborator => {
-          return (<option key={collaborator._id} value={collaborator._id}
-          >{collaborator.username}</option>)
-        })}
-      </select>
       <label className="task-update-progress-label" htmlFor="progress">Progress: {progress}</label>
-      <input id="progress" type="range" min="0" max="100" step={10} value={progress} onChange={(e) => setProgress(e.target.value)} />
-      <label htmlFor="blockingTasks">Blocking Tasks (ctrl + click to select/deselect multiple tasks)</label> <br />
-      <select id="blockingTasks" value={blockingTasks} onChange={(event) =>
+      <input className="task-update-progress-input-bar" id="progress" type="range" min="0" max="100" step={1} value={progress} onChange={(e) => setProgress(e.target.value)} />
+      <label className="task-update-form-blocking-tasks-label" htmlFor="blockingTasks">Blocking Tasks</label>
+      <select className="task-update-form-blocking-tasks-input" id="blockingTasks" data-tooltip-id="clickCtrlMultipe" value={blockingTasks} onChange={(event) =>
         setBlockingTasks(Array.from(event.target.selectedOptions, (option) => option.value))} multiple>
         {project && project.tasks
           .filter((task) => task._id !== taskId && task.startDate < currentTask.startDate) // Apply the condition
@@ -124,7 +143,9 @@ export default function TaskUpdateForm({ taskId, projectId, closeModal }) {
             </option>
           ))}
       </select>
-
+      <Tooltip id="clickCtrlMultipe" effect="solid" place="bottom">
+        Hold ctrl & click to select multiple tasks
+      </Tooltip>
       {errors && errors.map((error) => <div key={error}>{error}</div>)}
     </form>
   )

@@ -1,4 +1,5 @@
 .task-update-form {
+  width: 500px;
   display: flex;
   flex-direction: column;
   align-items: left;
@@ -9,13 +10,11 @@
 .task-update-form label {
   font-size: 18px;
   font-weight: bold;
-  margin-bottom: 10px;
   color: #eee;
 }
 
 .task-update-form input[type="text"],
-.task-update-form textarea,
-.task-update-form input[type="date"] {
+.task-update-form textarea {
   width: 95%;
   padding: 10px;
   border-radius: 5px;
@@ -27,11 +26,7 @@
 
 .task-update-form textarea {
   resize: vertical;
-}
-
-.task-update-form select {
-  padding-top: 5px;
-  padding-bottom: 5px;
+  max-height: 350px;
 }
 
 .task-update-form-submit-button {
@@ -48,7 +43,6 @@
   cursor: pointer;
   transition: background-color 250ms ease;
   margin-top: 20px;
-  margin-bottom: 10px;
   width: fit-content;
   border: 1px solid #69696b;
   margin-left: auto;
@@ -60,10 +54,7 @@
 
 .task-update-progress-label {
   margin-top: 10px;
-}
-
-.task-update-form-title {
-
+  margin-bottom: 5px;
 }
 
 .task-update-form-title-input {
@@ -79,7 +70,13 @@
 .task-update-form-status-input {
   font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Helvetica,Arial,sans-serif;
   width: fit-content;
-  margin-bottom: 10px;
+  margin-top: 5px;
+  padding: 5px;
+  border-radius: 5px;
+  border: 1px solid #eee;
+  background-color: #ffffff;
+  color: black;
+  cursor: pointer;
 }
 
 .task-update-form-start-date-input-container {
@@ -93,15 +90,68 @@
 .task-update-form-start-date-input {
   margin-top: 5px;
   font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Helvetica,Arial,sans-serif;
+  padding: 5px;
+  border-radius: 5px;
+  border: 1px solid #eee;
+  background-color: #ffffff;
+  color: black;
+  cursor: pointer;
 }
 
 .task-update-form-due-date-input {
   margin-top: 5px;
   font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Helvetica,Arial,sans-serif;
+  padding: 5px;
+  border-radius: 5px;
+  border: 1px solid #eee;
+  background-color: #ffffff;
+  color: black;
+  cursor: pointer;
 }
 
 .task-update-form-header {
   font-size: 20px;
   padding-bottom: 5px;
   border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+}
+
+.task-update-form-assignee-input {
+  font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Helvetica,Arial,sans-serif;
+  width: fit-content;
+  margin-top: 5px;
+  padding: 5px;
+  border-radius: 5px;
+  border: 1px solid #eee;
+  background-color: #ffffff;
+  color: black;
+  cursor: pointer;
+}
+
+.sub-task-update-input-form-container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.task-update-form-blocking-tasks-label {
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+.task-update-progress-input-bar {
+  cursor: pointer;
+}
+
+.task-update-form-blocking-tasks-input {
+  cursor: pointer;
+}
+
+.task-update-form-title-input:hover,
+.task-update-form-description-container:hover,
+.task-update-form-status-input:hover,
+.task-update-form-start-date-input:hover,
+.task-update-form-due-date-input:hover,
+.task-update-form-assignee-input,
+.task-update-form-blocking-tasks-input {
+  border-color: #4573d2;
+  box-shadow: 0 0 5px 1px #4573d2;
 }
