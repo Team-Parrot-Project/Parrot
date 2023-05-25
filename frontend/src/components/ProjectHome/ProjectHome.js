@@ -8,7 +8,6 @@ import * as projectActions from '../../store/project';
 import { useEffect, useState } from 'react';
 import * as taskActions from '../../store/task';
 import TaskRecommendation from '../UserHome/TaskRecommendation/TaskRecommendation';
-import TaskCreateForm from '../Task_CRUD/TaskCreateForm/TaskCreateForm';
 import TaskCreateModal from '../Task_CRUD/TaskCreateForm/';
 import ProjectUpdateModal from '../Project_CRUD/ProjectUpdateForm/';
 import DeleteProjectModal from '../Project_CRUD/ProjectDelete/ProjectDeleteModal';
@@ -86,7 +85,7 @@ export default function ProjectHome() {
             <Slider>
               {recommendedTasks.length > 0 && recommendedTasks.map((taskTitle, idx) => (
                 <>
-                <TaskCreateModal key={taskTitle} taskTitle={taskTitle} />
+                <TaskCreateModal key={taskTitle} taskTitle={taskTitle}/>
                 <p>{idx + 1}. {taskTitle}</p>
                 </>
               ))}

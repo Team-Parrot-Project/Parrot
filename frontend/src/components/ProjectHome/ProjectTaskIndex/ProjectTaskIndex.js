@@ -22,6 +22,7 @@ export default function ProjectTaskIndex() {
   const [modalTaskId, setModalTaskId] = useState();
   const [taskDetailId, setTaskDetailId] = useState(null);
   const allUsers = useSelector(selectUsers);
+  const tasks = useSelector(state => state.tasks)
 
   useEffect(() => {
     dispatch(fetchProject(projectId))
@@ -93,13 +94,13 @@ export default function ProjectTaskIndex() {
               </div>
               {taskDetailId === task._id && (
                 <div className="project-show-task-detail-dropdown">
-                  <p><strong>Title:</strong> {task.title}</p>
-                  <p><strong>Description:</strong> {task.description}</p>
-                  <p><strong>Assignee:</strong> {allUsers[task.assignee]?.username}</p>
-                  <p><strong>Start Date:</strong> {formatDate(task.startDate)}</p>
-                  <p><strong>End Date:</strong> {formatDate(task.endDate)}</p>
-                  <p><strong>Progress:</strong> {task.progress}</p>
-                  <p><strong>Dependent Tasks:</strong> {task.blockingTasks}</p>
+                  <p className="project-show-task-detail-dropdown-item detail-row"><label className="project-show-task-detail-dropdown-label">Title:</label> {task.title}</p>
+                  <p className="project-show-task-detail-dropdown-item detail-row"><label className="project-show-task-detail-dropdown-label">Description:</label> {task.description}</p>
+                  <p className="project-show-task-detail-dropdown-item detail-row"><label className="project-show-task-detail-dropdown-label">Assignee:</label> {allUsers[task.assignee]?.username}</p>
+                  <p className="project-show-task-detail-dropdown-item detail-row"><label className="project-show-task-detail-dropdown-label">Start Date:</label> {formatDate(task.startDate)}</p>
+                  <p className="project-show-task-detail-dropdown-item detail-row"><label className="project-show-task-detail-dropdown-label">End Date:</label> {formatDate(task.endDate)}</p>
+                  <p className="project-show-task-detail-dropdown-item detail-row"><label className="project-show-task-detail-dropdown-label">Progress:</label> {task.progress}</p>
+                  <p className="project-show-task-detail-dropdown-item detail-row"><label className="project-show-task-detail-dropdown-label">Dependent Tasks:</label> {task.blockingTasks.map(taskId => tasks[taskId] ? tasks[taskId].title : '').join(', ')}</p>
                 </div>
               )}
             </div>

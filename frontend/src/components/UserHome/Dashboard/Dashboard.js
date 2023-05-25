@@ -19,10 +19,14 @@ export default function Dashboard() {
   // grabs all the project collaborators from state
   const projects = useSelector(state => state.projects);
 
-  const totalCollaborators = Object.keys(projects).reduce((count, projectId) => {
-    const project = projects[projectId];
-    return count + project.collaborators.length;
-  }, 0);
+
+  // count unique collaborators across all projects, stored in a set, which automatically removes duplicates
+  const collaboratorsSet = Object.values(projects).reduce((collabSet, project) => {
+    project.collaborators.forEach(collab => collabSet.add(collab));
+    return collabSet;
+  }, new Set());
+
+  const totalUniqueCollaborators = collaboratorsSet.size;
 
   // grabs all completed tasks from state
   const tasks = useSelector(state => state.tasks);
@@ -91,7 +95,7 @@ export default function Dashboard() {
                     <div className="child-user-dashboard-project-task-number-ticker-container">
                       <h4
                         className="user-dashboard-project-task-number-ticker">
-                        {totalCollaborators}</h4>
+                        {totalUniqueCollaborators}</h4>
                     </div>
                   </div>
                 </div><span className="user-dashboard-project-quick-stats-title">collaborators</span>
