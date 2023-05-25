@@ -76,6 +76,7 @@
   border: 1px solid #eee;
   background-color: #ffffff;
   color: black;
+  cursor: pointer;
 }
 
 .task-update-form-start-date-input-container {
@@ -94,6 +95,7 @@
   border: 1px solid #eee;
   background-color: #ffffff;
   color: black;
+  cursor: pointer;
 }
 
 .task-update-form-due-date-input {
@@ -104,6 +106,7 @@
   border: 1px solid #eee;
   background-color: #ffffff;
   color: black;
+  cursor: pointer;
 }
 
 .task-update-form-header {
@@ -121,6 +124,7 @@
   border: 1px solid #eee;
   background-color: #ffffff;
   color: black;
+  cursor: pointer;
 }
 
 .sub-task-update-input-form-container {
@@ -135,4 +139,19 @@
 
 .task-update-progress-input-bar {
   cursor: pointer;
+}
+
+.task-update-form-blocking-tasks-input {
+  cursor: pointer;
+}
+
+.task-update-form-title-input:hover,
+.task-update-form-description-container:hover,
+.task-update-form-status-input:hover,
+.task-update-form-start-date-input:hover,
+.task-update-form-due-date-input:hover,
+.task-update-form-assignee-input,
+.task-update-form-blocking-tasks-input {
+  border-color: #4573d2;
+  box-shadow: 0 0 5px 1px #4573d2;
 }

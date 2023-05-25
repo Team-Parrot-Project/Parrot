@@ -57,9 +57,9 @@ export default function ProjectCreateForm({ closeModal }) {
       <p className="project-create-form-title">Please fill out to create a project</p>
       <button type="submit" className="project-create-form-submit-button" >Create</button>
       <label htmlFor="projectName">Project Name</label>
-      <input type="text" required id="projectName" value={projectName} onChange={(e) => setProjectName(e.target.value)} />
+      <input className="project-create-form-name-input" type="text" required id="projectName" value={projectName} onChange={(e) => setProjectName(e.target.value)} />
       <label htmlFor="description">Description</label>
-      <textarea required id="description" value={description} onChange={(e) => setDescription(e.target.value)} />
+      <textarea className="project-create-form-description-input" required id="description" value={description} onChange={(e) => setDescription(e.target.value)} />
       <div className="project-create-form-date-wrapper">
         <div>
           <label htmlFor="startDate" className="project-create-form-start-date-label" >Start Date</label>

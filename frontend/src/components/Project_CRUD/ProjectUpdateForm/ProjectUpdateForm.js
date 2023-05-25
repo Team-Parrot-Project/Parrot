@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getProject, updateProject } from '../../../store/project';
 import { useParams } from 'react-router-dom/cjs/react-router-dom.min';
 import { addDaysToDate, formatDate } from '../../../store/util';
+import { Tooltip } from 'react-tooltip'
 import './ProjectUpdateForm.css';
 
 export default function ProjectUpdateForm({ closeModal }) {
@@ -53,12 +54,13 @@ export default function ProjectUpdateForm({ closeModal }) {
 
   return (
     <form onSubmit={handleSubmit} className="project-update-form">
-      <p className="project-update-form-title">Please fill out to update a project</p>
+      <p className="project-update-form-title">Please fill out to update this project</p>
       <button type="submit">Update</button>
       <label htmlFor="projectName">Project Name</label>
       <input
         type="text"
         id="projectName"
+        className="project-update-form-title-input"
         value={projectName}
         onChange={(e) => setProjectName(e.target.value)}
       />
@@ -66,31 +68,58 @@ export default function ProjectUpdateForm({ closeModal }) {
       <textarea
         id="description"
         value={description}
+        className="project-update-form-description-input"
         onChange={(e) => setDescription(e.target.value)}
       />
-      <label htmlFor="startDate">Start Date</label>
-      <input
-        type="date"
-        id="startDate"
-        value={startDate}
-        onChange={(e) => setStartDate(e.target.value)}
-      />
-      <label htmlFor="endDate">End Date</label>
-      <input
-        type="date"
-        id="endDate"
-        value={endDate}
-        min={addDaysToDate(startDate, 1)}
-        onChange={(e) => setEndDate(e.target.value)}
-      />
-      <select id="collaborators" value={collaborators} onChange={(e) =>
-        setCollaborators(Array.from(e.target.selectedOptions, (option) => option.value))} multiple>
-        {Object.values(users).map((user) => (
-          <option key={user._id} value={user._id}>
-            {user.username}
-          </option>
-        ))}
-      </select>
+      <div className="project-update-form-date-wrapper">
+        <div>
+          <div>
+            <label htmlFor="startDate">Start Date</label>
+          </div>
+          <div>
+            <input
+              type="date"
+              id="startDate"
+              className="project-update-form-start-date-input"
+              value={startDate}
+              onChange={(e) => setStartDate(e.target.value)}
+            />
+          </div>
+        </div>
+        <div>
+          <div>
+            <label htmlFor="endDate">End Date</label>
+          </div>
+          <div>
+            <input
+              type="date"
+              id="endDate"
+              className="project-update-form-end-date-input"
+              value={endDate}
+              min={addDaysToDate(startDate, 1)}
+              onChange={(e) => setEndDate(e.target.value)}
+            />
+          </div>
+        </div>
+        <div>
+          <div>
+            <label htmlFor="collaborators">Collaborators</label>
+          </div>
+          <div>
+            <select data-tooltip-id="clickCtrlMultipe" className="project-update-form-collaborators-input" id="collaborators" value={collaborators} onChange={(e) =>
+              setCollaborators(Array.from(e.target.selectedOptions, (option) => option.value))} multiple>
+              {Object.values(users).map((user) => (
+                <option key={user._id} value={user._id}>
+                  {user.username}
+                </option>
+              ))}
+            </select>
+            <Tooltip id="clickCtrlMultipe" effect="solid" place="bottom">
+              Hold ctrl & click to select multiple collaborators
+            </Tooltip>
+          </div>
+        </div>
+      </div>
 
     </form>
   );
