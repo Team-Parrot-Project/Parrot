@@ -23,3 +23,7 @@
     grid-gap: 0px; /* Gap between columns */
     max-width: 90%;
   }
+
+.task-timeline-link {
+    height: 14px;
+}

@@ -37,7 +37,7 @@ export function addDaysToDate(dateString, daysToAdd) {
 }
 
 export function getTimelineSvg(classes = "") {
-  classes = classes + "nav-icon"
+  classes = classes + " nav-icon"
 
   return (
     <svg className={classes} viewBox="0 0 40 40"><path d="M34.5,6C32,6,30,8,30,10.5c0,1.1,0.4,2.1,1.1,2.9l-4.3,7.6C26.5,21,26.3,21,26,21c-0.9,0-1.6,0.3-2.3,0.7L19.2,18
