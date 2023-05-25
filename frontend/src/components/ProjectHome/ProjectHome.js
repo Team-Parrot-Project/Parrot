@@ -14,6 +14,9 @@ import ProjectUpdateModal from '../Project_CRUD/ProjectUpdateForm/';
 import DeleteProjectModal from '../Project_CRUD/ProjectDelete/ProjectDeleteModal';
 import { formatDate } from '../../store/util';
 import { fetchUsers } from '../../store/user';
+import Slider from 'react-slick';
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
 
 
 export default function ProjectHome() {
@@ -79,10 +82,15 @@ export default function ProjectHome() {
           <DeleteProjectModal />
           <TaskRecommendation project={project} recommendedTasks={recommendedTasks} setRecommendedTasks={setRecommendedTasks} />
           <ProjectTaskIndex />
-          <div className="task-create-forms">
-            {recommendedTasks.length > 0 && recommendedTasks.map((taskTitle) => (
-              <TaskCreateForm key={taskTitle} taskTitle={taskTitle} />
-            ))}
+          <div className="slider">
+            <Slider>
+              {recommendedTasks.length > 0 && recommendedTasks.map((taskTitle, idx) => (
+                <>
+                <TaskCreateModal key={taskTitle} taskTitle={taskTitle} />
+                <p>{idx + 1}. {taskTitle}</p>
+                </>
+              ))}
+            </Slider>
           </div>
         </div>
       </div>
