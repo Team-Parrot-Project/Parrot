@@ -101,3 +101,18 @@ h2.project-home-table-title {
   margin-bottom: 10px;
   transform: translateX(-50%);
 }
+
+.recommended-tasks {
+  margin-left: 50px;
+}
+
+.slider {
+  padding: 50px;
+}
+
+.slider p {
+  font-size: 16px;
+  margin: 10px;
+  padding: 10px;
+  color: white;
+}
