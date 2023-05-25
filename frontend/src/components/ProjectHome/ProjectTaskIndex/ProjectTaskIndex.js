@@ -63,11 +63,9 @@ export default function ProjectTaskIndex() {
             ]}
           />
 
-          {allTasks.map((task) => (
-            <>
-              <div onClick={() =>
-                setTaskDetailId(taskDetailId === task._id ? null : task._id)
-              }>
+          {allTasks.sort((t) => {return t.createdAt}).map((task) => (
+            <div key={task._id}>
+              <div onClick={() => setTaskDetailId(taskDetailId === task._id ? null : task._id)}>
                 <TableRow
                   rowClass={"project-task-table-row no-hover"}
                   rowElement={task._id}
@@ -104,7 +102,7 @@ export default function ProjectTaskIndex() {
                   <p><strong>Dependent Tasks:</strong> {task.blockingTasks}</p>
                 </div>
               )}
-            </>
+            </div>
           ))}
         </div>
         <Tooltip id="clickForTaskDetails" effect="solid" place="top">
