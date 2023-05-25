@@ -39,16 +39,20 @@ export const taskReducer = (state = defaultState,action) =>{
     const newState = {...state};
     switch(action.type){
         case ADD_TASK:
+            debugger;
             return {...state, [action.task._id]: action.task}
         case ADD_TASKS:
+            debugger;
             return {...action.tasks}
         case REMOVE_TASK:
             delete newState[action.payload.taskId]
             return newState
         case ADD_PROJECT:
+            // debugger;
             const taskArray = action.project.tasks;
             taskArray?.forEach(task=>{
                 newState[task._id] = task;
+                newState[task._id].projectId = action.project._id;
             })
             return newState;
         case ADD_PROJECTS:
