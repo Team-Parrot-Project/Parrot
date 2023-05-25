@@ -18,7 +18,7 @@ const csrfRouter = require('./routes/api/csrf');
 const projectsRouter = require('./routes/api/projects');
 const notificationsRouter = require('./routes/api/notifications');
 var app = express();
-const PORT = 5003;
+const PORT = process.env.PORT || 5003
 const server = require('http').createServer(app);
 const io = require('socket.io')(server, {
   cors: {
