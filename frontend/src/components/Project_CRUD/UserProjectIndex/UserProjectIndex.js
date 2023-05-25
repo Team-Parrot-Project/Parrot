@@ -10,12 +10,16 @@ function UserProjectIndex() {
   const history = useHistory();
 
   const handleClick = (e,project)=>{
-    e.preventDefault();
     history.push(`/projects/${project._id}`)
   }
 
   const timelineClasses = "task-timeline-link"
   const timelineIcon = getTimelineSvg(timelineClasses);
+
+  function handleTimelineClick(e, pid) {
+    e.stopPropagation();
+    history.push(`/projects/${pid}/timeline`);
+  }
 
   return (
     <div className="user-project-index" >
@@ -28,7 +32,7 @@ function UserProjectIndex() {
             p.title, 
             collabCount,
             taskCount,
-            timelineIcon
+            <div onClick={(e) => {handleTimelineClick(e, p._id)}}>{timelineIcon}</div>
           ]}/>
         )
       })}
