@@ -4,6 +4,7 @@
 }
 
 .gantt-chart-wrapper {
+  margin-left: 175px;
   background-color: #1e1f21;
   width: 100vw;
   overflow-y: scroll;

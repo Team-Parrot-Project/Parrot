@@ -1,4 +1,6 @@
 .user-home-wrapper {
   display: flex;
-  height: 100vh;
+  min-height: 90vh;
+  padding-bottom: 10vh;
+  background-color: #1E1F21;
 }

@@ -146,8 +146,7 @@
 }
 
 .project-show-task-row-wrapper {
-    overflow: scroll;
-    max-height: 500px;
+
 }
 
 .project-show-task-row-wrapper::-webkit-scrollbar {

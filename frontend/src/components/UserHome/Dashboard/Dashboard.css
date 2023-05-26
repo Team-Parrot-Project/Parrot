@@ -2,7 +2,8 @@
   font-family: Arial, sans-serif;
   color: #FFFFFF;
   background-color: #1e1f21;
-  width: 100vw;
+  margin-left: 175px;
+  width: 100%;
 }
 
 .user-dashboard-main-content {
@@ -197,6 +198,7 @@
   transition-duration: 200ms;
   transition-property: border-color, box-shadow;
   display: block;
+  height: fit-content;
 }
 
 .user-dashboard-projects-container:hover {
