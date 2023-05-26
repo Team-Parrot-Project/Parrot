@@ -10,11 +10,25 @@ const { userOnProject, taskProtector, stringifyCompare, blockingTaskCheck, array
 const jbuilder = require('jbuilder');
 const { Task } = require('../../models/Project');
 
-router.get('/:projectid', requireUser, async (req,res,next)=>{
+router.get('/:projectid', requireUser, async (req, res, next) => {
     const projectId = req.params.projectid
+    const rootUrl = req.originalUrl;
+    console.log("rooturl", rootUrl)
+
+    let project;
+
+    console.log(projectId, "PID!!!")
 
     // get the project
-    const project = await Project.findOne({"_id":`${projectId}`})
+    try {
+        project = await Project.findOne({ "_id": `${projectId}` })
+        // console.log(project, "PROJ")
+    }
+    catch (error) {
+        return res.redirect("/");
+    }
+
+    console.log(project, "PROJ post error")
 
     // need to make sure the currently logged in user is either a collaborator or an admin of the project
     if (project && userOnProject(project, req.user._id)) {
@@ -39,11 +53,11 @@ router.get('/:projectid', requireUser, async (req,res,next)=>{
         return res.json(nestedProject);
     } else {
         res.statusCode = 404;
-        return res.json({message: "No Project Found"});
+        return res.json({ message: "No Project Found" });
     }
 });
 
-router.post('/:projectId/tasks', requireUser, async (req,res,next)=>{
+router.post('/:projectId/tasks', requireUser, async (req, res, next) => {
 
     console.log("in POST /:projectId/tasks\n****\n");
 
@@ -60,21 +74,21 @@ router.post('/:projectId/tasks', requireUser, async (req,res,next)=>{
     let project;
 
     try {
-        project = await Project.findOne({"_id":`${projectId}`})
+        project = await Project.findOne({ "_id": `${projectId}` })
         console.log(project, "project\n****\n");
-    } catch(error) {
+    } catch (error) {
         return res.json(error);
     }
 
     // baseline checks - all of these fields must be present in post request, so they will be validated
     if (!project) {
         res.statusCode = 404;
-        return res.json({message: "no project found"});
+        return res.json({ message: "no project found" });
     }
     // the logged in user must always be present and on the task
     else if (!userOnProject(project, req.user._id)) {
         res.statusCode = 403;
-        return res.json({message: "logged in user is not a collaborator or admin of the project"});
+        return res.json({ message: "logged in user is not a collaborator or admin of the project" });
     }
 
     // optional field validation - if these are present, we must validate them
@@ -93,17 +107,17 @@ router.post('/:projectId/tasks', requireUser, async (req,res,next)=>{
             console.log(foundProject, "foundProject\n****\n");
 
 
-            if(!fetchedAssignee) {
+            if (!fetchedAssignee) {
                 res.statusCode = 404;
-                return res.json({message: "Can't find assignee"});
+                return res.json({ message: "Can't find assignee" });
             } else if (!userOnProject(project, assigneeId)) {
                 console.log("here");
                 res.statusCode = 403;
-                return res.json({message: "assignee is not listed as a collaborator on the project"});
+                return res.json({ message: "assignee is not listed as a collaborator on the project" });
             } else if (!foundProject) {
                 console.log("there")
                 res.statusCode = 403;
-                return res.json({message: "assignee does not have this project on their list of projects"});
+                return res.json({ message: "assignee does not have this project on their list of projects" });
             }
 
         } catch (error) {
@@ -112,19 +126,19 @@ router.post('/:projectId/tasks', requireUser, async (req,res,next)=>{
     }
 
     // perform other validation, ultimately attempting a save
-    const newTask = new Task (req.body);
+    const newTask = new Task(req.body);
 
-    if(newTask.blockingTasks?.length > 0) {
+    if (newTask.blockingTasks?.length > 0) {
         console.log("performing a check of blocking tasks\n****\n")
 
         const blockCheck = blockingTaskCheck(newTask, project)
         console.log(blockCheck, "blockCheck\n****\n");
 
         // nesting so I can get the console log above in
-        if(!blockCheck) {
+        if (!blockCheck) {
             console.log("Stopping POST due to invalue blocking task");
             res.statusCode = 404;
-            return res.json({message: "invalid blocking tasks, retry with updated dates or blocking tasks"});
+            return res.json({ message: "invalid blocking tasks, retry with updated dates or blocking tasks" });
         }
     }
 
@@ -137,11 +151,11 @@ router.post('/:projectId/tasks', requireUser, async (req,res,next)=>{
         project: projectId,
         admin: project.admin,
     })
-    if(newNotification){
-        req.io.to(projectId).emit("message",newNotification)
-    }else{
-        req.io.to(project.admin).emit("message","Issue with Notification")
-        req.io.to(updatedTask.assignee).emit("message","Issue with Notification")
+    if (newNotification) {
+        req.io.to(projectId).emit("message", newNotification)
+    } else {
+        req.io.to(project.admin).emit("message", "Issue with Notification")
+        req.io.to(updatedTask.assignee).emit("message", "Issue with Notification")
     }
     try {
         const savedProject = await project.save();
@@ -150,7 +164,7 @@ router.post('/:projectId/tasks', requireUser, async (req,res,next)=>{
         const returnedTask = savedProject.tasks.id(newTask._id);
         console.log(returnedTask, "returnedTask\n****\n");
 
-        if(assigneeId) {
+        if (assigneeId) {
             fetchedAssignee.assignedTasks.push(returnedTask._id)
 
             const savedAssigneeResult = await fetchedAssignee.save();
@@ -161,7 +175,7 @@ router.post('/:projectId/tasks', requireUser, async (req,res,next)=>{
         const manipulatedTask = {
             ...returnedTask.toObject(),
             projectId: project._id
-            };
+        };
 
         console.log(manipulatedTask, "manipulatedTask\n****\n");
 
@@ -171,7 +185,7 @@ router.post('/:projectId/tasks', requireUser, async (req,res,next)=>{
     }
 })
 
-router.patch('/:projectId/tasks/:taskId', requireUser, async (req,res,next)=>{
+router.patch('/:projectId/tasks/:taskId', requireUser, async (req, res, next) => {
 
     console.log("in PATCH /:projectId/tasks/:taskId\n****\n");
 
@@ -190,7 +204,7 @@ router.patch('/:projectId/tasks/:taskId', requireUser, async (req,res,next)=>{
     let project;
 
     try {
-        project = await Project.findOne({"_id":`${projectId}`})
+        project = await Project.findOne({ "_id": `${projectId}` })
         console.log(project, "project\n****\n");
     } catch (error) {
         return res.json(error);
@@ -216,7 +230,7 @@ router.patch('/:projectId/tasks/:taskId', requireUser, async (req,res,next)=>{
         try {
             const validateProject = project.validateSync();
             console.log(validateProject, "validateProject\n****\n");
-        } catch(error) {
+        } catch (error) {
             return res.json(error);
         }
 
@@ -231,23 +245,23 @@ router.patch('/:projectId/tasks/:taskId', requireUser, async (req,res,next)=>{
         console.log(incomingAssigneeId !== priorAssignee?.toString(), "incomingAssigneeId !== priorAssignee?.toString()");
         console.log(incomingAssigneeId !== priorAssignee?.toString(), incomingAssigneeId !== priorAssignee?.toString(), "incomingAssigneeId !== priorAssignee?.toString(), incomingAssigneeId !== priorAssignee?.toString()");
 
-        if(incomingAssigneeId !== undefined && (incomingAssigneeId !== priorAssignee?.toString())) {
+        if (incomingAssigneeId !== undefined && (incomingAssigneeId !== priorAssignee?.toString())) {
             console.log("12345Making an assignee change! \n****\n")
             // first get the newAssignee
             // then remove the task from the old assignee, if there is an old assignee
             try {
                 // attempt to remove the task from the existing assignee, if there is an assignee
 
-                if(incomingAssigneeId !== null && !userOnProject(project, incomingAssigneeId)) {
-                    return res.json({message: "the incoming assignee is not a collaborator on this project"})
+                if (incomingAssigneeId !== null && !userOnProject(project, incomingAssigneeId)) {
+                    return res.json({ message: "the incoming assignee is not a collaborator on this project" })
                 }
 
-                if(priorAssignee) {
+                if (priorAssignee) {
                     console.log(priorAssignee, "**** priorAssignee\n\n")
-                    const oldAssignee = await User.findOneAndUpdate (
-                        {_id: priorAssignee},
-                        {$pull: {assignedTasks: taskId}},
-                        {new: true}
+                    const oldAssignee = await User.findOneAndUpdate(
+                        { _id: priorAssignee },
+                        { $pull: { assignedTasks: taskId } },
+                        { new: true }
                     )
                     console.log(oldAssignee, "oldAssignee\n****\n")
 
@@ -258,14 +272,14 @@ router.patch('/:projectId/tasks/:taskId', requireUser, async (req,res,next)=>{
 
                 // then add the task to the new assignee, IF it is a non falsey value. Note if it is undefined, then the prior instance will be removed with the if statement above but this one will not run
                 console.log(incomingAssigneeId, "12345 incomingAssigneeId");
-                if(incomingAssigneeId) {
+                if (incomingAssigneeId) {
 
 
                     console.log("12345");
-                    const newAssignee = await User.findOneAndUpdate (
-                        {_id: incomingAssigneeId},
-                        {$addToSet: {assignedTasks: taskId}},
-                        {new: true}
+                    const newAssignee = await User.findOneAndUpdate(
+                        { _id: incomingAssigneeId },
+                        { $addToSet: { assignedTasks: taskId } },
+                        { new: true }
                     )
                     console.log(newAssignee, "newAssignee\n****\n")
 
@@ -286,7 +300,7 @@ router.patch('/:projectId/tasks/:taskId', requireUser, async (req,res,next)=>{
         };
 
         // if incoming blocking tasks has been defined with a non 0 sized array we need to check it
-        if(incomingBlockingTasks !== undefined && incomingBlockingTasks?.length > 0) {
+        if (incomingBlockingTasks !== undefined && incomingBlockingTasks?.length > 0) {
             console.log("performing a blocking task check \n****\n");
 
             const priorBlockingTaskStrings = priorBlockingTasks.map((bt) => {
@@ -294,13 +308,13 @@ router.patch('/:projectId/tasks/:taskId', requireUser, async (req,res,next)=>{
             })
 
             // perform a compare of the two arrays utilizing this mongoose method which provides an array containing what was added vs removed between the two
-            const {added, removed} = arrayDiff(priorBlockingTaskStrings, incomingBlockingTasks);
+            const { added, removed } = arrayDiff(priorBlockingTaskStrings, incomingBlockingTasks);
 
             console.log(added, "added to blocking tasks \n****\n")
             console.log(removed, "removed from blocking tasks \n****\n")
 
             // we don't care about removal, but we do care about adds
-            if(added.length > 0) {
+            if (added.length > 0) {
                 console.log("new blocking tasks present \n****\n");
 
                 const blockCheck = await blockingTaskCheck(updatedTask, project);
@@ -309,7 +323,7 @@ router.patch('/:projectId/tasks/:taskId', requireUser, async (req,res,next)=>{
 
                 if (!blockCheck) {
                     console.log("Stopping PATCH due to invalue blocking task");
-                    return res.json({message: "invalid blocking tasks"});
+                    return res.json({ message: "invalid blocking tasks" });
                 }
             }
         }
@@ -329,10 +343,10 @@ router.patch('/:projectId/tasks/:taskId', requireUser, async (req,res,next)=>{
             project: projectId,
             admin: project.admin,
         })
-        if(newNotification){
-            req.io.to(projectId).emit("message",newNotification)
-        }else{
-            req.io.to(project.admin).emit("message",{message:"Issue with Notification"})
+        if (newNotification) {
+            req.io.to(projectId).emit("message", newNotification)
+        } else {
+            req.io.to(project.admin).emit("message", { message: "Issue with Notification" })
         }
 
         // saving the project, which will save the task
@@ -347,16 +361,16 @@ router.patch('/:projectId/tasks/:taskId', requireUser, async (req,res,next)=>{
         return res.json(updatedTask);
 
     } else {
-        return res.json({message: "No project or save not permitted"});
+        return res.json({ message: "No project or save not permitted" });
     }
 })
 
-router.delete('/:projectId/tasks/:taskId', requireUser, async (req,res,next)=>{
+router.delete('/:projectId/tasks/:taskId', requireUser, async (req, res, next) => {
 
     const projectId = req.params.projectId;
     const taskId = req.params.taskId;
 
-    const project = await Project.findOne({"_id":`${projectId}`})
+    const project = await Project.findOne({ "_id": `${projectId}` })
     const task = project?.tasks.id(taskId);
 
     let user;
@@ -367,11 +381,11 @@ router.delete('/:projectId/tasks/:taskId', requireUser, async (req,res,next)=>{
         user = await User.findOne({ assignedTasks: taskId });
 
         // if so we need to delete that task from the user's assigned tasks
-        if(user) {
+        if (user) {
             const assignedTaskIndex = user.assignedTasks.findIndex((tId) => tId.toString() === taskId);
 
             // delete the element at the discovered index
-            user.assignedTasks.splice(assignedTaskIndex,1);
+            user.assignedTasks.splice(assignedTaskIndex, 1);
 
             await user.save();
             console.log(user, "user post save\n****\n");
@@ -391,22 +405,22 @@ router.delete('/:projectId/tasks/:taskId', requireUser, async (req,res,next)=>{
             project: projectId,
             admin: project.admin,
         })
-        if(newNotification){
-            req.io.to(projectId).emit("message",newNotification)
-        }else{
-            req.io.to(project.admin).emit("message",{message:"Issue with Notification"})
+        if (newNotification) {
+            req.io.to(projectId).emit("message", newNotification)
+        } else {
+            req.io.to(project.admin).emit("message", { message: "Issue with Notification" })
         }
 
-        return res.json({message: "Deletion complete"});
+        return res.json({ message: "Deletion complete" });
     } else {
 
-        return res.json({message: "project or task not found or insufficient priveleges"});
+        return res.json({ message: "project or task not found or insufficient priveleges" });
     }
 
 
 });
 
-router.post('/', async (req,res,next) =>{
+router.post('/', async (req, res, next) => {
 
     console.log(req.body, "REQ BODY");
 
@@ -426,7 +440,7 @@ router.post('/', async (req,res,next) =>{
 
     // console.log(newProject, "NEW PROJECT");
 
-    if(await newProject.save()){
+    if (await newProject.save()) {
         // owner.projects.push(newProject)
         // await owner.save();
         // console.log(newProject._id,"Project _id\n****\n")
@@ -434,28 +448,28 @@ router.post('/', async (req,res,next) =>{
         await User.updateMany(
             { _id: { $in: [req.body.adminId].concat(req.body.collaborators) } }, // Match users with the given user IDs
             { $push: { projects: newProject._id } } // Add the project ID to the 'projects' array of each matched user
-          )
+        )
 
         return res.json(newProject);
-    }else{
-        return res.json({message:"Error"})
+    } else {
+        return res.json({ message: "Error" })
     }
 });
 
-router.patch('/:projectId', requireUser, async (req,res,next) =>{
-    
+router.patch('/:projectId', requireUser, async (req, res, next) => {
+
     console.log("in PATCH /:projectId\n****\n");
     const projectId = req.params.projectId
-    const project = await Project.findOne({"_id":`${projectId}`})
+    const project = await Project.findOne({ "_id": `${projectId}` })
 
     // error handling
-    if(!project) {
+    if (!project) {
         res.statusCode = 400;
-        return res.json({message:"Project Not Found"});
+        return res.json({ message: "Project Not Found" });
     }
 
-    if(!userOnProject(project, req.user._id)) {
-        return res.json({message:"User not authorized to modify this project"})
+    if (!userOnProject(project, req.user._id)) {
+        return res.json({ message: "User not authorized to modify this project" })
         // const err = new Error('User not authorized to modify this project');
         // err.statusCode = 401;
         // next(err);
@@ -475,16 +489,16 @@ router.patch('/:projectId', requireUser, async (req,res,next) =>{
 
         const sameCollaborators = stringifyCompare(priorCollaborators, incomingCollaborators);
 
-        if(!sameCollaborators) {
+        if (!sameCollaborators) {
             const removedCollaborators = priorCollaborators.filter(c => !incomingCollaborators.includes(c));
             const addedCollaborators = incomingCollaborators.filter(c => !priorCollaborators.includes(c));
 
             console.log(removedCollaborators, "removedCollaborators\n****\n");
             console.log(addedCollaborators, "addedCollaborators\n****\n");
 
-            const removeProjectIdsFromUsers = await User.updateMany({_id: {$in: removedCollaborators} }, { $pull: {projects: projectId}})
+            const removeProjectIdsFromUsers = await User.updateMany({ _id: { $in: removedCollaborators } }, { $pull: { projects: projectId } })
 
-            const addProjectIdsToUsers = await User.updateMany({_id: {$in: addedCollaborators} }, { $push: {projects: projectId}})
+            const addProjectIdsToUsers = await User.updateMany({ _id: { $in: addedCollaborators } }, { $push: { projects: projectId } })
 
             console.log(removeProjectIdsFromUsers, "results of removing the IDs\n****\n");
             console.log(addProjectIdsToUsers, "results of removing the IDs\n****\n");
@@ -498,19 +512,19 @@ router.patch('/:projectId', requireUser, async (req,res,next) =>{
     if (newTasks) {
         newTasks.forEach((t) => {
             console.log(t, "entered task")
-            const taskToUpdate = previousTasks.find((checkTask) => {return (checkTask._id.toString() === t._id)})
+            const taskToUpdate = previousTasks.find((checkTask) => { return (checkTask._id.toString() === t._id) })
 
             console.log(taskToUpdate, "FOUND TASK");
             console.log(t, "t");
 
-            if(taskToUpdate) {
+            if (taskToUpdate) {
                 Object.assign(taskToUpdate, t);
                 console.log(taskToUpdate, "Task Post Update");
             }
         })
     }
-    
-    Object.assign(project, {...req.body, tasks: previousTasks});
+
+    Object.assign(project, { ...req.body, tasks: previousTasks });
     console.log(project, "Project attempting a save");
     const updatedProject = await project.save();
     console.log(updatedProject, "Updated Project!!")
@@ -521,7 +535,7 @@ router.patch('/:projectId', requireUser, async (req,res,next) =>{
     //     { new: true }
     // );
 
-    if(updatedProject) { 
+    if (updatedProject) {
         const newNotification = new Notification({
             message: `Project Updated by ${req.user.username}`,
             target: "project",
@@ -529,17 +543,17 @@ router.patch('/:projectId', requireUser, async (req,res,next) =>{
             project: projectId,
             admin: updatedProject.admin,
         })
-        console.log("About to send","Notification in Project Patch")
-        if(newNotification){
-            console.log("Trying to send notification","Notification in Project Patch")
-            req.io.to(projectId).emit("message",newNotification)
-        }else{
-            req.io.to(projectId).emit("message",{message:"Issue with Notification"})
+        console.log("About to send", "Notification in Project Patch")
+        if (newNotification) {
+            console.log("Trying to send notification", "Notification in Project Patch")
+            req.io.to(projectId).emit("message", newNotification)
+        } else {
+            req.io.to(projectId).emit("message", { message: "Issue with Notification" })
         }
         return res.json(updatedProject);
     } else {
         res.statusCode = 500;
-        return res.json({message:"Problem with project update"})
+        return res.json({ message: "Problem with project update" })
         // const err = new Error('Problem with project update');
         // err.statusCode = 422;
         // next(err);
@@ -547,24 +561,24 @@ router.patch('/:projectId', requireUser, async (req,res,next) =>{
 });
 
 
-router.delete('/:projectId', requireUser, async (req,res,next) =>{
+router.delete('/:projectId', requireUser, async (req, res, next) => {
 
     console.log("in DELETE /:projectId");
 
     const projectId = req.params.projectId;
 
-    const project = await Project.findOne({"_id":`${projectId}`});
+    const project = await Project.findOne({ "_id": `${projectId}` });
     // console.log(project, "PROJECT!!");
     // console.log("HERE I AM!!");
     // console.log(req.user._id, "loged in as")
 
-    if(!project) {
+    if (!project) {
         res.statusCode = 404;
-        return res.json({message:"No project found"});
+        return res.json({ message: "No project found" });
     }
-    if(!userOnProject(project, req.user._id)) {
+    if (!userOnProject(project, req.user._id)) {
         res.statusCode = 403;
-        return res.json({message:"User not allowed to modify this project"});
+        return res.json({ message: "User not allowed to modify this project" });
     }
 
     // remove this project ID from all our user's project lists
@@ -580,19 +594,19 @@ router.delete('/:projectId', requireUser, async (req,res,next) =>{
     console.log("task Ids queued up for removal", taskIds);
 
     // remove these tasks from users
-    const removeTaskIdsFromUsers = await User.updateMany({}, {$pull: {assignedTasks: { $in: taskIds} }})
+    const removeTaskIdsFromUsers = await User.updateMany({}, { $pull: { assignedTasks: { $in: taskIds } } })
     console.log(removeTaskIdsFromUsers, "result of removing taskIds from users assigned tasks");
 
     // remove the project
-    const deleteResult = await Project.deleteOne({"_id":`${projectId}`});
+    const deleteResult = await Project.deleteOne({ "_id": `${projectId}` });
     console.log(deleteResult, "result of removing the project");
 
-    if(deleteResult.deletedCount === 1) {
+    if (deleteResult.deletedCount === 1) {
         res.statusCode = 200;
-        return res.json({message: "Successful Delete"});
+        return res.json({ message: "Successful Delete" });
     } else {
         res.statusCode = 500;
-        return res.json({message:"Issue with Delete"});
+        return res.json({ message: "Issue with Delete" });
     }
 });
 
