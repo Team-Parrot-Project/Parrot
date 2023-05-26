@@ -116,3 +116,31 @@ h2.project-home-table-title {
   padding: 10px;
   color: white;
 }
+
+.project-show-filter-group {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: aliceblue;
+  margin-top: 10px;
+}
+
+.project-show-filter-group-title {
+  margin-right: 10px;
+  font-weight: lighter;
+  color: #e0e0e0;
+}
+
+.project-show-filter-select {
+  background-color: #2c2c2c;
+  color: #e0e0e0;
+  border: none;
+  padding: 5px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.project-show-filter-select:hover {
+  border-color: #4573d2;
+  box-shadow: 0 0 5px 1px #4573d2;
+}

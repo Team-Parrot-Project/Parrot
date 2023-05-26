@@ -47,3 +47,21 @@
   border-color: #4573d2;
   box-shadow: 0 0 5px 1px #4573d2;
 }
+
+.gantt-chart-instructions-container {
+  margin-left: 20px;
+}
+
+.gantt-chart-instructions-label {
+  color: #e0e0e0;
+  margin-bottom: 5px;
+  font-size: 20px;
+}
+
+.gantt-chart-instructions-item {
+  color: #e0e0e0;
+  margin-bottom: 2px;
+  list-style-type: disc;
+  display: list-item;
+  margin-left: 20px;
+}

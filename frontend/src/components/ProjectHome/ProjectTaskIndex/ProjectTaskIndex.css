@@ -144,3 +144,18 @@
     margin-top: 5px;
     margin-right: 10px;
 }
+
+.project-show-task-row-wrapper {
+    overflow: scroll;
+    max-height: 500px;
+}
+
+.project-show-task-row-wrapper::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+}
+
+.project-show-task-index-no-task-message {
+    margin-top: 5px;
+    padding-bottom: 2px;
+}
