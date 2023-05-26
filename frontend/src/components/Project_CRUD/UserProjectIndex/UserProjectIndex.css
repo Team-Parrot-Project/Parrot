@@ -45,8 +45,8 @@
 }
 
 .user-home-project-index-wrapper {
-    max-height: 500px;
-    overflow: scroll;
+    /* max-height: 500px;
+    overflow: scroll; */
 }
 
 .user-home-project-index-wrapper::-webkit-scrollbar {
