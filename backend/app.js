@@ -18,14 +18,19 @@ const csrfRouter = require('./routes/api/csrf');
 const projectsRouter = require('./routes/api/projects');
 const notificationsRouter = require('./routes/api/notifications');
 var app = express();
+// const {createClient} = require('redis');
+// const { createAdapter } = require('@socket.io/redis-adapter');
+// const URL = process.env.UPSTASH_REDIS_URL
+// const Client = createClient({url: URL})
+// const subClient = Client.duplicate();
 const server = require('http').createServer(app);
 const io = require('socket.io')(server, {
   cors: {
     origin: ["http://localhost:3000","https://www.parrotpm.com"]
   }
 });
-server.listen(5001);
-
+// server.listen(5001);
+// io.adapter(createAdapter(Client,subClient))
 io.on('connection', socket => {
   console.log(socket.id,'a user connected')
   // socket.emit("message","Connection Made")
@@ -36,7 +41,6 @@ io.on('connection', socket => {
     console.log('disconnecting....')
   });
 });
-
 
 app.use(logger('dev'));
 app.use(express.json());
@@ -60,10 +64,9 @@ app.use(
       }
     })
   );
-
 app.use((req,res,next)=>{
-  req.io = io;
-  next();
+    req.io = io;
+    next();
 });
 app.use('/api/users', usersRouter);
 app.use('/api/csrf', csrfRouter);
@@ -112,5 +115,6 @@ app.use((req, res, next) => {
     })
   });
 
-module.exports = app;
-// exports.io = io;
+module.exports = {
+  app: app,
+  server: server};
