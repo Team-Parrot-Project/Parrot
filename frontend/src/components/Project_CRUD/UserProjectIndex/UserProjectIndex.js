@@ -6,7 +6,7 @@ import TableRow from '../../TableRow/TableRow';
 import { getTimelineSvg } from '../../../store/util';
 import { Tooltip } from 'react-tooltip';
 
-function UserProjectIndex() {
+export default function UserProjectIndex() {
   const allProjects = useSelector(projectActions.getProjects);
   const history = useHistory();
 
@@ -44,6 +44,5 @@ function UserProjectIndex() {
       </div>
     </div>
   );
+  
 }
-
-export default UserProjectIndex;

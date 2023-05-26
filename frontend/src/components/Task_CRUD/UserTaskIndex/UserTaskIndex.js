@@ -8,7 +8,7 @@ import TableRow from '../../TableRow/TableRow';
 import { formatDate, monthDayYear } from '../../../store/util';
 import { useHistory } from 'react-router-dom/cjs/react-router-dom';
 
-function UserTaskIndex({ projects }) {
+export default function UserTaskIndex({ projects }) {
   const dispatch = useDispatch();
   const allTasks = useSelector(taskActions.getTasks);
   const currentUser = useSelector(selectUser);
@@ -52,6 +52,5 @@ function UserTaskIndex({ projects }) {
       </div>
     </div>
   );
-}
 
-export default UserTaskIndex;
+}
