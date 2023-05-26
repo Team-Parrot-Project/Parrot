@@ -64,47 +64,51 @@ export default function ProjectTaskIndex() {
             ]}
           />
           <div className="project-show-task-row-wrapper">
-            {allTasks.sort((t) => { return t.createdAt }).map((task) => (
-              <div key={task._id}>
-                <div onClick={() => setTaskDetailId(taskDetailId === task._id ? null : task._id)}>
-                  <TableRow
-                    rowClass={"project-task-table-row no-hover"}
-                    rowElement={task._id}
-                    key={task._id}
-                    row={[
-                      task.title,
-                      task.description,
-                      allUsers[task.assignee]?.username,
-                      monthDayYear(formatDate(task.startDate)),
-                      monthDayYear(formatDate(task.endDate)),
-                      <>
-                        <TaskUpdateModal taskId={task._id} projectId={project._id} />
-                        <DeleteTaskModal taskId={task._id} projectId={project._id} />
-                      </>,
-                    ]}
-                    cellClasses={[
-                      "project-task-cell pjt-narrow",
-                      "project-task-cell pjt-wide",
-                      "project-task-cell pjt-narrow",
-                      "project-task-cell pjt-narrow",
-                      "project-task-cell pjt-narrow",
-                      "project-task-cell pjt-narrow pjt-last",
-                    ]}
-                  />
-                </div>
-                {taskDetailId === task._id && (
-                  <div className="project-show-task-detail-dropdown">
-                    <p className="project-show-task-detail-dropdown-item detail-row"><label className="project-show-task-detail-dropdown-label">Title:</label> {task.title}</p>
-                    <p className="project-show-task-detail-dropdown-item detail-row"><label className="project-show-task-detail-dropdown-label">Description:</label> {task.description}</p>
-                    <p className="project-show-task-detail-dropdown-item detail-row"><label className="project-show-task-detail-dropdown-label">Assignee:</label> {allUsers[task.assignee]?.username}</p>
-                    <p className="project-show-task-detail-dropdown-item detail-row"><label className="project-show-task-detail-dropdown-label">Start Date:</label> {formatDate(task.startDate)}</p>
-                    <p className="project-show-task-detail-dropdown-item detail-row"><label className="project-show-task-detail-dropdown-label">End Date:</label> {formatDate(task.endDate)}</p>
-                    <p className="project-show-task-detail-dropdown-item detail-row"><label className="project-show-task-detail-dropdown-label">Progress:</label> {task.progress}%</p>
-                    <p className="project-show-task-detail-dropdown-item detail-row"><label className="project-show-task-detail-dropdown-label">Dependent Tasks:</label> {task.blockingTasks.map(taskId => tasks[taskId] ? tasks[taskId].title : '').join(', ')}</p>
+            {allTasks.length === 0
+              ?
+              <p className="project-show-task-index-no-task-message" >This project doesn't have any tasks, create one to get started</p>
+              :
+              allTasks.sort((t) => { return t.createdAt }).map((task) => (
+                <div key={task._id}>
+                  <div onClick={() => setTaskDetailId(taskDetailId === task._id ? null : task._id)}>
+                    <TableRow
+                      rowClass={"project-task-table-row no-hover"}
+                      rowElement={task._id}
+                      key={task._id}
+                      row={[
+                        task.title,
+                        task.description,
+                        allUsers[task.assignee]?.username,
+                        monthDayYear(formatDate(task.startDate)),
+                        monthDayYear(formatDate(task.endDate)),
+                        <>
+                          <TaskUpdateModal taskId={task._id} projectId={project._id} />
+                          <DeleteTaskModal taskId={task._id} projectId={project._id} />
+                        </>,
+                      ]}
+                      cellClasses={[
+                        "project-task-cell pjt-narrow",
+                        "project-task-cell pjt-wide",
+                        "project-task-cell pjt-narrow",
+                        "project-task-cell pjt-narrow",
+                        "project-task-cell pjt-narrow",
+                        "project-task-cell pjt-narrow pjt-last",
+                      ]}
+                    />
                   </div>
-                )}
-              </div>
-            ))}
+                  {taskDetailId === task._id && (
+                    <div className="project-show-task-detail-dropdown">
+                      <p className="project-show-task-detail-dropdown-item detail-row"><label className="project-show-task-detail-dropdown-label">Title:</label> {task.title}</p>
+                      <p className="project-show-task-detail-dropdown-item detail-row"><label className="project-show-task-detail-dropdown-label">Description:</label> {task.description}</p>
+                      <p className="project-show-task-detail-dropdown-item detail-row"><label className="project-show-task-detail-dropdown-label">Assignee:</label> {allUsers[task.assignee]?.username}</p>
+                      <p className="project-show-task-detail-dropdown-item detail-row"><label className="project-show-task-detail-dropdown-label">Start Date:</label> {formatDate(task.startDate)}</p>
+                      <p className="project-show-task-detail-dropdown-item detail-row"><label className="project-show-task-detail-dropdown-label">End Date:</label> {formatDate(task.endDate)}</p>
+                      <p className="project-show-task-detail-dropdown-item detail-row"><label className="project-show-task-detail-dropdown-label">Progress:</label> {task.progress}%</p>
+                      <p className="project-show-task-detail-dropdown-item detail-row"><label className="project-show-task-detail-dropdown-label">Dependent Tasks:</label> {task.blockingTasks.map(taskId => tasks[taskId] ? tasks[taskId].title : '').join(', ')}</p>
+                    </div>
+                  )}
+                </div>
+              ))}
           </div>
         </div>
         <Tooltip id="clickForTaskDetails" effect="solid" place="top">

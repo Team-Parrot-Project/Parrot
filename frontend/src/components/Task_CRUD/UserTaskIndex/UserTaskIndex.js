@@ -31,23 +31,29 @@ export default function UserTaskIndex({ projects }) {
         <TableRow row={["Title", "Status", "Due", "Project"]} rowClass={"task-table-header"}
         />
         <div className="user-home-task-table-wrapper">
-          {userTasks.map((t, ix) => {
-            const formattedDate = monthDayYear(formatDate(t.endDate));
+          {
+            userTasks.length === 0
+              ?
+              <p className="user-task-index-new-user-message">Looks like you don't have any tasks</p>
+              :
+              userTasks.map((t, ix) => {
+                const formattedDate = monthDayYear(formatDate(t.endDate));
 
-            let projectTitle = "";
+                let projectTitle = "";
 
-            if (t.projectId) {
-              projectTitle = projects[t.projectId].title;
-            }
+                if (t.projectId) {
+                  projectTitle = projects[t.projectId].title;
+                }
 
-            return (
-              <TableRow key={ix} row={[t.title, t.status, formattedDate, projectTitle]}
-                rowClass={"default-row-class"}
-                rowElement={t.projectId}
-                handleClick={(e, rowElement) => { history.push(`/projects/${rowElement}`) }}
-              />
-            )
-          })}
+                return (
+                  <TableRow key={ix} row={[t.title, t.status, formattedDate, projectTitle]}
+                    rowClass={"default-row-class"}
+                    rowElement={t.projectId}
+                    handleClick={(e, rowElement) => { history.push(`/projects/${rowElement}`) }}
+                  />
+                )
+              })
+          }
         </div>
       </div>
     </div>

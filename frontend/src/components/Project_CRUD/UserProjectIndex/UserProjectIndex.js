@@ -26,23 +26,41 @@ export default function UserProjectIndex() {
     <div className="user-project-index" >
       <TableRow row={["Title", "Collaborators", "Tasks", "Timeline"]} rowClass={"task-table-header"} />
       <div className="user-home-project-index-wrapper">
-        {allProjects.map((p, ix) => {
-          const collabCount = p.collaborators.length;
-          const taskCount = p.tasks.length;
-          return (
-            <TableRow key={ix} handleClick={handleClick} rowElement={p} row={[
-              p.title,
-              collabCount,
-              taskCount,
-              <>
-                <button className='icon-button' data-tooltip-id="toTimeline" onClick={(e) => { handleTimelineClick(e, p._id) }}>{timelineIcon}</button>
-                <Tooltip id="toTimeline" effect="solid" place="top">Go to Timeline</Tooltip>
-              </>
-            ]} />
-          )
-        })}
+        {
+          allProjects.length === 0
+            ?
+            <p className="user-project-index-new-user-message">Looks like you don't have any projects</p>
+            :
+            allProjects.map((p, ix) => {
+              const collabCount = p.collaborators.length;
+              const taskCount = p.tasks.length;
+
+              return (
+                <TableRow
+                  key={ix}
+                  handleClick={handleClick}
+                  rowElement={p}
+                  row={[
+                    p.title,
+                    collabCount,
+                    taskCount,
+                    <>
+                      <button
+                        className='icon-button'
+                        data-tooltip-id="toTimeline"
+                        onClick={(e) => { handleTimelineClick(e, p._id) }}
+                      >
+                        {timelineIcon}
+                      </button>
+                      <Tooltip id="toTimeline" effect="solid" place="top">Go to Timeline</Tooltip>
+                    </>
+                  ]}
+                />
+              )
+            })
+        }
       </div>
     </div>
   );
-  
+
 }

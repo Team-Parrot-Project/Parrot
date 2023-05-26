@@ -18,7 +18,7 @@
 }
 
 .no-hover-ut:hover {
-    cursor:unset;
+    cursor: unset;
     background-color: #2A2B2D;
 }
 
@@ -30,4 +30,8 @@
 .user-home-task-table-wrapper::-webkit-scrollbar {
     width: 0;
     height: 0;
+}
+
+.user-task-index-new-user-message {
+    margin-top: 10px;
 }
