@@ -13,7 +13,8 @@
   font-size: 25px;
   width: 100%;
   margin-bottom: 20px;
-  margin-left: 10px;
+  margin-left: 20px;
+  margin-top: 20px;
 }
 
 .gantt-filter-group {
@@ -28,6 +29,7 @@
   margin-right: 10px;
   font-weight: lighter;
   color: #e0e0e0;
+  margin-left: 10px;
 }
 
 .gantt-filter-select {

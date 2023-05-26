@@ -60,8 +60,9 @@
     align-items: center;
     height: 1.5rem;
     width: 1.5rem;
+    margin-right: 10px;
 }
 
 .notifications-mainwrapper {
-    padding-left: 10px;
+    padding-left: 20px;
 }
