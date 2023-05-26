@@ -23,6 +23,7 @@ var app = express();
 // const URL = process.env.UPSTASH_REDIS_URL
 // const Client = createClient({url: URL})
 // const subClient = Client.duplicate();
+const test = "Test"
 const server = require('http').createServer(app);
 const io = require('socket.io')(server, {
   cors: {
