@@ -45,6 +45,13 @@ export default function FilterBar() {
             <option value="month">Month</option>
           </select>
         </div>
+        <div className="gantt-chart-instructions-container">
+          <div className="gantt-chart-instructions-label">Instructions</div>
+          <div className="gantt-chart-instructions-item">Drag tasks across the timeline to adjust dates</div>
+          <div className="gantt-chart-instructions-item">Resize bars to change duration</div>
+          <div className="gantt-chart-instructions-item">Drag the blue slider in the middle to adjust progress</div>
+          <div className="gantt-chart-instructions-item">Click a task to view more information</div>
+        </div>
       </div>
     </>
   );
