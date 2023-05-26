@@ -17,7 +17,6 @@ router.get('/:userid', async (req, res, next)=>{
     //Might need to delete the password hash in memory or select subset
     const taskIds = user.assignedTasks;
     const projectIds = user.projects;
-    console.log(projectIds,"user in Notifications")
     const userTaskNotifications = await Notification.find({"task": {$in:taskIds},"target":"task"})
     const userAdminNotifications = await Notification.find({"admin": `${userId}`,"target":"task"})
     const userProjectNotifications = await Notification.find({"project": {$in:projectIds},"target":"project"})
@@ -29,7 +28,6 @@ router.delete('/:userId/:notificationId', async(req, res, next)=> {
 
     const userId = req.params.userId
     const notificationId = req.params.notificationId
-    console.log([userId,notificationId],"In Delete")
     const notification = await Notification.findOne({"_id":`${notificationId}`});
     if(!notification){
         return res.json({message:"No project found"})

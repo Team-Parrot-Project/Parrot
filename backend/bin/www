@@ -4,7 +4,8 @@
  * Module dependencies.
  */
 
-var app = require('../app');
+var {app} = require('../app');
+var {server} = require('../app');
 const debug = require('debug');
 
 const serverLogger = debug('backend:server');
@@ -25,7 +26,25 @@ app.set('port', port);
  * Create HTTP server.
  */
 
-var server = http.createServer(app);
+
+/** 
+ * Socket.IO
+ */
+// const io = require('socket.io')(server, {
+//   cors: {
+//     origin: ["http://localhost:3000","https://www.parrotpm.com"]
+//   }
+// });
+// io.on('connection', socket => {
+//   console.log(socket.id,'a user connected')
+//   // socket.emit("message","Connection Made")
+//   socket.on('join-channel',(room)=>{
+//     socket.join(room);
+//   })
+//   socket.on('disconnect',()=>{
+//     console.log('disconnecting....')
+//   });
+// });
 
 /**
  * Listen on provided port, on all network interfaces.
