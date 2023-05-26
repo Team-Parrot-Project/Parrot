@@ -4,15 +4,18 @@ import { useParams } from 'react-router-dom/cjs/react-router-dom';
 import { createTask } from '../../../store/task';
 import { addDaysToDate, formatDate } from '../../../store/util';
 import './TaskCreateForm.css';
+import { getUser } from '../../../store/session';
 
 export default function TaskCreateForm({ taskTitle = '', onSubmit }) {
   const [title, setTitle] = useState(taskTitle);
   const [description, setDescription] = useState('');
   const [startDate, setStartDate] = useState(formatDate(new Date()));
   const [dueDate, setDueDate] = useState(addDaysToDate(formatDate(new Date()), 1));
-  const [assignee, setAssignee] = useState('');
   const [status, setStatus] = useState('in progress');
   const [progress, setProgress] = useState(0);
+  
+  const currentUserId = useSelector(getUser)
+  const [assignee, setAssignee] = useState(currentUserId);
 
   const dispatch = useDispatch();
   const { projectId } = useParams();
@@ -37,7 +40,6 @@ export default function TaskCreateForm({ taskTitle = '', onSubmit }) {
       assignee: assignee,
       progress: progress
     };
-
     try {
       // Send a POST request to the server to save the new task
       dispatch(createTask(projectId, newTask));
@@ -47,7 +49,7 @@ export default function TaskCreateForm({ taskTitle = '', onSubmit }) {
       setTitle('');
       setDescription('');
       setDueDate('');
-      setAssignee('');
+      setAssignee(currentUserId);
       setProgress(0);
     } catch (err) {
       // Display an error message if there's an error sending the request
@@ -97,8 +99,7 @@ export default function TaskCreateForm({ taskTitle = '', onSubmit }) {
             <label htmlFor="assignee">Assignee</label>
           </div>
           <div>
-            <select className="task-create-form-assignee-input" id="assignee" value={assignee} onChange={(e) => setAssignee(e.target.value)}>
-              <option value="">Select assignee</option>
+            <select className="task-create-form-assignee-input" id="assignee" value={currentUserId} onChange={(e) => setAssignee(e.target.value)}>
               {collaborators && Object.values(collaborators)
                 .filter(collaborator => collaborator && collaborator._id)
                 .map(collaborator => (

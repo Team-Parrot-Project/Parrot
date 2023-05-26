@@ -415,7 +415,7 @@ router.post('/', async (req,res,next) =>{
         title: req.body.title,
         description: req.body.description,
         adminId: req.body.adminId,
-        collaborators: req.body.collaborators,
+        collaborators: [...req.body.collaborators, req.body.adminId],
         tasks: [],
         startDate: req.body.startDate,
         endDate: req.body.endDate
