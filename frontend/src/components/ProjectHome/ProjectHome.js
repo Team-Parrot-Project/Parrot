@@ -13,6 +13,7 @@ import ProjectUpdateModal from '../Project_CRUD/ProjectUpdateForm/';
 import DeleteProjectModal from '../Project_CRUD/ProjectDelete/ProjectDeleteModal';
 import { formatDate } from '../../store/util';
 import { fetchUsers } from '../../store/user';
+import { setProjectId } from '../../store/timeframeActions';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
@@ -23,6 +24,7 @@ export default function ProjectHome() {
   const { projectId } = useParams();
   const [recommendedTasks, setRecommendedTasks] = useState([]);
   const project = useSelector((state) => state.projects[projectId]);
+  const projects = useSelector(state => state.projects);
 
 
   useEffect(() => {
@@ -53,6 +55,14 @@ export default function ProjectHome() {
     return today >= formatDate(startDate) && today <= formatDate(endDate);
   }
 
+  // Used to allow the user to flip between projects
+  const handleProjectIdChange = (event) => {
+    const selectedProjectId = event.target.value;
+    dispatch(setProjectId(selectedProjectId));
+    const projectLink = `/projects/${selectedProjectId}`;
+    window.location.href = projectLink;
+  }
+
   return (
     <>
       <div className="project-home-wrapper">
@@ -79,14 +89,26 @@ export default function ProjectHome() {
           <ProjectUpdateModal />
           <TaskCreateModal />
           <DeleteProjectModal />
+
+          <div className="project-show-filter-group">
+            <label className="project-show-filter-group-title">Change Project:</label>
+            <select className="project-show-filter-select" onChange={handleProjectIdChange} value={projectId}>
+              {Object.values(projects).map((project) => (
+                <option key={project._id} value={project._id}>
+                  {`${project.title}`}
+                </option>
+              ))}
+            </select>
+          </div>
+
           <ProjectTaskIndex />
-          <TaskRecommendation project={project} recommendedTasks={recommendedTasks} setRecommendedTasks={setRecommendedTasks}/>
+          <TaskRecommendation project={project} recommendedTasks={recommendedTasks} setRecommendedTasks={setRecommendedTasks} />
           <div className="slider">
             <Slider>
               {recommendedTasks.length > 0 && recommendedTasks.map((taskTitle, idx) => (
                 <>
-                <TaskCreateModal key={taskTitle} taskTitle={taskTitle}/>
-                <p>{idx + 1}. {taskTitle}</p>
+                  <TaskCreateModal key={taskTitle} taskTitle={taskTitle} />
+                  <p>{idx + 1}. {taskTitle}</p>
                 </>
               ))}
             </Slider>

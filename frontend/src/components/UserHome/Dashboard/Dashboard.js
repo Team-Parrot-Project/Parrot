@@ -32,7 +32,7 @@ export default function Dashboard() {
   const tasks = useSelector(state => state.tasks);
   const completedTasks = Object.keys(tasks).reduce((count, taskId) => {
     const task = tasks[taskId];
-    if (task.status === 'completed') {
+    if (task.status === 'complete') {
       return count + 1;
     }
     return count;
@@ -107,7 +107,7 @@ export default function Dashboard() {
         </div>
 
         <div className="user-dashboard-project-task-container">
-          <div className="user-dashboard-tasks-container">
+          <div className="user-dashboard-tasks-container" data-tooltip-id="clickATaskToView">
             <h2 className="user-dashboard-project-task-container-title-x">Your Tasks</h2>
 
             <div className="task-selection">
@@ -118,6 +118,10 @@ export default function Dashboard() {
 
             </div>
           </div>
+          <Tooltip id="clickATaskToView" effect="solid" place="top">
+                Click on a task to view more details
+          </Tooltip>
+
           <div className="user-dashboard-projects-container" data-tooltip-id="clickAProjectToView">
             <div className='project-plus-button'>
               <ProjectCreateModal />
