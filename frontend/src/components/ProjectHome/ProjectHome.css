@@ -11,8 +11,8 @@
 
 .centered-container {
   background-color: #1e1f21;
-  margin-left: 175px;
-  width: calc(100% - 175px);
+  margin-left: 225px;
+  width: calc(100% - 225px);
 }
 
 .project-home-wrapper button:hover {
