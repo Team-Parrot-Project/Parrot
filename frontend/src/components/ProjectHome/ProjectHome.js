@@ -23,9 +23,16 @@ export default function ProjectHome() {
   const dispatch = useDispatch();
   const { projectId } = useParams();
   const [recommendedTasks, setRecommendedTasks] = useState([]);
-  const project = useSelector((state) => state.projects[projectId]);
   const projects = useSelector(state => state.projects);
+  const [project, setProject] = useState();
 
+  useEffect(() => {
+    if(projects) {
+      setProject(projects[projectId]);
+    }
+  }, [projects])
+
+  // const project = useSelector((state) => state.projects[projectId]);
 
   useEffect(() => {
     dispatch(taskActions.purgeTasks());
@@ -91,7 +98,7 @@ export default function ProjectHome() {
           <DeleteProjectModal />
 
           <div className="project-show-filter-group">
-            <label className="project-show-filter-group-title">Change Project:</label>
+            <label className="project-show-filter-group-title">Project:</label>
             <select className="project-show-filter-select" onChange={handleProjectIdChange} value={projectId}>
               {Object.values(projects).map((project) => (
                 <option key={project._id} value={project._id}>
