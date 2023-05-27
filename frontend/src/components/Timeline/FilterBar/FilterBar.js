@@ -16,7 +16,7 @@ export default function FilterBar() {
     if(projects) {
       setProject(projects[projectId]);
     }
-  }, [projects])
+  }, [projects, projectId])
 
   const handleTimeframeChange = (event) => {
     const selectedTimeframe = event.target.value;

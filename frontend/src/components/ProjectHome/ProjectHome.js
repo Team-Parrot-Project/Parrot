@@ -30,7 +30,7 @@ export default function ProjectHome() {
     if(projects) {
       setProject(projects[projectId]);
     }
-  }, [projects])
+  }, [projects, projectId])
 
   // const project = useSelector((state) => state.projects[projectId]);
 
