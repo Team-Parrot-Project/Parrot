@@ -6,6 +6,12 @@ export default function ProjectCreateModal() {
   const [showModal, setShowModal] = useState(false);
   const closeModal = () => setShowModal(false);
 
+  if(showModal) {
+    document.body.style.overflow = 'hidden';
+  } else {
+    document.body.style.overflow = '';
+  }
+
   return (
     <>
       <button className='create-project-button' onClick={() => setShowModal(true)}>Create Project</button>
