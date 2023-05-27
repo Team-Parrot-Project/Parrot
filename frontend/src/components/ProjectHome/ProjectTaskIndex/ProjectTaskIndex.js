@@ -31,6 +31,12 @@ export default function ProjectTaskIndex() {
   const project = useSelector(projectActions.getProject(projectId));
   const allTasks = useSelector(projectActions.getProjectTasks(projectId));
 
+  if(showModal) {
+    document.body.style.overflow = 'hidden';
+  } else {
+    document.body.style.overflow = '';
+  }
+
   return (
     <>
       {showModal && (

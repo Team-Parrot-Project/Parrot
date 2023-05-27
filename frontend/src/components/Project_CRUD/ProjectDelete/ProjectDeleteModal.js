@@ -19,6 +19,12 @@ export default function DeleteProjectModal() {
         history.push('/');
     };
 
+    if(showModal) {
+        document.body.style.overflow = 'hidden';
+      } else {
+        document.body.style.overflow = '';
+      }
+
     return (
         <>
             <button className="delete-project-button" onClick={() => setShowModal(true)}>Delete Project</button>

@@ -45,6 +45,12 @@ export default function TaskUpdateForm({ taskId, projectId, closeModal }) {
     dispatch(fetchProject(projectId))
   }, [dispatch, projectId])
 
+  document.body.style.overflow = "hidden";
+
+  useEffect(() => {
+    return (() => {document.body.style.overflow = "";})
+  },[])
+
   const handleSubmit = (event) => {
     event.preventDefault();
     const updatedTask = { ...currentTask, title, description, startDate, endDate: dueDate, blockingTasks, assignee: assigneeId, progress };
