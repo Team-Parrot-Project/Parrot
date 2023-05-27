@@ -19,6 +19,12 @@ export default function DeleteTaskModal(props) {
     setShowModal(false);
   };
 
+  if(showModal) {
+    document.body.style.overflow = 'hidden';
+  } else {
+    document.body.style.overflow = '';
+  }
+
   return (
     <>
       <button className="delete-task-modal-button" onClick={(e) => {

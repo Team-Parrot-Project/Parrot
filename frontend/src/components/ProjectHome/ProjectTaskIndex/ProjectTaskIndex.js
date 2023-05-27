@@ -31,6 +31,12 @@ export default function ProjectTaskIndex() {
   const project = useSelector(projectActions.getProject(projectId));
   const allTasks = useSelector(projectActions.getProjectTasks(projectId));
 
+  if(showModal) {
+    document.body.style.overflow = 'hidden';
+  } else {
+    document.body.style.overflow = '';
+  }
+
   return (
     <>
       {showModal && (
@@ -51,12 +57,14 @@ export default function ProjectTaskIndex() {
               "Assignee",
               "Start",
               "Due",
+              "Progress",
               "Modify",
             ]}
             rowClass={"project-task-table-header"}
             cellClasses={[
               "defaulf-cell-class pjt-narrow",
               "defaulf-cell-class pjt-wide",
+              "defaulf-cell-class pjt-narrow",
               "defaulf-cell-class pjt-narrow",
               "defaulf-cell-class pjt-narrow",
               "defaulf-cell-class pjt-narrow",
@@ -81,6 +89,7 @@ export default function ProjectTaskIndex() {
                         allUsers[task.assignee]?.username,
                         monthDayYear(formatDate(task.startDate)),
                         monthDayYear(formatDate(task.endDate)),
+                        task.progress.toString() + "%",
                         <>
                           <TaskUpdateModal taskId={task._id} projectId={project._id} />
                           <DeleteTaskModal taskId={task._id} projectId={project._id} />
@@ -89,6 +98,7 @@ export default function ProjectTaskIndex() {
                       cellClasses={[
                         "project-task-cell pjt-narrow",
                         "project-task-cell pjt-wide",
+                        "project-task-cell pjt-narrow",
                         "project-task-cell pjt-narrow",
                         "project-task-cell pjt-narrow",
                         "project-task-cell pjt-narrow",

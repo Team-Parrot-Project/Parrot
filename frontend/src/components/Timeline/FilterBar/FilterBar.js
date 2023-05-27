@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { setTimeframe, setProjectId } from '../../../store/timeframeActions';
@@ -7,9 +7,16 @@ import './FilterBar.css'
 
 export default function FilterBar() {
   const { projectId } = useParams()
-  const project = useSelector(getProject(projectId));
   const dispatch = useDispatch();
   const projects = useSelector(state => state.projects);
+  const [project, setProject] = useState();
+  // const project = useSelector(getProject(projectId));
+
+  useEffect(() => {
+    if(projects) {
+      setProject(projects[projectId]);
+    }
+  }, [projects, projectId])
 
   const handleTimeframeChange = (event) => {
     const selectedTimeframe = event.target.value;
