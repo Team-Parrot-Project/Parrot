@@ -10,11 +10,22 @@ export default function FilterBar() {
   const dispatch = useDispatch();
   const projects = useSelector(state => state.projects);
   const [project, setProject] = useState();
+  const [projectList, setProjectList] = useState([]);
   // const project = useSelector(getProject(projectId));
 
   useEffect(() => {
     if(projects) {
       setProject(projects[projectId]);
+      const sortedProjects = Object.values(projects).sort((a, b) => {
+        if (a.title < b.title) {
+          return -1;
+        }
+        if (a.title > b.title) {
+          return 1;
+        }
+        return 0;
+      });
+      setProjectList(sortedProjects);
     }
   }, [projects, projectId])
 
@@ -37,7 +48,7 @@ export default function FilterBar() {
         <div className="gantt-filter-group">
           <label className="gantt-filter-group-title">Project:</label>
           <select className="gantt-filter-select" onChange={handleProjectIdChange} value={projectId}>
-            {Object.values(projects).map((project) => (
+            {projectList.map((project) => (
               <option key={project._id} value={project._id}>
                 {`${project.title}`}
               </option>
