@@ -106,7 +106,8 @@ h2.project-home-table-title {
 }
 
 .slider {
-  padding: 50px;
+  padding-left: 50px;
+  width: 90%;
 }
 
 .slider p {
