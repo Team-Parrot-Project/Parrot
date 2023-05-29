@@ -46,7 +46,7 @@ const TaskRecommendation = ({ project, recommendedTasks, setRecommendedTasks }) 
           <button className="generate-reccomended-tasks-button" onClick={generateRecommendedTasks}>Generate Recommended Tasks with AI</button>
         </div>
       )}
-      {recommendedTasks.length > 0 && <div className="recommended-tasks">The recommended tasks are rendered in the Task Create forms below: {displayTasks}</div>}
+      {recommendedTasks.length > 0 && <div className="recommended-tasks">The recommended tasks are rendered in the Task Create forms below: </div>}
     </div>
   );
 };

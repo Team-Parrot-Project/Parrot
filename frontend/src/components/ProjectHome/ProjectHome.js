@@ -94,20 +94,6 @@ export default function ProjectHome() {
             <span>{project.description.charAt(0).toUpperCase() + project.description.slice(1)}</span>
           )}
           </h2>
-          <div className="date-line-container">
-            <div className="date-line"></div>
-            {isTodayInRange(project?.startDate, project?.endDate) ? <div className="date-dot" style={{ left: calculateDotPosition(project?.startDate, project?.endDate) }}></div> : ""}
-            <div className="date-label start-date">{formatDate(project?.startDate)}</div>
-            <div className="date-label end-date">{formatDate(project?.endDate)}</div>
-            {isTodayInRange(project?.startDate, project?.endDate) ? <div className="date-label today" style={{ left: calculateDotPosition(project?.startDate, project?.endDate) }}>
-              Today
-            </div> : ""}
-          </div>
-
-          <ProjectUpdateModal />
-          <TaskCreateModal />
-          <DeleteProjectModal />
-
           <div className="project-show-filter-group">
             <label className="project-show-filter-group-title">Project:</label>
             <select className="project-show-filter-select" onChange={handleProjectIdChange} value={projectId}>
@@ -118,19 +104,30 @@ export default function ProjectHome() {
               ))}
             </select>
           </div>
-
-          <ProjectTaskIndex />
+          <div className="date-line-container">
+            <div className="date-line"></div>
+            {isTodayInRange(project?.startDate, project?.endDate) ? <div className="date-dot" style={{ left: calculateDotPosition(project?.startDate, project?.endDate) }}></div> : ""}
+            <div className="date-label start-date">{formatDate(project?.startDate)}</div>
+            <div className="date-label end-date">{formatDate(project?.endDate)}</div>
+            {isTodayInRange(project?.startDate, project?.endDate) ? <div className="date-label today" style={{ left: calculateDotPosition(project?.startDate, project?.endDate) }}>
+              Today
+            </div> : ""}
+          </div>
+          <ProjectUpdateModal />
+          <TaskCreateModal />
+          <DeleteProjectModal />
           <TaskRecommendation project={project} recommendedTasks={recommendedTasks} setRecommendedTasks={setRecommendedTasks} />
           <div className="slider">
-            <Slider>
+            <Slider draggable={false}>
               {recommendedTasks.length > 0 && recommendedTasks.map((taskTitle, idx) => (
                 <>
-                  <TaskCreateModal key={taskTitle} taskTitle={taskTitle} />
                   <p>{idx + 1}. {taskTitle}</p>
+                  <TaskCreateModal key={taskTitle} taskTitle={taskTitle} />
                 </>
               ))}
             </Slider>
           </div>
+          <ProjectTaskIndex />
         </div>
       </div>
     </>
