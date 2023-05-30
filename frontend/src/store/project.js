@@ -109,7 +109,10 @@ export const fetchProject = (projectId) => async dispatch => {
     if (res.ok) {
         let data = await res.json();
         console.log(data[projectId], "project before Add Project");
-        dispatch(addProject(data[projectId]));
+        return dispatch(addProject(data[projectId]));
+    } else {
+        debugger;
+        return res.errors;
     }
 }
 
