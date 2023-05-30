@@ -24,10 +24,6 @@ export default function ProjectTaskIndex() {
   const allUsers = useSelector(selectUsers);
   const tasks = useSelector(state => state.tasks)
 
-  // useEffect(() => {
-  //   dispatch(fetchProject(projectId))
-  // }, [dispatch, projectId])
-
   const project = useSelector(projectActions.getProject(projectId));
   const allTasks = useSelector(projectActions.getProjectTasks(projectId));
 

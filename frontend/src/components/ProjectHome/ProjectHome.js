@@ -3,7 +3,7 @@ import NavBar from '../NavBar/NavBar';
 import './ProjectHome.css';
 import { useDispatch, useSelector } from 'react-redux';
 import ProjectTaskIndex from './ProjectTaskIndex/ProjectTaskIndex';
-import { Redirect, useHistory, useParams } from 'react-router-dom/cjs/react-router-dom';
+import { useHistory, useParams } from 'react-router-dom/cjs/react-router-dom';
 import * as projectActions from '../../store/project';
 import { useEffect, useState } from 'react';
 import * as taskActions from '../../store/task';
@@ -50,10 +50,8 @@ export default function ProjectHome() {
     dispatch(taskActions.purgeTasks());
     dispatch(projectActions.fetchProject(projectId))
       .catch((error) => {    
-        console.log("catch the dispatch");
         history.push("/home")
       });
-    console.log("dispatched here");
     dispatch(fetchUsers())
   }, [projectId, dispatch]);
 
