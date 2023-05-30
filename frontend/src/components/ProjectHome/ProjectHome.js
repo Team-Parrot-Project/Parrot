@@ -3,7 +3,7 @@ import NavBar from '../NavBar/NavBar';
 import './ProjectHome.css';
 import { useDispatch, useSelector } from 'react-redux';
 import ProjectTaskIndex from './ProjectTaskIndex/ProjectTaskIndex';
-import { useParams } from 'react-router-dom/cjs/react-router-dom';
+import { useHistory, useParams } from 'react-router-dom/cjs/react-router-dom';
 import * as projectActions from '../../store/project';
 import { useEffect, useState } from 'react';
 import * as taskActions from '../../store/task';
@@ -26,9 +26,10 @@ export default function ProjectHome() {
   const projects = useSelector(state => state.projects);
   const [project, setProject] = useState();
   const [projectList, setProjectList] = useState([]);
+  const history = useHistory();
 
   useEffect(() => {
-    if(projects) {
+    if (projects) {
       setProject(projects[projectId]);
       const sortedProjects = Object.values(projects).sort((a, b) => {
         if (a.title < b.title) {
@@ -47,7 +48,10 @@ export default function ProjectHome() {
 
   useEffect(() => {
     dispatch(taskActions.purgeTasks());
-    dispatch(projectActions.fetchProject(projectId));
+    dispatch(projectActions.fetchProject(projectId))
+      .catch((error) => {    
+        history.push("/home")
+      });
     dispatch(fetchUsers())
   }, [projectId, dispatch]);
 
@@ -127,7 +131,7 @@ export default function ProjectHome() {
               ))}
             </Slider>
           </div>
-          <ProjectTaskIndex />
+          <ProjectTaskIndex project={project}/>
         </div>
       </div>
     </>
