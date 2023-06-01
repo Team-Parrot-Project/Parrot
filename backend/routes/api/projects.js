@@ -25,8 +25,8 @@ router.get('/:projectid', requireUser, async (req, res, next) => {
         // console.log(project, "PROJ")
     }
     catch (error) {
-        res.statusCode = 302;
-        return res.redirect("/");
+        res.statusCode = 404;
+        return res.json({ message: "project not found" });
     }
 
     console.log(project, "PROJ post error")
