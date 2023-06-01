@@ -27,6 +27,13 @@ export default function ProjectHome() {
   const [project, setProject] = useState();
   const [projectList, setProjectList] = useState([]);
   const history = useHistory();
+  const settings = {
+    infinite: false,
+    slidesToShow: 3,
+    slidesToScroll: 3,
+    cssEase: "linear",
+    draggable: false
+  };
 
   useEffect(() => {
     if (projects) {
@@ -49,7 +56,7 @@ export default function ProjectHome() {
   useEffect(() => {
     dispatch(taskActions.purgeTasks());
     dispatch(projectActions.fetchProject(projectId))
-      .catch((error) => {    
+      .catch((error) => {
         history.push("/home")
       });
     dispatch(fetchUsers())
@@ -122,7 +129,7 @@ export default function ProjectHome() {
           <DeleteProjectModal />
           <TaskRecommendation project={project} recommendedTasks={recommendedTasks} setRecommendedTasks={setRecommendedTasks} />
           <div className="slider">
-            <Slider draggable={false}>
+            <Slider {...settings}>
               {recommendedTasks.length > 0 && recommendedTasks.map((taskTitle, idx) => (
                 <>
                   <p>{idx + 1}. {taskTitle}</p>
