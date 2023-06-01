@@ -5,7 +5,6 @@ import io from "socket.io-client";
 import * as userActions from "../../store/user"
 import * as notificationActions from "../../store/notification"
 import * as projectActions from "../../store/project"
-
 // import socket from "./socket";
 import { IoIosCloseCircleOutline } from "react-icons/io";
 import "./Notifications.css";
@@ -21,8 +20,7 @@ function Notifications () {
     const [toggleNav,setToggleNav] = useState(false);
     const [toggleBadge,setToggleBadge] = useState(false);
     const history = useHistory();
-    const PORT = process.env.PORT || 5000;
-
+    const URL = process.env.NODE_ENV === 'production' ? "www.parrotpm.com" : `http://localhost:5000`
     useEffect(()=>{
         if(messages.length > 0){
             setToggleBadge(true)
@@ -39,8 +37,8 @@ function Notifications () {
 
     useEffect(()=>{
         console.log("in socket")
-        let socket = io.connect(`http://localhost:${PORT}`);
-        //Eventually refactor to join appropriate room channels
+        let socket = io.connect(URL);
+        
         socket.on('connect',()=>{
             console.log(socket.id,"connection")
             
@@ -59,7 +57,7 @@ function Notifications () {
 
         
     return ()=>{socket.disconnect()}
-    },[userId,dispatch,projects,PORT])
+    },[userId,dispatch,projects,URL])
 
     useEffect(()=>{
         
