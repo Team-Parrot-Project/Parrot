@@ -26,6 +26,13 @@ export default function ProjectHome() {
   const projects = useSelector(state => state.projects);
   const [project, setProject] = useState();
   const [projectList, setProjectList] = useState([]);
+  const settings = {
+    infinite: false,
+    slidesToShow: 3,
+    slidesToScroll: 3,
+    cssEase: "linear",
+    draggable: false
+  };
 
   useEffect(() => {
     if(projects) {
@@ -118,7 +125,7 @@ export default function ProjectHome() {
           <DeleteProjectModal />
           <TaskRecommendation project={project} recommendedTasks={recommendedTasks} setRecommendedTasks={setRecommendedTasks} />
           <div className="slider">
-            <Slider draggable={false}>
+            <Slider {...settings}>
               {recommendedTasks.length > 0 && recommendedTasks.map((taskTitle, idx) => (
                 <>
                   <p>{idx + 1}. {taskTitle}</p>
