@@ -20,7 +20,8 @@ function Notifications () {
     const [toggleNav,setToggleNav] = useState(false);
     const [toggleBadge,setToggleBadge] = useState(false);
     const history = useHistory();
-    const URL = process.env.NODE_ENV === 'production' ? "www.parrotpm.com" : `http://localhost:5000`
+    const URL = "www.parrotpm.com";
+    console.log(URL,"URL")
     useEffect(()=>{
         if(messages.length > 0){
             setToggleBadge(true)
