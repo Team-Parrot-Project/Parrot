@@ -44,7 +44,7 @@ export default function Hero() {
           <div className="nav-buttons">
             <Link to="/login"><button className="login">Login</button></Link>
             <button className="demo-login" onClick={handleDemo}>Demo Login</button>
-            {/* <button className="demo-login" onClick={handleDemo2}>Demo 2 Login</button> */}
+            <button className="demo-login" onClick={handleDemo2}>Demo 2 Login</button>
           </div>
         </header>
 

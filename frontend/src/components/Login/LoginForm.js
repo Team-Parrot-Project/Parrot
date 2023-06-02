@@ -125,7 +125,7 @@ export default function LoginForm() {
 
               <input className="login-form-demo-button" type="submit" value="Demo Log In" tabIndex="0" onClick={handleDemo} />
 
-              {/* <input className="login-form-demo-button" type="submit" value="Demo 2 Log In" tabIndex="0" onClick={handleDemo2} /> */}
+              <input className="login-form-demo-button" type="submit" value="Demo 2 Log In" tabIndex="0" onClick={handleDemo2} />
 
             </form>
           </div>
