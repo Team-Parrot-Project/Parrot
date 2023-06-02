@@ -62,12 +62,14 @@ export default function ProjectUpdateForm({ closeModal }) {
         id="projectName"
         className="project-update-form-title-input"
         value={projectName}
+        maxLength={50}
         onChange={(e) => setProjectName(e.target.value)}
       />
       <label htmlFor="description">Description</label>
       <textarea
         id="description"
         value={description}
+        maxLength={500}
         className="project-update-form-description-input"
         onChange={(e) => setDescription(e.target.value)}
       />

@@ -7,6 +7,7 @@
   grid-column: auto;
   text-align: center;
   font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Helvetica,Arial,sans-serif;
+  overflow: hidden;
 }
 
 .centered-container {
