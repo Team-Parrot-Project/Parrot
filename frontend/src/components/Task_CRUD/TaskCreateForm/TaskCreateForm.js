@@ -13,7 +13,7 @@ export default function TaskCreateForm({ taskTitle = '', onSubmit }) {
   const [dueDate, setDueDate] = useState(addDaysToDate(formatDate(new Date()), 1));
   const [status, setStatus] = useState('in progress');
   const [progress, setProgress] = useState(0);
-  
+
   const currentUserId = useSelector(getUser)
   const [assignee, setAssignee] = useState(currentUserId);
 
@@ -62,9 +62,9 @@ export default function TaskCreateForm({ taskTitle = '', onSubmit }) {
       <p className="task-create-form-header">Please fill out to create a task</p>
       <button className="task-create-form-button" type="submit">Create</button>
       <label htmlFor="title">Task Name</label>
-      <input className="task-create-form-title-input" type="text" id="title" value={title} onChange={(e) => setTitle(e.target.value)} required />
+      <input className="task-create-form-title-input" type="text" id="title" value={title} maxLength={50} onChange={(e) => setTitle(e.target.value)} required />
       <label htmlFor="description">Description</label>
-      <textarea className="task-create-form-description-input" id="description" value={description} onChange={(e) => setDescription(e.target.value)} required />
+      <textarea className="task-create-form-description-input" id="description" maxLength={500} value={description} onChange={(e) => setDescription(e.target.value)} required />
       <div className="task-create-form-sub-container">
         <div>
           <div>

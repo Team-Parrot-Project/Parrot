@@ -79,11 +79,11 @@ export default function TaskUpdateForm({ taskId, projectId, closeModal }) {
       <button className="task-update-form-submit-button" type="submit" onClick={(e) => e.stopPropagation()} >Update</button>
       <div>
         <label className="task-update-form-title" htmlFor="title">Title</label>
-        <input className="task-update-form-title-input" id="title" type="text" required value={title} onChange={(event) => setTitle(event.target.value)} />
+        <input className="task-update-form-title-input" id="title" type="text" required value={title} maxLength={50} onChange={(event) => setTitle(event.target.value)} />
       </div>
       <div>
         <label htmlFor="description">Description</label>
-        <textarea className="task-update-form-description-container" id="description" value={description} onChange={(event) => setDescription(event.target.value)} />
+        <textarea className="task-update-form-description-container" id="description" value={description} maxLength={500} onChange={(event) => setDescription(event.target.value)} />
       </div>
       <div className="sub-task-update-input-form-container">
         <div>
