@@ -531,7 +531,6 @@ router.patch('/:projectId', requireUser, async (req,res,next) =>{
         })
         console.log("About to send","Notification in Project Patch")
         if(newNotification){
-            console.log("Trying to send notification","Notification in Project Patch")
             req.io.to(projectId).emit("message",newNotification)
         }else{
             req.io.to(projectId).emit("message",{message:"Issue with Notification"})
