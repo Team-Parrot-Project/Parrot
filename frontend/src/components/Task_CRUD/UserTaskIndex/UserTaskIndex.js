@@ -14,8 +14,6 @@ export default function UserTaskIndex({ projects }) {
   const currentUser = useSelector(selectUser);
   const history = useHistory();
 
-  console.log(projects, "PROJ");
-
   useEffect(() => {
 
     if (currentUser) dispatch(userActions.fetchUser(currentUser._id));
