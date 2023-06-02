@@ -105,7 +105,7 @@ export const createTask = (projectId,task)=>async dispatch =>{
     })
     if(res.ok){
         let data = await res.json();
-        console.log(data,"task data")
+        
         dispatch(addTask(data));
     }
 }
@@ -120,7 +120,7 @@ export const updateTask = (projectId,task)=> async dispatch =>{
     });
     if(res.ok){
         let data = await res.json();
-        console.log(data,"update task data")
+       
         dispatch(addTask(data));
     }
 }

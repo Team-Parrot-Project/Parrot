@@ -32,15 +32,10 @@ function Notifications () {
 
     useEffect(()=>{
         dispatch(userActions.fetchUser(userId))
-        dispatch(notificationActions.fetchNotifications(userId))
     },[dispatch,userId])
 
     useEffect(()=>{
         let socket = io.connect(URL);
-        
-        socket.on('connect',()=>{
-            
-        })
         if(projects){
             projects.forEach((project)=>{
                 let projectId = project._id
@@ -48,11 +43,13 @@ function Notifications () {
             })
         }
         socket.on('message',(input)=>{
+            console.log(input,"new message")
             dispatch(notificationActions.addNotification(input))
         })
-
-        
-    return ()=>{socket.disconnect()}
+        console.log(socket,"socket")
+    return ()=>{
+            socket.disconnect()
+    }
     },[userId,dispatch,projects,URL])
 
     useEffect(()=>{

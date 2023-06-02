@@ -79,9 +79,8 @@ export const deleteNotification = (userId,notificationId) => async dispatch =>{
             'Content-Type':'application/json'
         }
     })
-    console.log(res,"res")
+   
     if(res.ok){
-        console.log(res,"res in deleteNotif")
         dispatch(removeNotification(notificationId))
     }
 }
