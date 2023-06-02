@@ -55,9 +55,14 @@
     display: flex;
     color: white;
     border-radius: 50%;
-    background-color: darkblue;
+    background-color: #00aeef;
     justify-content: center;
     align-items: center;
     height: 1.5rem;
     width: 1.5rem;
+    margin-right: 10px;
+}
+
+.notifications-mainwrapper {
+    padding-left: 20px;
 }

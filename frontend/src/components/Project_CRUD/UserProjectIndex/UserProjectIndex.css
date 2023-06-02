@@ -10,7 +10,7 @@
     max-width: 75%;
 }
 
-.user-project-index li{
+.user-project-index li {
     border: 1px solid rgb(244, 244, 248);
     border-radius: 5px;
     margin-top: 10px;
@@ -19,10 +19,12 @@
 
 .task-create-forms {
     display: grid;
-    grid-template-columns: repeat(3, 1fr); /* Two columns with equal width */
-    grid-gap: 0px; /* Gap between columns */
+    grid-template-columns: repeat(3, 1fr);
+    /* Two columns with equal width */
+    grid-gap: 0px;
+    /* Gap between columns */
     max-width: 90%;
-  }
+}
 
 .task-timeline-link {
     height: 14px;
@@ -31,7 +33,7 @@
 .icon-button {
     height: 14px;
     background-color: transparent;
-    border:none;
+    border: none;
     width: 20px;
     padding: unset;
     transition: transform 250ms ease-out;
@@ -40,4 +42,18 @@
 .icon-button:hover {
     cursor: pointer;
     transform: scale(1.4);
+}
+
+.user-home-project-index-wrapper {
+    /* max-height: 500px;
+    overflow: scroll; */
+}
+
+.user-home-project-index-wrapper::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+}
+
+.user-project-index-new-user-message {
+    margin-top: 10px;
 }

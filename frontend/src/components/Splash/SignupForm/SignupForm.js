@@ -51,10 +51,6 @@ export default function SignupForm() {
     dispatch(signup(user));
   }
 
-
-
-
-
   // Password visible
 
   const [passwordVisible, setPasswordVisible] = useState(false);
@@ -170,8 +166,9 @@ export default function SignupForm() {
         className="signup-form-button"
         type="submit"
         value="Sign Up"
-        disabled={!email || !username || !password || password !== password2}
+        
       />
     </form>
   );
+
 }

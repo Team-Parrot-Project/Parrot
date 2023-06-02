@@ -19,16 +19,20 @@ export default function Dashboard() {
   // grabs all the project collaborators from state
   const projects = useSelector(state => state.projects);
 
-  const totalCollaborators = Object.keys(projects).reduce((count, projectId) => {
-    const project = projects[projectId];
-    return count + project.collaborators.length;
-  }, 0);
+
+  // count unique collaborators across all projects, stored in a set, which automatically removes duplicates
+  const collaboratorsSet = Object.values(projects).reduce((collabSet, project) => {
+    project.collaborators.forEach(collab => collabSet.add(collab));
+    return collabSet;
+  }, new Set());
+
+  const totalUniqueCollaborators = collaboratorsSet.size;
 
   // grabs all completed tasks from state
   const tasks = useSelector(state => state.tasks);
   const completedTasks = Object.keys(tasks).reduce((count, taskId) => {
     const task = tasks[taskId];
-    if (task.status === 'completed') {
+    if (task.status === 'complete') {
       return count + 1;
     }
     return count;
@@ -91,7 +95,7 @@ export default function Dashboard() {
                     <div className="child-user-dashboard-project-task-number-ticker-container">
                       <h4
                         className="user-dashboard-project-task-number-ticker">
-                        {totalCollaborators}</h4>
+                        {totalUniqueCollaborators}</h4>
                     </div>
                   </div>
                 </div><span className="user-dashboard-project-quick-stats-title">collaborators</span>
@@ -103,7 +107,7 @@ export default function Dashboard() {
         </div>
 
         <div className="user-dashboard-project-task-container">
-          <div className="user-dashboard-tasks-container">
+          <div className="user-dashboard-tasks-container" data-tooltip-id="clickATaskToView">
             <h2 className="user-dashboard-project-task-container-title-x">Your Tasks</h2>
 
             <div className="task-selection">
@@ -114,6 +118,10 @@ export default function Dashboard() {
 
             </div>
           </div>
+          <Tooltip id="clickATaskToView" effect="solid" place="top">
+                Click on a task to view more details
+          </Tooltip>
+
           <div className="user-dashboard-projects-container" data-tooltip-id="clickAProjectToView">
             <div className='project-plus-button'>
               <ProjectCreateModal />

@@ -3,17 +3,17 @@ import NavBar from '../NavBar/NavBar';
 import './ProjectHome.css';
 import { useDispatch, useSelector } from 'react-redux';
 import ProjectTaskIndex from './ProjectTaskIndex/ProjectTaskIndex';
-import { useParams } from 'react-router-dom/cjs/react-router-dom';
+import { useHistory, useParams } from 'react-router-dom/cjs/react-router-dom';
 import * as projectActions from '../../store/project';
 import { useEffect, useState } from 'react';
 import * as taskActions from '../../store/task';
 import TaskRecommendation from '../UserHome/TaskRecommendation/TaskRecommendation';
-import TaskCreateForm from '../Task_CRUD/TaskCreateForm/TaskCreateForm';
 import TaskCreateModal from '../Task_CRUD/TaskCreateForm/';
 import ProjectUpdateModal from '../Project_CRUD/ProjectUpdateForm/';
 import DeleteProjectModal from '../Project_CRUD/ProjectDelete/ProjectDeleteModal';
 import { formatDate } from '../../store/util';
 import { fetchUsers } from '../../store/user';
+import { setProjectId } from '../../store/timeframeActions';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
@@ -23,12 +23,42 @@ export default function ProjectHome() {
   const dispatch = useDispatch();
   const { projectId } = useParams();
   const [recommendedTasks, setRecommendedTasks] = useState([]);
-  const project = useSelector((state) => state.projects[projectId]);
+  const projects = useSelector(state => state.projects);
+  const [project, setProject] = useState();
+  const [projectList, setProjectList] = useState([]);
+  const history = useHistory();
+  const settings = {
+    infinite: false,
+    slidesToShow: 3,
+    slidesToScroll: 3,
+    cssEase: "linear",
+    draggable: false
+  };
 
+  useEffect(() => {
+    if (projects) {
+      setProject(projects[projectId]);
+      const sortedProjects = Object.values(projects).sort((a, b) => {
+        if (a.title < b.title) {
+          return -1;
+        }
+        if (a.title > b.title) {
+          return 1;
+        }
+        return 0;
+      });
+      setProjectList(sortedProjects);
+    }
+  }, [projects, projectId])
+
+  // const project = useSelector((state) => state.projects[projectId]);
 
   useEffect(() => {
     dispatch(taskActions.purgeTasks());
-    dispatch(projectActions.fetchProject(projectId));
+    dispatch(projectActions.fetchProject(projectId))
+      .catch((error) => {
+        history.push("/home")
+      });
     dispatch(fetchUsers())
   }, [projectId, dispatch]);
 
@@ -54,6 +84,14 @@ export default function ProjectHome() {
     return today >= formatDate(startDate) && today <= formatDate(endDate);
   }
 
+  // Used to allow the user to flip between projects
+  const handleProjectIdChange = (event) => {
+    const selectedProjectId = event.target.value;
+    dispatch(setProjectId(selectedProjectId));
+    const projectLink = `/projects/${selectedProjectId}`;
+    window.location.href = projectLink;
+  }
+
   return (
     <>
       <div className="project-home-wrapper">
@@ -67,6 +105,16 @@ export default function ProjectHome() {
             <span>{project.description.charAt(0).toUpperCase() + project.description.slice(1)}</span>
           )}
           </h2>
+          <div className="project-show-filter-group">
+            <label className="project-show-filter-group-title">Project:</label>
+            <select className="project-show-filter-select" onChange={handleProjectIdChange} value={projectId}>
+              {projectList.map((project) => (
+                <option key={project._id} value={project._id}>
+                  {`${project.title}`}
+                </option>
+              ))}
+            </select>
+          </div>
           <div className="date-line-container">
             <div className="date-line"></div>
             {isTodayInRange(project?.startDate, project?.endDate) ? <div className="date-dot" style={{ left: calculateDotPosition(project?.startDate, project?.endDate) }}></div> : ""}
@@ -76,22 +124,21 @@ export default function ProjectHome() {
               Today
             </div> : ""}
           </div>
-
           <ProjectUpdateModal />
           <TaskCreateModal />
           <DeleteProjectModal />
-          <ProjectTaskIndex />
-          <TaskRecommendation project={project} recommendedTasks={recommendedTasks} setRecommendedTasks={setRecommendedTasks}/>
+          <TaskRecommendation project={project} recommendedTasks={recommendedTasks} setRecommendedTasks={setRecommendedTasks} />
           <div className="slider">
-            <Slider>
+            <Slider {...settings}>
               {recommendedTasks.length > 0 && recommendedTasks.map((taskTitle, idx) => (
                 <>
-                <TaskCreateModal key={taskTitle} taskTitle={taskTitle} />
-                <p>{idx + 1}. {taskTitle}</p>
+                  <p>{idx + 1}. {taskTitle}</p>
+                  <TaskCreateModal key={taskTitle} taskTitle={taskTitle} />
                 </>
               ))}
             </Slider>
           </div>
+          <ProjectTaskIndex project={project}/>
         </div>
       </div>
     </>

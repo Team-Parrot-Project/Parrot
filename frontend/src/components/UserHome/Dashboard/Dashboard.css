@@ -2,7 +2,8 @@
   font-family: Arial, sans-serif;
   color: #FFFFFF;
   background-color: #1e1f21;
-  width: 100vw;
+  margin-left: 225px;
+  width: 100%;
 }
 
 .user-dashboard-main-content {
@@ -47,7 +48,7 @@
   justify-content: space-around;
   align-items: center;
   margin: 20px auto;
-  width: 40%; /* Adjust this value to change the width of the container */
+  width: 550px; /* Adjust this value to change the width of the container */
   background-color: #252628; /* Background color for the container */
   border-radius: 60px;
   height: 48px;
@@ -197,6 +198,7 @@
   transition-duration: 200ms;
   transition-property: border-color, box-shadow;
   display: block;
+  height: fit-content;
 }
 
 .user-dashboard-projects-container:hover {

@@ -1,18 +1,16 @@
-import React, { useEffect, useMemo, useRef, useState } from 'react';
+import React, { useEffect, useMemo, useRef } from 'react';
 import { useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { fetchProject, updateProject } from '../../../store/project';
+import { fetchProject } from '../../../store/project';
 import { fetchUser } from '../../../store/user';
 import { formatDate } from '../../../store/util';
 import Gantt from 'frappe-gantt';
 import './GanttChart.css';
+import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 
 export default function GanttChart({ updatedTasks, setUpdatedTasks }) {
 
   // Live updates multiple dependencies
-
-  // const [updatedTasks, setUpdatedTasks] = useState({})
-  const [tasksUpdated, setTasksUpdated] = useState(false);
 
   // The useRef and useMemo are needed otherwise the chart would not render properly on first load and or would cause inifinte rerenders.
 
@@ -21,6 +19,7 @@ export default function GanttChart({ updatedTasks, setUpdatedTasks }) {
   const time = useSelector(state => state.timeframe.selectedTimeframe);
   const userId = useSelector(state => state.session.user._id);
   const formattedTime = useMemo(() => time ? time.charAt(0).toUpperCase() + time.slice(1) : null, [time]);
+  const history = useHistory();
 
   // Used to create a dummy ref for the chart before it exisits
   const ganttRef = useRef();
@@ -54,17 +53,12 @@ export default function GanttChart({ updatedTasks, setUpdatedTasks }) {
 
     // Add the project to state
     dispatch(fetchProject(projectId))
+    .catch((error) => {
+      history.push("/home")
+    })
     dispatch(fetchUser(userId))
 
   }, [dispatch, projectId, userId]);
-
-  // useEffect(() => {
-  //   console.log("EFFECT FIRES")
-
-  //   return (() => {
-  //     console.log("CLEANUP FIRES")
-  //   })
-  // }, [])
 
   // ----------------------------------------------------------------------------------------------------------
 
@@ -103,29 +97,16 @@ export default function GanttChart({ updatedTasks, setUpdatedTasks }) {
     }
   }, [ganttRef, formattedTasks, formattedTime])
 
-  // this use effect fires when the user refreshes the page to ensure their changes are saved
-  // useEffect(() => {
-  //   let unloaded = false;
-  //   const handleBeforeUnload = (e) => {
-  //     e.preventDefault();
-  //     patchTaskChanges();
-  //     unloaded = true;
-  //   }
-
-  //   window.addEventListener('beforeunload', handleBeforeUnload);
-
-  //   return () => {
-  //     window.removeEventListener('beforeunload', handleBeforeUnload)
-  //     if (!unloaded) {
-  //       patchTaskChanges();
-  //     }
-  //   }
-  // }, [])
-
   return (
 
     <>
-      <svg id="gantt" className="gantt" ref={ganttRef}></svg>
+      <div>
+        {formattedTasks.length === 0
+          ?
+          <p className="gantt-chart-no-tasks-message">This project doesn't have any tasks. Create one to start using the timeline.</p>
+          :
+          <svg id="gantt" className="gantt" ref={ganttRef}></svg>}
+      </div>
     </>
 
   )

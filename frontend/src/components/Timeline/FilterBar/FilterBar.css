@@ -13,7 +13,8 @@
   font-size: 25px;
   width: 100%;
   margin-bottom: 20px;
-  margin-left: 10px;
+  margin-left: 20px;
+  margin-top: 20px;
 }
 
 .gantt-filter-group {
@@ -28,6 +29,7 @@
   margin-right: 10px;
   font-weight: lighter;
   color: #e0e0e0;
+  margin-left: 10px;
 }
 
 .gantt-filter-select {
@@ -46,4 +48,22 @@
 .gantt-filter-select:hover {
   border-color: #4573d2;
   box-shadow: 0 0 5px 1px #4573d2;
+}
+
+.gantt-chart-instructions-container {
+  margin-left: 20px;
+}
+
+.gantt-chart-instructions-label {
+  color: #e0e0e0;
+  margin-bottom: 5px;
+  font-size: 20px;
+}
+
+.gantt-chart-instructions-item {
+  color: #e0e0e0;
+  margin-bottom: 2px;
+  list-style-type: disc;
+  display: list-item;
+  margin-left: 20px;
 }

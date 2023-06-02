@@ -4,15 +4,18 @@ import { useParams } from 'react-router-dom/cjs/react-router-dom';
 import { createTask } from '../../../store/task';
 import { addDaysToDate, formatDate } from '../../../store/util';
 import './TaskCreateForm.css';
+import { getUser } from '../../../store/session';
 
-export default function TaskCreateForm({ taskTitle = '', closeModal }) {
+export default function TaskCreateForm({ taskTitle = '', onSubmit }) {
   const [title, setTitle] = useState(taskTitle);
   const [description, setDescription] = useState('');
   const [startDate, setStartDate] = useState(formatDate(new Date()));
   const [dueDate, setDueDate] = useState(addDaysToDate(formatDate(new Date()), 1));
-  const [assignee, setAssignee] = useState('');
   const [status, setStatus] = useState('in progress');
   const [progress, setProgress] = useState(0);
+
+  const currentUserId = useSelector(getUser)
+  const [assignee, setAssignee] = useState(currentUserId);
 
   const dispatch = useDispatch();
   const { projectId } = useParams();
@@ -37,17 +40,16 @@ export default function TaskCreateForm({ taskTitle = '', closeModal }) {
       assignee: assignee,
       progress: progress
     };
-
     try {
       // Send a POST request to the server to save the new task
       dispatch(createTask(projectId, newTask));
 
       // Update the UI to indicate that the task has been created
-      closeModal();
+      onSubmit();
       setTitle('');
       setDescription('');
       setDueDate('');
-      setAssignee('');
+      setAssignee(currentUserId);
       setProgress(0);
     } catch (err) {
       // Display an error message if there's an error sending the request
@@ -60,9 +62,9 @@ export default function TaskCreateForm({ taskTitle = '', closeModal }) {
       <p className="task-create-form-header">Please fill out to create a task</p>
       <button className="task-create-form-button" type="submit">Create</button>
       <label htmlFor="title">Task Name</label>
-      <input className="task-create-form-title-input" type="text" id="title" value={title} onChange={(e) => setTitle(e.target.value)} required />
+      <input className="task-create-form-title-input" type="text" id="title" value={title} maxLength={50} onChange={(e) => setTitle(e.target.value)} required />
       <label htmlFor="description">Description</label>
-      <textarea className="task-create-form-description-input" id="description" value={description} onChange={(e) => setDescription(e.target.value)} required />
+      <textarea className="task-create-form-description-input" id="description" maxLength={500} value={description} onChange={(e) => setDescription(e.target.value)} required />
       <div className="task-create-form-sub-container">
         <div>
           <div>
@@ -97,8 +99,7 @@ export default function TaskCreateForm({ taskTitle = '', closeModal }) {
             <label htmlFor="assignee">Assignee</label>
           </div>
           <div>
-            <select className="task-create-form-assignee-input" id="assignee" value={assignee} onChange={(e) => setAssignee(e.target.value)}>
-              <option value="">Select assignee</option>
+            <select className="task-create-form-assignee-input" id="assignee" value={currentUserId} onChange={(e) => setAssignee(e.target.value)}>
               {collaborators && Object.values(collaborators)
                 .filter(collaborator => collaborator && collaborator._id)
                 .map(collaborator => (

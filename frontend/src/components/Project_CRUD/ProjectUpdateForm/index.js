@@ -6,6 +6,12 @@ export default function ProjectUpdateModal() {
     const [showModal, setShowModal] = useState(false);
     const closeModal = () => setShowModal(false);
 
+    if(showModal) {
+        document.body.style.overflow = 'hidden';
+      } else {
+        document.body.style.overflow = '';
+      }
+
     return (
         <>
             <button className='update-project-button' onClick={() => setShowModal(true)}>Update Project</button>

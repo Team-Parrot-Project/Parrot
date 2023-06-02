@@ -121,7 +121,7 @@ export default function LoginForm() {
                   </div>
                 </div>
               </div>
-              <input className="login-form-button" type="submit" value="Log In" disabled={!email || !password} tabIndex="0" />
+              <input className="login-form-button" type="submit" value="Log In" tabIndex="0" />
 
               <input className="login-form-demo-button" type="submit" value="Demo Log In" tabIndex="0" onClick={handleDemo} />
 
