@@ -21,7 +21,6 @@ function Notifications () {
     const [toggleBadge,setToggleBadge] = useState(false);
     const history = useHistory();
     const URL = "www.parrotpm.com";
-    console.log(URL,"URL")
     useEffect(()=>{
         if(messages.length > 0){
             setToggleBadge(true)
@@ -37,14 +36,11 @@ function Notifications () {
     },[dispatch,userId])
 
     useEffect(()=>{
-        console.log("in socket")
         let socket = io.connect(URL);
         
         socket.on('connect',()=>{
-            console.log(socket.id,"connection")
             
         })
-        console.log(projects,"projects")
         if(projects){
             projects.forEach((project)=>{
                 let projectId = project._id
@@ -52,7 +48,6 @@ function Notifications () {
             })
         }
         socket.on('message',(input)=>{
-            console.log(input,"message")
             dispatch(notificationActions.addNotification(input))
         })
 
@@ -71,7 +66,7 @@ function Notifications () {
     },[notifications])
 
     const handleDelete = (e,messageId)=> {
-        console.log([userId,messageId],"click event messageId");
+        // console.log([userId,messageId],"click event messageId");
         dispatch(notificationActions.deleteNotification(userId,messageId));
     }
 
