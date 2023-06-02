@@ -39,6 +39,7 @@ function Notifications () {
         if(projects){
             projects.forEach((project)=>{
                 let projectId = project._id
+                console.log(projectId,"Joining Project ID")
                 socket.emit('join-channel',projectId);
             })
         }
