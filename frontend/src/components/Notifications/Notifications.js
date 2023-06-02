@@ -39,15 +39,15 @@ function Notifications () {
         if(projects){
             projects.forEach((project)=>{
                 let projectId = project._id
-                console.log(projectId,"Joining Project ID")
+                // console.log(projectId,"Joining Project ID")
                 socket.emit('join-channel',projectId);
             })
         }
         socket.on('message',(input)=>{
-            console.log(input,"new message")
+            //console.log(input,"message")
             dispatch(notificationActions.addNotification(input))
         })
-        console.log(socket,"socket")
+        // console.log(socket,"socket")
     return ()=>{
             socket.disconnect()
     }

@@ -72,7 +72,7 @@ export const fetchNotifications = (userId) => async dispatch =>{
 }
 
 export const deleteNotification = (userId,notificationId) => async dispatch =>{
-    console.log([userId,notificationId],"trying to delete")
+
     let res = await jwtFetch(`/api/notifications/${userId}/${notificationId}`,{
         method: 'DELETE',
         headers: {
